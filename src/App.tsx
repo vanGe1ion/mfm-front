@@ -1,9 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC } from "react";
+import LoginPage from "./pages/LoginPage";
 
-const App: FC  = () => {
+const App: FC = () => {
   return (
-    <div>App</div>
-  )
-}
+    <div>
+      <LoginPage />
+    </div>
+  );
+};
 
-export default App
+export default App;

@@ -1,11 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC } from "react";
 
-const LoginPage:FC = () => {
-  return (
-    <div>
-        
-    </div>
-  )
-}
+const LoginPage: FC = () => {
+  return <div></div>;
+};
 
-export default LoginPage
+export default LoginPage;
