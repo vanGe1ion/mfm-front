@@ -7,6 +7,8 @@ import LoginFormGroup from "./LoginFormGroup";
 import LabelError from "./UI/LabelError";
 import { SignInError } from "../consts/errConsts";
 import { localStorageApiVerifyUser } from "../utils";
+import { useUserContext } from "../context/userContext";
+import { useHistory } from "react-router-dom";
 
 const LoginForm: FC = () => {
   const [user, setUser] = useState<string>("");
@@ -14,6 +16,8 @@ const LoginForm: FC = () => {
   const [signInError, setSignInError] = useState<string[]>([]);
   const [loginClasses, setLoginClasses] = useState<string[]>([]);
   const [passwordClasses, setPasswordClasses] = useState<string[]>([]);
+  const { approveUser } = useUserContext();
+  const history = useHistory();
 
   useEffect(() => {
     setLoginClasses(removeAlertClass);
@@ -77,8 +81,10 @@ const LoginForm: FC = () => {
     setSignInError([]);
 
     if (user !== "" && password !== "") {
-      if (localStorageApiVerifyUser(user, password)) console.log("submit");
-      else addSignInError(SignInError.WRONG_LOGOPASS_ERR);
+      if (localStorageApiVerifyUser(user, password)) {
+        approveUser(user);
+        history.replace("/main");
+      } else addSignInError(SignInError.WRONG_LOGOPASS_ERR);
     } else {
       user === "" && addSignInError(SignInError.EMPTY_LOGIN_ERR);
       password === "" && addSignInError(SignInError.EMPTY_PASSW_ERR);

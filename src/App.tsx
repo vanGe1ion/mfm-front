@@ -1,16 +1,12 @@
-import React, { FC, useEffect } from "react";
-import LoginPage from "./pages/LoginPage";
-import { localStorageApiInit } from "./utils";
+import React, { FC } from "react";
+import UserContextProvirer from "./components/UserContextProvirer";
+import RoterSwitcher from "./components/RoterSwitcher"
 
 const App: FC = () => {
-  useEffect(() => {
-    localStorageApiInit();
-  }, []);
-
   return (
-    <div>
-      <LoginPage />
-    </div>
+    <UserContextProvirer>
+      <RoterSwitcher/>
+    </UserContextProvirer>
   );
 };
 
