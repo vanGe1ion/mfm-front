@@ -1,6 +1,14 @@
 export const localStorageApiInit = (): void => {
-  localStorage.getItem("userLogin") 
-    ?? localStorage.setItem("userLogin", "user");
-  localStorage.getItem("password") 
-    ?? localStorage.setItem("password", "pass");
+  localStorage.getItem("login") ?? localStorage.setItem("login", "user");
+  localStorage.getItem("password") ?? localStorage.setItem("password", "pass");
+};
+
+export const localStorageApiVerifyUser = (
+  login: string,
+  password: string
+): boolean => {
+  return localStorage.getItem("login") === login &&
+    localStorage.getItem("password") === password
+    ? true
+    : false;
 };
