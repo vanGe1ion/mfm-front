@@ -7,8 +7,8 @@ export const localStorageApiVerifyUser = (
   login: string,
   password: string
 ): boolean => {
-  return localStorage.getItem("login") === login &&
+  return (
+    localStorage.getItem("login") === login &&
     localStorage.getItem("password") === password
-    ? true
-    : false;
+  );
 };

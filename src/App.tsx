@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import UserContextProvirer from "./components/UserContextProvirer";
-import RoterSwitcher from "./components/RoterSwitcher"
+import RoterSwitcher from "./components/RoterSwitcher";
 
 const App: FC = () => {
   return (
     <UserContextProvirer>
-      <RoterSwitcher/>
+      <RoterSwitcher />
     </UserContextProvirer>
   );
 };

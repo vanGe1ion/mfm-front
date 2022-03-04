@@ -6,7 +6,7 @@ import Label from "./UI/Label";
 import LoginFormGroup from "./LoginFormGroup";
 import LabelError from "./UI/LabelError";
 import { SignInError } from "../consts/errConsts";
-import { localStorageApiVerifyUser } from "../utils";
+import { localStorageApiVerifyUser } from "../utils/localStorageAPI";
 import { useUserContext } from "../context/userContext";
 import { useHistory } from "react-router-dom";
 
