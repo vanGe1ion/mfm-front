@@ -1,34 +1,84 @@
-import React, { FC, FormEvent } from "react";
+import React, { FC, useState } from "react";
 import { FlexColGroup, StyledForm } from "./LoginForm.style";
-import FormInput from "../UI/FormInput";
+
 import Button from "../UI/Button";
 import Label from "../UI/Label";
-import LabelError from "../UI/LabelError";
+
+import { localStorageApiVerifyUser } from "../../utils/localStorageAPI";
+import { useUserContext } from "../../context/userContext";
+import { useHistory } from "react-router-dom";
+import { SignInError } from "../../consts/errConsts";
+import FormInput from "../FormInput";
+
+interface SignInFormControlCollection extends HTMLFormControlsCollection {
+  login: HTMLInputElement;
+  password: HTMLInputElement;
+}
+
+interface SignInFormElements extends HTMLFormElement {
+  readonly elements: SignInFormControlCollection;
+}
 
 const LoginForm: FC = () => {
-  const formSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+  const [signInError, setSignInError] = useState<string[]>([]);
+  const { approveUser } = useUserContext();
+  const history = useHistory();
+
+  const formSubmitHandler = (event: React.FormEvent<SignInFormElements>) => {
     event.preventDefault();
-    console.log(event.currentTarget.elements);
+    setSignInError([]);
+    const login: string = event.currentTarget.elements.login.value;
+    const password: string = event.currentTarget.elements.password.value;
+
+    validateUser(login, password, () => {
+      approveUser(login);
+      history.replace("/main");
+    });
+  };
+
+  const validateUser = (
+    login: string,
+    password: string,
+    callback: () => void
+  ): void => {
+    if (login !== "" && password !== "") {
+      if (localStorageApiVerifyUser(login, password)) {
+        callback();
+      } else addSignInError(SignInError.WRONG_LOGOPASS_ERR);
+    } else {
+      login === "" && addSignInError(SignInError.EMPTY_LOGIN_ERR);
+      password === "" && addSignInError(SignInError.EMPTY_PASSW_ERR);
+    }
+  };
+
+  const addSignInError = (newError: SignInError): void => {
+    setSignInError((prev) => [...prev, newError]);
   };
 
   return (
     <StyledForm onSubmit={formSubmitHandler}>
       <FlexColGroup>
-        <Label htmlFor="login">Login</Label>
-        <FormInput name="login" id="login" placeholder="Enter login" />
+        <FormInput
+          id="login"
+          placeholder="Enter login"
+          isError={signInError.indexOf(SignInError.EMPTY_LOGIN_ERR) > -1}
+        />
       </FlexColGroup>
 
       <FlexColGroup>
-        <Label htmlFor="password">Password</Label>
-        <FormInput id="password" placeholder="Enter password" name="password" />
+        <FormInput
+          id="password"
+          placeholder="Enter password"
+          isError={signInError.indexOf(SignInError.EMPTY_PASSW_ERR) > -1}
+        />
       </FlexColGroup>
 
       <FlexColGroup>
-        <LabelError>{null}</LabelError>
+        <Label type="error">{signInError.join(" ")}</Label>
       </FlexColGroup>
 
       <FlexColGroup>
-        <Button>Sign-in</Button>
+        <Button fontSize="x-large">Sign-in</Button>
       </FlexColGroup>
     </StyledForm>
   );

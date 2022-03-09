@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-interface IFormInputProps {
+interface IInputProps {
   isError?: boolean;
 }
 
-const FormInput = styled.input<IFormInputProps>`
+const Input = styled.input<IInputProps>`
   border: 2px solid #0484c7;
   border-radius: 7px;
   padding: ${({ size }) => size ?? "4px"};
@@ -13,4 +13,4 @@ const FormInput = styled.input<IFormInputProps>`
     isError ? "rgb(254 202 202)" : "white"};
 `;
 
-export default FormInput;
+export default Input;

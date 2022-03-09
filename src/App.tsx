@@ -1,14 +1,12 @@
 import React, { FC } from "react";
-// import UserContextProvirer from "./components/UserContextProvirer";
-// import RoterSwitcher from "./components/RoterSwitcher";
-import LoginPage from "./pages/LoginPage/LoginPage";
+import UserContextProvirer from "./components/UserContextProvirer";
+import RoterSwitcher from "./components/RoterSwitcher";
 
 const App: FC = () => {
   return (
-    // <UserContextProvirer>
-    //   <RoterSwitcher />
-    // </UserContextProvirer>
-    <LoginPage/>
+    <UserContextProvirer>
+      <RoterSwitcher />
+    </UserContextProvirer>
   );
 };
 

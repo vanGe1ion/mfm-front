@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
-import {  } from "./MainPage.style";
+import {} from "./MainPage.style";
 import { useUserContext } from "../../context/userContext";
+import Button from "../../components/UI/Button";
 
 const MainPage: FC = () => {
   const { dismissUser } = useUserContext();
@@ -14,7 +15,9 @@ const MainPage: FC = () => {
 
   return (
     <div>
-      <button onClick={logoutButtonHandler}>logout</button>
+      <Button size="6px" onClick={logoutButtonHandler}>
+        logout
+      </Button>
     </div>
   );
 };
