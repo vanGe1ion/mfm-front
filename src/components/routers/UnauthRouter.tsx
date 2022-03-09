@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Switch, Route } from "react-router-dom";
-import LoginPage from "../../pages/LoginPage";
+import LoginPage from "../../pages/LoginPage/LoginPage";
 
 const UnauthRouter: FC = () => {
   return (

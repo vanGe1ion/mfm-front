@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
-const ButtonFull = styled.button`
+const Button = styled.button`
   border: 3px solid #0484c7;
   border-radius: 7px;
-  width: 100%;
   font-size: x-large;
   color: white;
   background-color: #0484c7;
@@ -14,4 +13,4 @@ const ButtonFull = styled.button`
   }
 `;
 
-export default ButtonFull;
+export default Button;

@@ -1,7 +1,7 @@
 import React, { MouseEvent, ChangeEvent, FC, useState, useEffect } from "react";
 import TextInput from "./UI/TextInput";
 import PasswordInput from "./UI/PasswordInput";
-import ButtonFull from "./UI/ButtonFull";
+import ButtonFull from "./UI/Button";
 import Label from "./UI/Label";
 import LoginFormGroup from "./LoginFormGroup";
 import LabelError from "./UI/LabelError";
