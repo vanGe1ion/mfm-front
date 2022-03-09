@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import LoginForm from "../../components/LoginForm/LoginForm";
-import logo from "../../media/logo190.png";
+import logo from "./logo.png";
 import { LogoHeader, MainContainer, HeaderHolder, FormHolder } from "./LoginPage.style";
 
 const LoginPage: FC = () => {

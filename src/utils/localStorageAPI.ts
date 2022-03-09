@@ -1,6 +1,7 @@
 export const localStorageApiInit = (): void => {
-  localStorage.getItem("login") ?? localStorage.setItem("login", "user");
-  localStorage.getItem("password") ?? localStorage.setItem("password", "pass");
+  if (!localStorage.getItem("login")) localStorage.setItem("login", "user");
+  if (!localStorage.getItem("password"))
+    localStorage.setItem("password", "pass");
 };
 
 export const localStorageApiVerifyUser = (
