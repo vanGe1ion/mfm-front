@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { UserContext } from "../context/userContext";
+import UserContext from "../context/userContext";
 import useUserAuth from "../hooks/useUserAuth";
 import { localStorageApiInit } from "../utils/localStorageAPI";
 
@@ -8,8 +8,11 @@ const UserContextProvirer: FC = ({ children }) => {
 
   useEffect(() => {
     localStorageApiInit();
-    const approvedUser: string | null = localStorage.getItem("currentUserId");
-    if (approvedUser) approveUser(approvedUser);
+    const currentUserIdLocal: string | null =
+      localStorage.getItem("currentUserId");
+    if (currentUserIdLocal) {
+      approveUser(currentUserIdLocal);
+    }
   }, []);
 
   return (

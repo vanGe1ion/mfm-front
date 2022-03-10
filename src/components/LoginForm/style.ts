@@ -1,9 +1,6 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 
-// interface I
-
-
 export const StyledForm = styled.form`
   ${tw` flex flex-col justify-around h-full text-center p-5`}
 `;

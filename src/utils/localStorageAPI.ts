@@ -4,6 +4,10 @@ export const localStorageApiInit = (): void => {
     localStorage.setItem("password", "pass");
 };
 
+export const isSignedInLocalSorageApi = (): boolean => {
+  return typeof localStorage.getItem("currentUserId") === "string";
+};
+
 export const localStorageApiVerifyUser = (
   login: string,
   password: string

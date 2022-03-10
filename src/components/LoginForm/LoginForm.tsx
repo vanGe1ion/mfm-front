@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { FlexColGroup, StyledForm } from "./LoginForm.style";
+import { FlexColGroup, StyledForm } from "./style";
 
 import Button from "../UI/Button";
 import Label from "../UI/Label";
@@ -29,21 +29,14 @@ const LoginForm: FC = () => {
     setSignInError([]);
     const login: string = event.currentTarget.elements.login.value;
     const password: string = event.currentTarget.elements.password.value;
-
-    validateUser(login, password, () => {
-      approveUser(login);
-      history.replace("/main");
-    });
+    validateUser(login, password);
   };
 
-  const validateUser = (
-    login: string,
-    password: string,
-    callback: () => void
-  ): void => {
+  const validateUser = (login: string, password: string): void => {
     if (login !== "" && password !== "") {
       if (localStorageApiVerifyUser(login, password)) {
-        callback();
+        approveUser(login);
+        history.replace("/");
       } else addSignInError(SignInError.WRONG_LOGOPASS_ERR);
     } else {
       login === "" && addSignInError(SignInError.EMPTY_LOGIN_ERR);
@@ -61,6 +54,7 @@ const LoginForm: FC = () => {
         <FormInput
           id="login"
           placeholder="Enter login"
+          label="Login"
           isError={signInError.indexOf(SignInError.EMPTY_LOGIN_ERR) > -1}
         />
       </FlexColGroup>
@@ -69,6 +63,7 @@ const LoginForm: FC = () => {
         <FormInput
           id="password"
           placeholder="Enter password"
+          label="Password"
           isError={signInError.indexOf(SignInError.EMPTY_PASSW_ERR) > -1}
         />
       </FlexColGroup>
