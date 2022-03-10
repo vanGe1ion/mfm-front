@@ -1,8 +1,7 @@
 import styled from "styled-components";
+import { IInputProps } from "./types";
 
-interface IInputProps {
-  isError?: boolean;
-}
+
 
 const Input = styled.input<IInputProps>`
   border: 2px solid #0484c7;

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { IUserContext } from "../types";
 
-const useUserAuth = () => {
+const useUserAuth = () : IUserContext => {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
 
   const approveUser = (newUser: string): void => {
@@ -13,7 +14,7 @@ const useUserAuth = () => {
     localStorage.removeItem('currentUserId');
   };
 
-  return { currentUser, approveUser, dismissUser };
+  return <IUserContext>{ currentUser, approveUser, dismissUser };
 };
 
 export default useUserAuth;

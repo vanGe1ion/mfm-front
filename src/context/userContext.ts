@@ -1,10 +1,6 @@
 import { createContext, useContext } from "react";
+import { IUserContext } from "../types";
 
-export interface IUserContext {
-  currentUser: string | null;
-  approveUser: (newUser: string) => void;
-  dismissUser: () => void;
-}
 
 const contextDefault: IUserContext = {
   currentUser: null,

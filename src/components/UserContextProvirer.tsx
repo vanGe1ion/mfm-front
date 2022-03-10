@@ -4,16 +4,16 @@ import useUserAuth from "../hooks/useUserAuth";
 import { localStorageApiInit } from "../utils/localStorageAPI";
 
 const UserContextProvirer: FC = ({ children }) => {
-  const {currentUser, approveUser, dismissUser} = useUserAuth();
+  const { currentUser, approveUser, dismissUser } = useUserAuth();
 
   useEffect(() => {
     localStorageApiInit();
     const approvedUser: string | null = localStorage.getItem("currentUserId");
-    approvedUser && approveUser(approvedUser);
+    if (approvedUser) approveUser(approvedUser);
   }, []);
 
   return (
-    <UserContext.Provider value={{currentUser, approveUser, dismissUser}}>
+    <UserContext.Provider value={{ currentUser, approveUser, dismissUser }}>
       {children}
     </UserContext.Provider>
   );

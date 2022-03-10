@@ -1,9 +1,5 @@
 import styled from "styled-components";
-
-interface IButtonProps{
-  size?:string
-  fontSize?:string
-}
+import { IButtonProps } from "./types";
 
 const Button = styled.button<IButtonProps>`
   border: 3px solid #0484c7;

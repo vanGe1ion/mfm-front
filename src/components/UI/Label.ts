@@ -1,8 +1,7 @@
 import styled from "styled-components";
+import { ILabelProps } from "./types";
 
-interface ILabelProps {
-  type?: string;
-}
+
 
 const Label = styled.label<ILabelProps>`
   padding: 0 2em;

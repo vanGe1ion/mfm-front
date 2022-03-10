@@ -8,7 +8,7 @@ import { localStorageApiVerifyUser } from "../../utils/localStorageAPI";
 import { useUserContext } from "../../context/userContext";
 import { useHistory } from "react-router-dom";
 import { SignInError } from "../../consts/errConsts";
-import FormInput from "../FormInput";
+import FormInput from "../FormInput/FormInput";
 
 interface SignInFormControlCollection extends HTMLFormControlsCollection {
   login: HTMLInputElement;
