@@ -14,7 +14,7 @@ const FormInput: FC<IFormInputProps> = ({
   return (
     <>
       {label && <Label htmlFor={id}>{label}</Label>}
-      <Input id={id} placeholder={placeholder} name={id} isError={isError} />
+      <Input indents="4px" id={id} placeholder={placeholder} name={id} isError={isError} />
     </>
   );
 };

@@ -73,7 +73,7 @@ const LoginForm: FC = () => {
       </FlexColGroup>
 
       <FlexColGroup>
-        <Button fontSize="x-large">Sign-in</Button>
+        <Button indents="4px" fontSize="x-large">Sign-in</Button>
       </FlexColGroup>
     </StyledForm>
   );

@@ -17,7 +17,7 @@ const MainPage: FC = () => {
 
   return (
     <div>
-      <Button size="6px" onClick={logoutButtonHandler}>
+      <Button indents="6px" onClick={logoutButtonHandler}>
         logout
       </Button>
     </div>

@@ -1,15 +1,16 @@
 import styled from "styled-components";
+import tw from "twin.macro";
+import { changeableIndents } from "./style";
 import { IInputProps } from "./types";
 
-
+const errorStyle = tw`bg-red-300`;
 
 const Input = styled.input<IInputProps>`
-  border: 2px solid #0484c7;
-  border-radius: 7px;
-  padding: ${({ size }) => size ?? "4px"};
-  margin: ${({ size }) => size ?? "4px"};
-  background-color: ${({ isError }) =>
-    isError ? "rgb(254 202 202)" : "white"};
+  ${tw`border-2 border-blue-600 rounded-lg`}
+
+  ${({ indents }) => indents && changeableIndents}
+   
+  ${({ isError }) => isError && errorStyle}}
 `;
 
 export default Input;
