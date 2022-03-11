@@ -3,12 +3,13 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import logo from "./logo.png";
 import { LogoHeader, MainContainer, HeaderHolder, FormHolder } from "./style";
 import { useHistory } from "react-router-dom";
-import { isSignedInLocalSorageApi } from "../../utils/localStorageAPI";
+import { useUserContext } from "../../context/userContext";
 
 const LoginPage: FC = () => {
   const history = useHistory();
+  const { currentUser } = useUserContext();
 
-  if (isSignedInLocalSorageApi()) history.replace("/");
+  if (currentUser) history.replace("/");
 
   return (
     <MainContainer>
