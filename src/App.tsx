@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { FC } from "react";
+import UserContextProvirer from "./components/UserContextProvirer";
+import Router from "./components/Router";
 
-const App: React.FC  = () => {
+const App: FC = () => {
   return (
-    <div>App</div>
-  )
-}
+    <UserContextProvirer>
+      <Router />
+    </UserContextProvirer>
+  );
+};
 
-export default App
+export default App;
