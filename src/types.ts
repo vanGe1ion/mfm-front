@@ -6,8 +6,8 @@ export interface IUserContext {
 
 export interface discoverRequestParams {
   with_genres?: string;
-  primary_release_year?: Number;
+  primary_release_year?: number;
   "vote_average.gte"?: string;
   "vote_average.lte"?: string;
-  page?: Number;
+  page?: number;
 }
