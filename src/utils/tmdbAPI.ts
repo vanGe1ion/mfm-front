@@ -1,6 +1,10 @@
 import axios from "axios";
 import { TMDBAPIKey } from "../config";
-import { GetMoviesParams, GetMoviesResponse } from "../types";
+import {
+  GetGenresResponse,
+  GetMoviesParams,
+  GetMoviesResponse,
+} from "../types";
 import {
   toMoviesAPIRequestParams,
   toGetMoviesResponse,
@@ -14,7 +18,7 @@ const movieDBClient = axios.create({
   },
 });
 
-export const tmdbGetGenres = async () => {
+export const tmdbGetGenres = async (): Promise<GetGenresResponse> => {
   const response = await movieDBClient.get("/genre/movie/list");
   return response.data;
 };

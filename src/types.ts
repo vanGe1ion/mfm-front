@@ -39,3 +39,12 @@ export interface Movie {
   video?: boolean;
   voteAverage?: number;
 }
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface GetGenresResponse {
+  genres: Genre[];
+}
