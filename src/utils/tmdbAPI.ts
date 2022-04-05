@@ -1,35 +1,30 @@
 import axios from "axios";
-import { discoverRequestParams } from "../types";
+import { TMDBAPIKey } from "../config";
+import { GetMoviesParams, GetMoviesResponse } from "../types";
+import {
+  toMoviesAPIRequestParams,
+  toGetMoviesResponse,
+} from "./APITypeConverter";
 
-interface commonRequestParams {
-  api_key: string | undefined;
-  language?: string;
-}
-
-const commonParams: commonRequestParams = {
-  api_key: process.env.REACT_APP_TMDB_API_KEY,
-  language: "ru-RU",
-};
+const movieDBClient = axios.create({
+  baseURL: "https://api.themoviedb.org/3/",
+  params: {
+    api_key: TMDBAPIKey,
+    language: "ru-RU",
+  },
+});
 
 export const tmdbGetGenres = async () => {
-  const response = await axios.get(
-    "https://api.themoviedb.org/3/genre/movie/list",
-    { params: commonParams }
-  );
+  const response = await movieDBClient.get("/genre/movie/list");
   return response.data;
 };
 
 export const tmdbGetDiscover = async (
-  discoverParams: discoverRequestParams
-) => {
-  const response = await axios.get(
-    "https://api.themoviedb.org/3/discover/movie",
-    {
-      params: {
-        ...commonParams,
-        ...discoverParams,
-      },
-    }
-  );
-  return response.data;
+  getMoviesParams: GetMoviesParams
+): Promise<GetMoviesResponse> => {
+  const APIRequestParams = toMoviesAPIRequestParams(getMoviesParams);
+  const response = await movieDBClient.get("/discover/movie", {
+    params: APIRequestParams,
+  });
+  return toGetMoviesResponse(response.data);
 };

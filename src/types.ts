@@ -4,10 +4,38 @@ export interface IUserContext {
   dismissUser: () => void;
 }
 
-export interface discoverRequestParams {
-  with_genres?: string;
-  primary_release_year?: number;
-  "vote_average.gte"?: string;
-  "vote_average.lte"?: string;
+export interface GetMoviesParams {
+  withGenres?: number[];
+  primaryReleaseYear?: number;
+  voteAverage?: Range;
   page?: number;
+}
+
+interface Range {
+  gte?: number;
+  lte?: number;
+}
+
+export interface GetMoviesResponse {
+  movies: Movie[];
+  page: number;
+  totalResults: number;
+  totalPages: number;
+}
+
+export interface Movie {
+  posterPath?: string | null;
+  adult?: boolean;
+  overview?: string;
+  releaseDate?: string;
+  genreIds?: number[];
+  id?: number;
+  originalTitle?: string;
+  originalLanguage?: string;
+  title?: string;
+  backdropPath?: string;
+  popularity?: number;
+  voteCount?: number;
+  video?: boolean;
+  voteAverage?: number;
 }
