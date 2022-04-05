@@ -17,9 +17,13 @@ const MainPage: FC = () => {
         gte: 3,
         lte: 5,
       },
-    }).then((data) => console.log(data));
+    })
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
 
-    tmdbGetGenres().then((data) => console.log(data));
+    tmdbGetGenres()
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   }, []);
 
   if (!currentUser) history.replace("/sign-in");

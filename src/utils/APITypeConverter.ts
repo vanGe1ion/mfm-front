@@ -27,35 +27,25 @@ export const toGetMoviesResponse = (
   results.forEach(
     ({
       poster_path,
-      adult,
-      overview,
       release_date,
       genre_ids,
-      id,
       original_title,
       original_language,
-      title,
       backdrop_path,
-      popularity,
       vote_count,
-      video,
       vote_average,
+      ...rest
     }: APIMovie) => {
       movies.push({
         posterPath: poster_path,
-        adult,
-        overview,
         releaseDate: release_date,
         genreIds: Array.from(genre_ids),
-        id,
         originalTitle: original_title,
         originalLanguage: original_language,
-        title,
         backdropPath: backdrop_path,
-        popularity,
         voteCount: vote_count,
-        video,
         voteAverage: vote_average,
+        ...rest,
       });
     }
   );
