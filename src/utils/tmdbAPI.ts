@@ -14,7 +14,7 @@ const movieDBClient = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
   params: {
     api_key: TMDBAPIKey,
-    language: "ru-RU",
+    language: "en-EN",
   },
 });
 

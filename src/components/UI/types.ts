@@ -13,3 +13,8 @@ export interface ILabelProps {
 export interface IChangeableIndents {
   indents?: string;
 }
+
+export interface IGenreProps {
+  checked?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+}

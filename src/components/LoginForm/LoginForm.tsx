@@ -7,7 +7,7 @@ import FormInput from "../FormInput/FormInput";
 import { Field, Form } from "react-final-form";
 import { signInValidateHandler } from "./validator";
 import { FORM_ERROR } from "final-form";
-import { localStorageApiVerifyUser } from "../../utils/localStorageAPI";
+import { LSAPIVerifyUser } from "../../utils/localStorageAPI";
 import { useHistory } from "react-router-dom";
 import { SignInError } from "../../consts/errConsts";
 import { useUserContext } from "../../context/userContext";
@@ -19,7 +19,7 @@ const LoginForm: FC = () => {
 
   const signInSubmitHandler = (values: IFormValues) => {
     const { login, password } = values;
-    if (localStorageApiVerifyUser(login, password)) {
+    if (LSAPIVerifyUser(login, password)) {
       approveUser(login);
       history.replace("/");
     } else return { [FORM_ERROR]: SignInError.WRONG_LOGOPASS_ERR };

@@ -40,11 +40,12 @@ export interface Movie {
   voteAverage?: number;
 }
 
-export interface Genre {
+export interface IGenre {
   id: number;
   name: string;
+  isFavourite?: boolean;
 }
 
 export interface GetGenresResponse {
-  genres: Genre[];
+  genres: IGenre[];
 }

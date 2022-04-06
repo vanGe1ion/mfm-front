@@ -11,7 +11,7 @@ const Button = styled.button<IButtonProps>`
   font-size: ${({ fontSize }) => fontSize ?? "medium"};
   
   &:hover {
-    ${tw`text-blue-500 bg-white`}
+    ${tw`text-black bg-transparent`}
   }
 `;
 

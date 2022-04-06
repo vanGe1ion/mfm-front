@@ -25,3 +25,4 @@ yarn-error.log*
 # user params
 /src/assets/index.css
 .env
+.vscode
