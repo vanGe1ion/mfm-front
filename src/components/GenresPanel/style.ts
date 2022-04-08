@@ -10,5 +10,5 @@ export const GenresHeader = styled.span`
 `;
 
 export const GenresContainer = styled.div`
-  ${tw`flex flex-row flex-wrap  w-full -ml-52`}
+  ${tw`flex flex-row flex-wrap  w-full -ml-44`}
 `;

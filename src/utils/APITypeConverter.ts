@@ -1,4 +1,4 @@
-import { GetMoviesParams, GetMoviesResponse, Movie } from "../types";
+import { IGetMoviesParams, IGetMoviesResponse, IMovie } from "../types";
 import {
   APIMovie,
   moviesAPIRequestParams,
@@ -6,7 +6,7 @@ import {
 } from "./types";
 
 export const toMoviesAPIRequestParams = (
-  appParams: GetMoviesParams
+  appParams: IGetMoviesParams
 ): moviesAPIRequestParams => {
   const { withGenres, primaryReleaseYear, voteAverage, page } = appParams;
   return {
@@ -18,13 +18,12 @@ export const toMoviesAPIRequestParams = (
   };
 };
 
-export const toGetMoviesResponse = (
+export const toIGetMoviesResponse = (
   APIResponse: moviesAPIRsponseParams
-): GetMoviesResponse => {
+): IGetMoviesResponse => {
   const { results, page, total_results, total_pages } = APIResponse;
 
-  const movies: Movie[] = [];
-  results.forEach(
+  const movies: IMovie[] = results.map(
     ({
       poster_path,
       release_date,
@@ -36,7 +35,10 @@ export const toGetMoviesResponse = (
       vote_average,
       ...rest
     }: APIMovie) => {
-      movies.push({
+      return {
+        isViewed: false,
+        genres: [],
+
         posterPath: poster_path,
         releaseDate: release_date,
         genreIds: Array.from(genre_ids),
@@ -46,7 +48,7 @@ export const toGetMoviesResponse = (
         voteCount: vote_count,
         voteAverage: vote_average,
         ...rest,
-      });
+      };
     }
   );
 

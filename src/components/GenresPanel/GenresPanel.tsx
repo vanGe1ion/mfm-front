@@ -1,28 +1,10 @@
-import React, { FC, useEffect, useState } from "react";
-import { IGenre } from "../../types";
-import {
-  LSAPIGetFavouriteGenres,
-  LSAPISetFavouriteGenres,
-} from "../../utils/localStorageAPI";
-import { tmdbGetGenres } from "../../utils/tmdbAPI";
+import React, { FC } from "react";
+import { LSAPISetFavouriteGenres } from "../../utils/localStorageAPI";
 import Genre from "../UI/Genre";
 import { GenresContainer, GenresHeader, GenresMain } from "./style";
+import { IGenresPanelProps } from "./types";
 
-const GenresPanel: FC = () => {
-  const [genres, setGenres] = useState<IGenre[]>([]);
-
-  useEffect(() => {
-    tmdbGetGenres()
-      .then((data) => {
-        const favoriteIdx = LSAPIGetFavouriteGenres();
-        data.genres.map(
-          (genre) => (genre.isFavourite = favoriteIdx.includes(genre.id))
-        );
-        setGenres(data.genres);
-      })
-      .catch((error: Error) => console.log("Genre list loading error: ", error));
-  }, []);
-
+const GenresPanel: FC<IGenresPanelProps> = ({ genres, setGenres }) => {
   const GenreClickHandler = (genreIdx: number): void => {
     setGenres((prev) => {
       const newGenres = [...prev];
@@ -42,7 +24,7 @@ const GenresPanel: FC = () => {
 
   return (
     <GenresMain>
-      <GenresHeader>Chose your favorite genres</GenresHeader>
+      <GenresHeader>Your favorite genres</GenresHeader>
       <GenresContainer>
         {genres.map((genre, index) => {
           return (

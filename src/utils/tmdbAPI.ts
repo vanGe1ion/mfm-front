@@ -1,13 +1,13 @@
 import axios from "axios";
 import { TMDBAPIKey } from "../config";
 import {
-  GetGenresResponse,
-  GetMoviesParams,
-  GetMoviesResponse,
+  IGetGenresResponse,
+  IGetMoviesParams,
+  IGetMoviesResponse,
 } from "../types";
 import {
   toMoviesAPIRequestParams,
-  toGetMoviesResponse,
+  toIGetMoviesResponse,
 } from "./APITypeConverter";
 
 const movieDBClient = axios.create({
@@ -18,17 +18,17 @@ const movieDBClient = axios.create({
   },
 });
 
-export const tmdbGetGenres = async (): Promise<GetGenresResponse> => {
+export const tmdbGetGenres = async (): Promise<IGetGenresResponse> => {
   const response = await movieDBClient.get("/genre/movie/list");
   return response.data;
 };
 
 export const tmdbGetDiscover = async (
-  getMoviesParams: GetMoviesParams
-): Promise<GetMoviesResponse> => {
-  const APIRequestParams = toMoviesAPIRequestParams(getMoviesParams);
+  IGetMoviesParams: IGetMoviesParams
+): Promise<IGetMoviesResponse> => {
+  const APIRequestParams = toMoviesAPIRequestParams(IGetMoviesParams);
   const response = await movieDBClient.get("/discover/movie", {
     params: APIRequestParams,
   });
-  return toGetMoviesResponse(response.data);
+  return toIGetMoviesResponse(response.data);
 };
