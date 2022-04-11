@@ -1,44 +1,65 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useUserContext } from "../../context/userContext";
-import Button from "../../components/UI/Button";
-import { tmdbGetGenres, tmdbGetDiscover } from "../../utils/tmdbAPI";
+import { MainPageContainer } from "./style";
+
+import GenresPanel from "@components/GenresPanel/GenresPanel";
+import HeaderPanel from "@components/HeaderPanel/HeaderPanel";
+import MovieControl from "@components/MovieControl/MovieControl";
+import MoviesList from "@components/MoviesList/MoviesList";
+import { useUserContext } from "@context/userContext";
+import { IGenre, IMovie } from "@globalTypes";
+import {
+  LSAPIGetFavouriteGenres,
+  LSAPIGetFavouriteMovies,
+} from "@utils/localStorageAPI";
+import { tmdbGetGenres } from "@utils/tmdbAPI";
 
 const MainPage: FC = () => {
-  const { currentUser, dismissUser } = useUserContext();
+  const { currentUser } = useUserContext();
   const history = useHistory();
+  const [isBlockView, setIsBlockView] = useState<boolean>(false);
 
-  //api test
+  const [genres, setGenres] = useState<IGenre[]>([]);
+  const [movies, setMovies] = useState<IMovie[]>([]);
+
+  const identifyGenres = (movie: IMovie, genres: IGenre[]): void => {
+    movie.genres = genres
+      .filter((genre) => movie.genreIds?.includes(genre.id))
+      .map((genre) => genre.name);
+  };
+
   useEffect(() => {
-    tmdbGetDiscover({
-      withGenres: [28],
-      primaryReleaseYear: 2020,
-      voteAverage: {
-        gte: 3,
-        lte: 5,
-      },
-    })
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
-
     tmdbGetGenres()
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+      .then((data) => {
+        const getedGenres = data.genres;
+        const favoriteIdx = LSAPIGetFavouriteGenres();
+        getedGenres.map(
+          (genre) => (genre.isFavourite = favoriteIdx.includes(genre.id))
+        );
+        setGenres(getedGenres);
+
+        const favouriteMovies = LSAPIGetFavouriteMovies();
+        favouriteMovies.forEach((movie) => identifyGenres(movie, getedGenres));
+        setMovies(favouriteMovies);
+      })
+      .catch((error: Error) =>
+        console.log("Genre list loading error: ", error)
+      );
   }, []);
 
   if (!currentUser) history.replace("/sign-in");
 
-  const logoutButtonHandler = (): void => {
-    dismissUser();
-    history.replace("/sign-in");
-  };
-
   return (
-    <div>
-      <Button indents="6px" onClick={logoutButtonHandler}>
-        logout
-      </Button>
-    </div>
+    <MainPageContainer>
+      <HeaderPanel />
+      <GenresPanel genres={genres} setGenres={setGenres} />
+      <MovieControl isBlockView={isBlockView} setIsBlockView={setIsBlockView} />
+      <MoviesList
+        movies={movies}
+        setMovies={setMovies}
+        isBlockView={isBlockView}
+      />
+    </MainPageContainer>
   );
 };
 

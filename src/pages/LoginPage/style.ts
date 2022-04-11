@@ -10,7 +10,7 @@ ${tw`flex flex-col items-center`}
 `
 
 export const LogoHeader = styled.h1`
-  ${tw`text-5xl font-serif font-bold my-3`}
+  ${tw`text-5xl font-serif italic font-bold my-3`}
 `;
 
 export const FormHolder = styled.div`

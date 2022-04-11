@@ -4,26 +4,26 @@ export interface IUserContext {
   dismissUser: () => void;
 }
 
-export interface GetMoviesParams {
+export interface IGetMoviesParams {
   withGenres?: number[];
   primaryReleaseYear?: number;
-  voteAverage?: Range;
+  voteAverage?: IRange;
   page?: number;
 }
 
-interface Range {
+interface IRange {
   gte?: number;
   lte?: number;
 }
 
-export interface GetMoviesResponse {
-  movies: Movie[];
+export interface IGetMoviesResponse {
+  movies: IMovie[];
   page: number;
   totalResults: number;
   totalPages: number;
 }
 
-export interface Movie {
+export interface IMovie {
   posterPath?: string | null;
   adult?: boolean;
   overview?: string;
@@ -38,13 +38,23 @@ export interface Movie {
   voteCount?: number;
   video?: boolean;
   voteAverage?: number;
+
+  genres?: string[];
+  isViewed?: boolean;
 }
 
-export interface Genre {
+export interface IGenre {
   id: number;
   name: string;
+  isFavourite?: boolean;
 }
 
-export interface GetGenresResponse {
-  genres: Genre[];
+export interface IGetGenresResponse {
+  genres: IGenre[];
+}
+
+export interface IMovieListItemProps {
+  movie: IMovie;
+  setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
+  index: number;
 }

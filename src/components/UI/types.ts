@@ -1,5 +1,6 @@
 export interface IButtonProps extends IChangeableIndents {
   fontSize?: string;
+  icon?: string;
 }
 
 export interface IInputProps extends IChangeableIndents {
@@ -12,4 +13,14 @@ export interface ILabelProps {
 
 export interface IChangeableIndents {
   indents?: string;
+}
+
+export interface IGenreProps {
+  checked?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+export interface IIconProps{
+  colorInvert?: boolean;
+  disabled?: boolean;
 }
