@@ -58,3 +58,7 @@ export interface IMovieListItemProps {
   setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
   index: number;
 }
+
+export interface IViewed {
+  isViewed?: boolean;
+}

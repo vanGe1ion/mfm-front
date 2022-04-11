@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import tw from "twin.macro";
-import { IItemContainerProps } from "./types";
+import { IViewed } from "@globalTypes";
+import { isViewed } from "@globalStyle";
 
-const viewedStyle = tw`opacity-40`;
-
-export const ItemContainer = styled.div<IItemContainerProps>`
+export const RowContainer = styled.div<IViewed>`
   ${tw`flex flex-row border-4 border-blue-500 rounded-lg p-2 mb-2`}
   
-  ${({isViewed}) => isViewed && viewedStyle}
+  ${isViewed}
 `;
 
 export const IndexSpan = styled.span`
@@ -62,6 +61,6 @@ export const VoteCount = styled.span`
   ${tw`text-lg text-blue-400`}
 `;
 
-export const MovieControls = styled.div`
+export const ControlContainer = styled.div`
 ${tw`min-w-max`}
 `;

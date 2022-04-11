@@ -22,11 +22,13 @@
       "@pages/*": ["./src/pages/*"],
       "@UI/*": ["./src/components/UI/*"],
       "@globalTypes": ["./src/types"],
+      "@globalStyle": ["./src/style"],
       "@utils/*": ["./src/utils/*"],
       "@context/*": ["./src/context/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@consts/*": ["./src/consts/*"],
-      "@config": ["./src/config"]
+      "@config": ["./src/config"],
+      "@media/*": ["./src/media/*"]
     }
   },
   "include": ["src"]

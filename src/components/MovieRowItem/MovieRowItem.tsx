@@ -3,9 +3,9 @@ import {
   Footer,
   Genres,
   IndexSpan,
-  ItemContainer,
+  RowContainer,
   MainTitle,
-  MovieControls,
+  ControlContainer,
   MovieGenre,
   MovieInfo,
   MovieText,
@@ -16,16 +16,10 @@ import {
   VoteCount,
   YearSpan,
 } from "./style";
-import approveIco from "./approve.svg";
-import dismissIco from "./dismiss.svg";
 
 import { TMDBImageHost } from "@config";
-import IconedButton from "@components/IconedButton";
 import { IMovieListItemProps } from "@globalTypes";
-import {
-  LSAPIRemoveFavouriteMovie,
-  LSAPIUpdateFavouriteMovie,
-} from "@utils/localStorageAPI";
+import MovieControl from "@components/MovieControl/MovieControl";
 
 const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
   const {
@@ -42,31 +36,8 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
   } = movie;
   const releaseYear = new Date(releaseDate!).getFullYear();
 
-  const removeMovieHandler = () => {
-    const removeConfirm = window.confirm(
-      `Are your sure, you want to remove "${title}" from your favorite movies?`
-    );
-    if (removeConfirm) {
-      LSAPIRemoveFavouriteMovie(id!);
-      setMovies((prev) => {
-        const newMovies = [...prev];
-        newMovies.splice(index, 1);
-        return newMovies;
-      });
-    }
-  };
-
-  const toggleViewedMovieHandler = () => {
-    LSAPIUpdateFavouriteMovie(id!);
-    setMovies((prev) => {
-      const newMovies = [...prev];
-      newMovies[index].isViewed = !newMovies[index].isViewed;
-      return newMovies;
-    });
-  };
-
   return (
-    <ItemContainer isViewed={isViewed}>
+    <RowContainer isViewed={isViewed}>
       <IndexSpan>{index + 1}</IndexSpan>
       <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
       <MovieInfo>
@@ -88,21 +59,15 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
           </Vote>
         </Footer>
       </MovieInfo>
-      <MovieControls>
-        <IconedButton
-          indents="3px"
-          colorInvert
-          src={approveIco}
-          onClick={toggleViewedMovieHandler}
+      <ControlContainer>
+        <MovieControl
+          movieId={id!}
+          index={index}
+          title={title!}
+          setMovies={setMovies}
         />
-        <IconedButton
-          indents="3px"
-          colorInvert
-          src={dismissIco}
-          onClick={removeMovieHandler}
-        />
-      </MovieControls>
-    </ItemContainer>
+      </ControlContainer>
+    </RowContainer>
   );
 };
 

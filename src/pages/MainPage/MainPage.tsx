@@ -4,7 +4,7 @@ import { MainPageContainer } from "./style";
 
 import GenresPanel from "@components/GenresPanel/GenresPanel";
 import HeaderPanel from "@components/HeaderPanel/HeaderPanel";
-import MovieControl from "@components/MovieControl/MovieControl";
+import MovieListControl from "@components/MovieListControl/MovieListControl";
 import MoviesList from "@components/MoviesList/MoviesList";
 import { useUserContext } from "@context/userContext";
 import { IGenre, IMovie } from "@globalTypes";
@@ -53,7 +53,7 @@ const MainPage: FC = () => {
     <MainPageContainer>
       <HeaderPanel />
       <GenresPanel genres={genres} setGenres={setGenres} />
-      <MovieControl isBlockView={isBlockView} setIsBlockView={setIsBlockView} />
+      <MovieListControl isBlockView={isBlockView} setIsBlockView={setIsBlockView} />
       <MoviesList
         movies={movies}
         setMovies={setMovies}
