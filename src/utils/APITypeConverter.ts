@@ -1,4 +1,4 @@
-import { IGetMoviesParams, IGetMoviesResponse, IMovie } from "../types";
+import { IGetMoviesParams, IGetMoviesResponse, IMovie } from "@globalTypes";
 import {
   APIMovie,
   moviesAPIRequestParams,

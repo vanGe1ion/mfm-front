@@ -1,17 +1,18 @@
 import React, { FC } from "react";
-import Button from "../UI/Button";
 import { NameHeader, PanelHead, ControlDiv } from "./style";
-import rowIcon from "./row.png";
-import blockIcon from "./blocks.png";
-import IconedButton from "../IconedButton";
 import { IMovieControlProps } from "./types";
+import rowIcon from "./row.svg";
+import blockIcon from "./block.svg";
+
+import Button from "@UI/Button";
+import IconedButton from "@components/IconedButton";
 
 const MovieControl: FC<IMovieControlProps> = ({
-  view,
-  setView,
+  isBlockView,
+  setIsBlockView,
 }) => {
   const toggleViewHandler = () => {
-    setView((prev) => (prev === "row" ? "block" : "row"));
+    setIsBlockView((prev) => !prev);
   };
 
   return (
@@ -20,14 +21,14 @@ const MovieControl: FC<IMovieControlProps> = ({
       <ControlDiv>
         <Button indents="3px">Add from catalog</Button>
         <IconedButton
-          disabled={view === 'row'}
+          disabled={!isBlockView}
           indents="3px"
           colorInvert
           src={rowIcon}
           onClick={toggleViewHandler}
         />
         <IconedButton
-          disabled={view === 'block'}
+          disabled={isBlockView}
           indents="3px"
           colorInvert
           src={blockIcon}

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { IMovieListItemProps } from '../../types'
+import { IMovieListItemProps } from '@globalTypes'
 
 const MovieBlockItem:FC<IMovieListItemProps> = ({movie, setMovies, index}) => {
   return (

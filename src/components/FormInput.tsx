@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import Input from "../UI/Input";
-import Label from "../UI/Label";
 import { FieldRenderProps } from "react-final-form";
+
+import Input from "@UI/Input";
+import Label from "@UI/Label";
 
 const FormInput: FC<FieldRenderProps<string, any>> = ({
   input,

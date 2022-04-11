@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IUserContext } from "../types";
+import { IUserContext } from "@globalTypes";
 
 const useUserAuth = (initial: string | null): IUserContext => {
   const [currentUser, setCurrentUser] = useState<string | null>(initial);

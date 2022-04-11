@@ -1,10 +1,10 @@
 import axios from "axios";
-import { TMDBAPIKey } from "../config";
+import { TMDBAPIKey } from "@config";
 import {
   IGetGenresResponse,
   IGetMoviesParams,
   IGetMoviesResponse,
-} from "../types";
+} from "@globalTypes";
 import {
   toMoviesAPIRequestParams,
   toIGetMoviesResponse,

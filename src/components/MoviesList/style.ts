@@ -8,5 +8,5 @@ export const MoviePanel = styled.div<IMoviePanelProps>`
   ${tw`w-full px-5 mt-5 overflow-auto`}
   height: 72vh;
 
-  ${({view}) => view === 'block' && flexBlock}
+  ${({isBlockView}) => isBlockView && flexBlock}
 `;

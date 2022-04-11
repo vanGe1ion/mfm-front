@@ -1,12 +1,12 @@
 import React from "react";
-import { IMovie, TMovieView } from "../../types";
+import { IMovie } from "@globalTypes";
 
 export interface IMoviesListProps {
   movies: IMovie[];
   setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
-  view: TMovieView;
+  isBlockView: boolean;
 }
 
 export interface IMoviePanelProps {
-  view: TMovieView;
+  isBlockView: boolean;
 }

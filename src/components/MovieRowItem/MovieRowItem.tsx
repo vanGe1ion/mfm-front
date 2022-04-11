@@ -1,6 +1,4 @@
 import React, { FC } from "react";
-import { TMDBImageHost } from "../../config";
-import IconedButton from "../IconedButton";
 import {
   Footer,
   Genres,
@@ -18,59 +16,75 @@ import {
   VoteCount,
   YearSpan,
 } from "./style";
-import approveIco from "./approve.png";
-import dismissIco from "./dismiss.png";
-import { IMovieListItemProps } from "../../types";
-import { LSAPIRemoveFavouriteMovie, LSAPIUpdateFavouriteMovie } from "../../utils/localStorageAPI";
+import approveIco from "./approve.svg";
+import dismissIco from "./dismiss.svg";
+
+import { TMDBImageHost } from "@config";
+import IconedButton from "@components/IconedButton";
+import { IMovieListItemProps } from "@globalTypes";
+import {
+  LSAPIRemoveFavouriteMovie,
+  LSAPIUpdateFavouriteMovie,
+} from "@utils/localStorageAPI";
 
 const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
+  const {
+    id,
+    title,
+    isViewed,
+    posterPath,
+    releaseDate,
+    originalTitle,
+    overview,
+    genres,
+    voteAverage,
+    voteCount,
+  } = movie;
+  const releaseYear = new Date(releaseDate!).getFullYear();
+
   const removeMovieHandler = () => {
     const removeConfirm = window.confirm(
-      `Are your sure, you want to remove "${movie.title}" from your favorite movies?`
+      `Are your sure, you want to remove "${title}" from your favorite movies?`
     );
     if (removeConfirm) {
-      setMovies(prev => {
-        LSAPIRemoveFavouriteMovie(movie.id!)
+      LSAPIRemoveFavouriteMovie(id!);
+      setMovies((prev) => {
         const newMovies = [...prev];
         newMovies.splice(index, 1);
-        return newMovies
-      })
+        return newMovies;
+      });
     }
   };
 
   const toggleViewedMovieHandler = () => {
-    setMovies(prev => {
-      LSAPIUpdateFavouriteMovie(movie.id!)
+    LSAPIUpdateFavouriteMovie(id!);
+    setMovies((prev) => {
       const newMovies = [...prev];
       newMovies[index].isViewed = !newMovies[index].isViewed;
-      return newMovies
-    })
+      return newMovies;
+    });
   };
 
   return (
-    <ItemContainer isViewed={movie.isViewed}>
+    <ItemContainer isViewed={isViewed}>
       <IndexSpan>{index + 1}</IndexSpan>
-      <Poster
-        src={TMDBImageHost + movie.posterPath}
-        alt="movie poster"
-      ></Poster>
+      <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
       <MovieInfo>
         <MovieText>
           <MainTitle>
-            {movie.title}{" "}
-            <YearSpan>({movie.releaseDate?.split("-")[0]})</YearSpan>
+            {title} <YearSpan>({releaseYear})</YearSpan>
           </MainTitle>
-          <OriginalTitle>{movie.originalTitle}</OriginalTitle>
-          <Overview>{movie.overview}</Overview>
+          <OriginalTitle>{originalTitle}</OriginalTitle>
+          <Overview>{overview}</Overview>
         </MovieText>
         <Footer>
           <Genres>
-            {movie.genres?.map((genre) => (
+            {genres?.map((genre) => (
               <MovieGenre key={genre}>{genre}</MovieGenre>
             ))}
           </Genres>
           <Vote>
-            {movie.voteAverage}/10 <VoteCount>({movie.voteCount})</VoteCount>
+            {voteAverage}/10 <VoteCount>({voteCount})</VoteCount>
           </Vote>
         </Footer>
       </MovieInfo>

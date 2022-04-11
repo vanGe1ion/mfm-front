@@ -1,4 +1,4 @@
-import { SignInError } from "../../consts/errConsts";
+import { SignInError } from "@consts/errConsts";
 import { IFormValues } from "./types";
 
 const required = (value: any) => (value ? undefined : SignInError.FIELD_REQUIRED_ERR)

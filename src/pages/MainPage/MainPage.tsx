@@ -1,22 +1,23 @@
 import React, { FC, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import GenresPanel from "../../components/GenresPanel/GenresPanel";
-import HeaderPanel from "../../components/HeaderPanel/HeaderPanel";
-import MovieControl from "../../components/MovieControl/MovieControl";
-import MoviesList from "../../components/MoviesList/MoviesList";
-import { useUserContext } from "../../context/userContext";
-import { IGenre, IMovie, TMovieView } from "../../types";
+import { MainPageContainer } from "./style";
+
+import GenresPanel from "@components/GenresPanel/GenresPanel";
+import HeaderPanel from "@components/HeaderPanel/HeaderPanel";
+import MovieControl from "@components/MovieControl/MovieControl";
+import MoviesList from "@components/MoviesList/MoviesList";
+import { useUserContext } from "@context/userContext";
+import { IGenre, IMovie } from "@globalTypes";
 import {
   LSAPIGetFavouriteGenres,
   LSAPIGetFavouriteMovies,
-} from "../../utils/localStorageAPI";
-import { tmdbGetGenres } from "../../utils/tmdbAPI";
-import { MainPageContainer } from "./style";
+} from "@utils/localStorageAPI";
+import { tmdbGetGenres } from "@utils/tmdbAPI";
 
 const MainPage: FC = () => {
   const { currentUser } = useUserContext();
   const history = useHistory();
-  const [view, setView] = useState<TMovieView>('row');
+  const [isBlockView, setIsBlockView] = useState<boolean>(false);
 
   const [genres, setGenres] = useState<IGenre[]>([]);
   const [movies, setMovies] = useState<IMovie[]>([]);
@@ -29,18 +30,16 @@ const MainPage: FC = () => {
 
   useEffect(() => {
     tmdbGetGenres()
-      .then((data) => data.genres)
-      .then((genres) => {
+      .then((data) => {
+        const getedGenres = data.genres;
         const favoriteIdx = LSAPIGetFavouriteGenres();
-        genres.map(
+        getedGenres.map(
           (genre) => (genre.isFavourite = favoriteIdx.includes(genre.id))
         );
-        setGenres(genres);
-        return genres;
-      })
-      .then((genres) => {
+        setGenres(getedGenres);
+
         const favouriteMovies = LSAPIGetFavouriteMovies();
-        favouriteMovies.forEach((movie) => identifyGenres(movie, genres));
+        favouriteMovies.forEach((movie) => identifyGenres(movie, getedGenres));
         setMovies(favouriteMovies);
       })
       .catch((error: Error) =>
@@ -54,8 +53,12 @@ const MainPage: FC = () => {
     <MainPageContainer>
       <HeaderPanel />
       <GenresPanel genres={genres} setGenres={setGenres} />
-      <MovieControl view={view} setView={setView} />
-      <MoviesList movies={movies} setMovies={setMovies} view={view}/>
+      <MovieControl isBlockView={isBlockView} setIsBlockView={setIsBlockView} />
+      <MoviesList
+        movies={movies}
+        setMovies={setMovies}
+        isBlockView={isBlockView}
+      />
     </MainPageContainer>
   );
 };

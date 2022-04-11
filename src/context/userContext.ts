@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { IUserContext } from "../types";
+import { IUserContext } from "@globalTypes";
 
 const contextDefault: IUserContext = {
   currentUser: null,

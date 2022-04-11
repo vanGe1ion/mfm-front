@@ -1,17 +1,18 @@
 import React, { FC } from "react";
-import { FlexColGroup, StyledForm } from "./style";
-import Button from "../UI/Button";
-import Label from "../UI/Label";
-import FormInput from "../FormInput/FormInput";
-
-import { Field, Form } from "react-final-form";
-import { signInValidateHandler } from "./validator";
-import { FORM_ERROR } from "final-form";
-import { LSAPIVerifyUser } from "../../utils/localStorageAPI";
 import { useHistory } from "react-router-dom";
-import { SignInError } from "../../consts/errConsts";
-import { useUserContext } from "../../context/userContext";
+import { Field, Form } from "react-final-form";
+import { FORM_ERROR } from "final-form";
+
 import { IFormValues } from "./types";
+import { FlexColGroup, StyledForm } from "./style";
+import { signInValidateHandler } from "./validator";
+
+import Button from "@UI/Button";
+import Label from "@UI/Label";
+import FormInput from "@components/FormInput";
+import { LSAPIVerifyUser } from "@utils/localStorageAPI";
+import { SignInError } from "@consts/errConsts";
+import { useUserContext } from "@context/userContext";
 
 const LoginForm: FC = () => {
   const { approveUser } = useUserContext();

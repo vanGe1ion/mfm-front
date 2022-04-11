@@ -1,14 +1,14 @@
 import React, { FC } from "react";
-import MovieBlockItem from "../MovieBlockItem/MovieBlockItem";
-import MovieRowItem from "../MovieRowItem/MovieRowItem";
+import MovieBlockItem from "@components/MovieBlockItem/MovieBlockItem";
+import MovieRowItem from "@components/MovieRowItem/MovieRowItem";
 import { MoviePanel } from "./style";
 import { IMoviesListProps } from "./types";
 
-const MoviesList: FC<IMoviesListProps> = ({ movies, setMovies, view }) => {
-  const ListItem = view === "row" ? MovieRowItem : MovieBlockItem;
+const MoviesList: FC<IMoviesListProps> = ({ movies, setMovies, isBlockView }) => {
+  const ListItem = isBlockView ? MovieBlockItem : MovieRowItem;
 
   return (
-    <MoviePanel view={view}>
+    <MoviePanel isBlockView={isBlockView}>
       {movies.map((movie, idx) => {
         return <ListItem key={movie.id} movie={movie} setMovies={setMovies} index={idx} />;
       })}

@@ -1,4 +1,4 @@
-import { IGenre } from "../../types";
+import { IGenre } from "@globalTypes";
 
 export interface IGenresPanelProps {
   genres: IGenre[];

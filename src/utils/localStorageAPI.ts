@@ -1,4 +1,4 @@
-import { IMovie } from "../types";
+import { IMovie } from "@globalTypes";
 import testData from "./testFavouriteMovies.json"
 
 export const LSAPIInit = (): void => {

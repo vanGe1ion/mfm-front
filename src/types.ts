@@ -53,8 +53,6 @@ export interface IGetGenresResponse {
   genres: IGenre[];
 }
 
-export type TMovieView = "row" | "block";
-
 export interface IMovieListItemProps {
   movie: IMovie;
   setMovies: (prev: React.SetStateAction<IMovie[]>) => void;

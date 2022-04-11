@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import Button from "../../components/UI/Button";
+import Button from "@UI/Button";
 import { useHistory } from "react-router-dom";
-import { useUserContext } from "../../context/userContext";
+import { useUserContext } from "@context/userContext";
 import {
     HeaderContainer,
     MainHeader,
