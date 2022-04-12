@@ -7,13 +7,11 @@ import {
   ControlContainer,
   Footer,
   MediaBlock,
-  MovieTitle,
   TextInfo,
-  Vote,
-  VoteCount,
-  YearSpan,
 } from "./style";
 import MovieControl from "@components/MovieControl/MovieControl";
+import VoteAverage from "@components/VoteAverage/VoteAverage";
+import MovieHead from "@components/MovieHead/MovieHead";
 
 const MovieBlockItem: FC<IMovieListItemProps> = ({
   movie,
@@ -25,11 +23,10 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
     title,
     isViewed,
     posterPath,
-    releaseDate,
+    releaseYear,
     voteAverage,
     voteCount,
   } = movie;
-  const releaseYear = new Date(releaseDate!).getFullYear();
 
   return (
     <BlockContainer isViewed={isViewed}>
@@ -45,12 +42,16 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
         </ControlContainer>
       </MediaBlock>
       <TextInfo>
-        <MovieTitle>{title}</MovieTitle>
-        <YearSpan>({releaseYear})</YearSpan>
+        <MovieHead title={title} releaseYear={releaseYear} yearSize="small" />
         <Footer>
-          <Vote>
-            {voteAverage}/10 <VoteCount>({voteCount})</VoteCount>
-          </Vote>
+          {voteAverage && (
+            <VoteAverage
+              voteAverage={voteAverage}
+              voteCount={voteCount!}
+              voteAverageSize="large"
+              voteCountSize="small"
+            />
+          )}
         </Footer>
       </TextInfo>
     </BlockContainer>

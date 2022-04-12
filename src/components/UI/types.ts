@@ -1,5 +1,6 @@
-export interface IButtonProps extends IChangeableIndents {
-  fontSize?: string;
+import { IFontSize } from "@globalTypes";
+
+export interface IButtonProps extends IChangeableIndents, IFontSize {
   icon?: string;
 }
 

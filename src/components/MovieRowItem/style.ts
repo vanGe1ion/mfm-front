@@ -5,7 +5,7 @@ import { isViewed } from "@globalStyle";
 
 export const RowContainer = styled.div<IViewed>`
   ${tw`flex flex-row border-4 border-blue-500 rounded-lg p-2 mb-2`}
-  
+
   ${isViewed}
 `;
 
@@ -13,24 +13,16 @@ export const IndexSpan = styled.span`
   ${tw`pl-2 pr-4 my-auto mx-0 font-bold select-none font-sans`}
 `;
 
-export const Poster = styled.img`
-  ${tw`rounded-xl`}
-`;
-
 export const MovieInfo = styled.div`
   ${tw`px-6 flex flex-col flex-grow justify-between`}
 `;
 
+export const MovieBody = styled.div`
+  ${tw`flex flex-row`}
+`;
+
 export const MovieText = styled.div`
-  ${tw`flex flex-col`}
-`;
-
-export const MainTitle = styled.h1`
-  ${tw`text-xl font-bold italic text-blue-900`}
-`;
-
-export const YearSpan = styled.span`
-  ${tw`text-base italic text-blue-700`}
+  ${tw`flex flex-col flex-grow`}
 `;
 
 export const OriginalTitle = styled.h3`
@@ -50,17 +42,9 @@ export const Genres = styled.div`
 `;
 
 export const MovieGenre = styled.div`
-${tw`border-2 border-blue-500 rounded-xl py-0.5 px-1 m-1 select-none text-xs`}
-`;
-
-export const Vote = styled.div`
-  ${tw`min-w-max text-3xl font-bold italic text-blue-500`}
-`;
-
-export const VoteCount = styled.span`
-  ${tw`text-lg text-blue-400`}
+  ${tw`border-2 border-blue-500 rounded-xl py-0.5 px-1 m-1 select-none text-xs`}
 `;
 
 export const ControlContainer = styled.div`
-${tw`min-w-max`}
+  ${tw`min-w-max pt-6 ml-6`}
 `;

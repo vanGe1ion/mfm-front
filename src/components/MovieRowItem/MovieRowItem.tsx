@@ -4,22 +4,21 @@ import {
   Genres,
   IndexSpan,
   RowContainer,
-  MainTitle,
   ControlContainer,
   MovieGenre,
   MovieInfo,
   MovieText,
   OriginalTitle,
   Overview,
-  Poster,
-  Vote,
-  VoteCount,
-  YearSpan,
+  MovieBody,
 } from "./style";
+import { Poster } from "@globalStyle";
 
 import { TMDBImageHost } from "@config";
 import { IMovieListItemProps } from "@globalTypes";
 import MovieControl from "@components/MovieControl/MovieControl";
+import VoteAverage from "@components/VoteAverage/VoteAverage";
+import MovieHead from "@components/MovieHead/MovieHead";
 
 const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
   const {
@@ -27,46 +26,55 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
     title,
     isViewed,
     posterPath,
-    releaseDate,
+    releaseYear,
     originalTitle,
     overview,
     genres,
     voteAverage,
     voteCount,
   } = movie;
-  const releaseYear = new Date(releaseDate!).getFullYear();
 
   return (
     <RowContainer isViewed={isViewed}>
       <IndexSpan>{index + 1}</IndexSpan>
       <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
       <MovieInfo>
-        <MovieText>
-          <MainTitle>
-            {title} <YearSpan>({releaseYear})</YearSpan>
-          </MainTitle>
-          <OriginalTitle>{originalTitle}</OriginalTitle>
-          <Overview>{overview}</Overview>
-        </MovieText>
+        <MovieBody>
+          <MovieText>
+            <MovieHead
+              title={title}
+              releaseYear={releaseYear}
+              titleSize="x-large"
+            />
+            <OriginalTitle>{originalTitle}</OriginalTitle>
+            <Overview>{overview}</Overview>
+          </MovieText>
+          <ControlContainer>
+            <MovieControl
+              movieId={id!}
+              index={index}
+              title={title!}
+              setMovies={setMovies}
+            />
+          </ControlContainer>
+        </MovieBody>
+
         <Footer>
           <Genres>
-            {genres?.map((genre) => (
+            {genres.map((genre) => (
               <MovieGenre key={genre}>{genre}</MovieGenre>
             ))}
           </Genres>
-          <Vote>
-            {voteAverage}/10 <VoteCount>({voteCount})</VoteCount>
-          </Vote>
+          {voteAverage && (
+            <VoteAverage
+              voteAverage={voteAverage}
+              voteCount={voteCount!}
+              voteAverageSize="xx-large"
+              voteCountSize="large"
+            />
+          )}
         </Footer>
       </MovieInfo>
-      <ControlContainer>
-        <MovieControl
-          movieId={id!}
-          index={index}
-          title={title!}
-          setMovies={setMovies}
-        />
-      </ControlContainer>
     </RowContainer>
   );
 };
