@@ -24,23 +24,18 @@ export interface IGetMoviesResponse {
 }
 
 export interface IMovie {
-  posterPath?: string | null;
-  adult?: boolean;
-  overview?: string;
-  releaseDate?: string;
-  genreIds?: number[];
-  id?: number;
-  originalTitle?: string;
-  originalLanguage?: string;
-  title?: string;
-  backdropPath?: string;
-  popularity?: number;
-  voteCount?: number;
-  video?: boolean;
-  voteAverage?: number;
+  posterPath: string;
+  overview: string;
+  releaseYear: number | null;
+  genreIds: number[];
+  id: number;
+  originalTitle: string;
+  title: string;
+  voteCount: number | null;
+  voteAverage: number | null;
 
-  genres?: string[];
-  isViewed?: boolean;
+  genres: string[];
+  isViewed: boolean;
 }
 
 export interface IGenre {
@@ -58,3 +53,23 @@ export interface IMovieListItemProps {
   setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
   index: number;
 }
+
+export interface IViewed {
+  isViewed?: boolean;
+}
+
+export interface IFontSize {
+  fontSize?: TFontSize;
+}
+
+export type TFontSize =
+  | "smaller"
+  | "xx-small"
+  | "x-small"
+  | "small"
+  | "medium"
+  | "large"
+  | "x-large"
+  | "xx-large"
+  | "xxx-large"
+  | "larger";

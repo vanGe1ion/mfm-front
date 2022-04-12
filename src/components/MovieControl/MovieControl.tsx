@@ -1,41 +1,57 @@
 import React, { FC } from "react";
-import { NameHeader, PanelHead, ControlDiv } from "./style";
+import approveIco from "@media/approve.svg";
+import dismissIco from "@media/dismiss.svg";
 import { IMovieControlProps } from "./types";
-import rowIcon from "./row.svg";
-import blockIcon from "./block.svg";
-
-import Button from "@UI/Button";
 import IconedButton from "@components/IconedButton";
+import {
+  LSAPIRemoveFavouriteMovie,
+  LSAPIUpdateFavouriteMovie,
+} from "@utils/localStorageAPI";
 
 const MovieControl: FC<IMovieControlProps> = ({
-  isBlockView,
-  setIsBlockView,
+  movieId,
+  index,
+  title,
+  setMovies,
 }) => {
-  const toggleViewHandler = () => {
-    setIsBlockView((prev) => !prev);
+  const removeMovieHandler = () => {
+    const removeConfirm = window.confirm(
+      `Are your sure, you want to remove "${title}" from your favorite movies?`
+    );
+    if (removeConfirm) {
+      LSAPIRemoveFavouriteMovie(movieId);
+      setMovies((prev) => {
+        const newMovies = [...prev];
+        newMovies.splice(index, 1);
+        return newMovies;
+      });
+    }
+  };
+
+  const toggleViewedMovieHandler = () => {
+    LSAPIUpdateFavouriteMovie(movieId!);
+    setMovies((prev) => {
+      const newMovies = [...prev];
+      newMovies[index].isViewed = !newMovies[index].isViewed;
+      return newMovies;
+    });
   };
 
   return (
-    <PanelHead>
-      <NameHeader>Favourite movies list</NameHeader>
-      <ControlDiv>
-        <Button indents="3px">Add from catalog</Button>
-        <IconedButton
-          disabled={!isBlockView}
-          indents="3px"
-          colorInvert
-          src={rowIcon}
-          onClick={toggleViewHandler}
-        />
-        <IconedButton
-          disabled={isBlockView}
-          indents="3px"
-          colorInvert
-          src={blockIcon}
-          onClick={toggleViewHandler}
-        />
-      </ControlDiv>
-    </PanelHead>
+    <>
+      <IconedButton
+        indents="3px"
+        colorInvert
+        src={approveIco}
+        onClick={toggleViewedMovieHandler}
+      />
+      <IconedButton
+        indents="3px"
+        colorInvert
+        src={dismissIco}
+        onClick={removeMovieHandler}
+      />
+    </>
   );
 };
 

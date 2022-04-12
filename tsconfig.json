@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -26,14 +22,14 @@
       "@pages/*": ["./src/pages/*"],
       "@UI/*": ["./src/components/UI/*"],
       "@globalTypes": ["./src/types"],
+      "@globalStyle": ["./src/style"],
       "@utils/*": ["./src/utils/*"],
       "@context/*": ["./src/context/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@consts/*": ["./src/consts/*"],
       "@config": ["./src/config"],
-    },
+      "@media/*": ["./src/media/*"]
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

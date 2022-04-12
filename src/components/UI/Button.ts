@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { IButtonProps } from "./types";
 import tw from "twin.macro";
 import { changeableIndents } from "./style";
+import { fontSized } from "@globalStyle";
 
 const disabledStyle = tw`border-blue-400 bg-blue-400`;
 const hovering = tw`text-black bg-transparent`;
@@ -13,7 +14,7 @@ const Button = styled.button<IButtonProps>`
 
   ${({disabled})=> disabled && disabledStyle}
   
-  font-size: ${({ fontSize }) => fontSize ?? "medium"};
+  ${fontSized};
   
   &:hover {
     ${({disabled})=> !disabled && hovering}

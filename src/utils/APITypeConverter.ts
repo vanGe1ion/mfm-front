@@ -29,25 +29,25 @@ export const toIGetMoviesResponse = (
       release_date,
       genre_ids,
       original_title,
-      original_language,
-      backdrop_path,
       vote_count,
       vote_average,
-      ...rest
+      id,
+      overview,
+      title,
     }: APIMovie) => {
       return {
         isViewed: false,
         genres: [],
 
-        posterPath: poster_path,
-        releaseDate: release_date,
+        posterPath: poster_path ?? '',
+        releaseYear: release_date ? new Date(release_date).getFullYear() : null,
         genreIds: Array.from(genre_ids),
-        originalTitle: original_title,
-        originalLanguage: original_language,
-        backdropPath: backdrop_path,
-        voteCount: vote_count,
-        voteAverage: vote_average,
-        ...rest,
+        originalTitle: original_title ?? '',
+        voteCount: vote_count ?? null,
+        voteAverage: vote_average ?? null,
+        id: id!,
+        overview: overview ?? '',
+        title: title!,
       };
     }
   );
