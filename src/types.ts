@@ -48,9 +48,15 @@ export interface IGetGenresResponse {
   genres: IGenre[];
 }
 
+export interface IMovieControls{
+  toggleViewed?: (movieId: number) => void;
+  addToFavourite?: (movieId: number) => void;
+  removeFromFavourite?: (movieId: number) => void;
+}
+
 export interface IMovieListItemProps {
   movie: IMovie;
-  setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
+  controls: IMovieControls;
   index: number;
 }
 

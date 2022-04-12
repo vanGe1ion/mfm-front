@@ -1,4 +1,4 @@
-import { IGenre } from "@globalTypes";
+import { IGenre, IMovie } from "@globalTypes";
 
 export interface IUseGenres {
   genres: IGenre[];
@@ -9,4 +9,11 @@ export interface IUseGenres {
 export interface IToggleView {
   isBlockView: boolean;
   toggleView: () => void;
+}
+
+export interface IUseMovies {
+  movies: IMovie[];
+  addToFavourite: (movieId: number) => void;
+  removeFromFavourite: (movieId: number) => void;
+  toggleViewed: (movieId: number) => void;
 }

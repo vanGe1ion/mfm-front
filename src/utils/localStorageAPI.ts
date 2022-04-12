@@ -11,8 +11,8 @@ export const LSAPIInit = (): void => {
     localStorage.setItem("favouriteMovies", `${JSON.stringify(testData)}`);
 };
 
-export const LSAPIIsSignedIn = (): boolean => {
-  return typeof localStorage.getItem("currentUserId") === "string";
+export const LSAPIGetSignedInUser = (): string | null => {
+  return localStorage.getItem("currentUserId");
 };
 
 export const LSAPIVerifyUser = (login: string, password: string): boolean => {
@@ -56,4 +56,15 @@ export const LSAPIUpdateFavouriteMovie = (movieId: number): void => {
   const idx = favoriteMovies.findIndex((movie) => movie.id === movieId);
   favoriteMovies[idx].isViewed = !favoriteMovies[idx].isViewed;
   LSAPISetFavouriteMovies(favoriteMovies);
+};
+
+export const LSAPIAddFavouriteMovie = (movie: IMovie): void => {
+  const favoriteMovies = LSAPIGetFavouriteMovies();
+  favoriteMovies.push(movie);
+  LSAPISetFavouriteMovies(favoriteMovies);
+};
+
+export const LSAPIGetFavouriteMoviesIdx = (): number[] => {
+  const favoriteMovies = LSAPIGetFavouriteMovies();
+  return favoriteMovies.map((movie) => movie.id);
 };

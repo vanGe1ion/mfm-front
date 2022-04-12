@@ -1,11 +1,10 @@
 import React, { FC, useEffect } from "react";
 import UserContext from "@context/userContext";
 import useUserAuth from "@hooks/useUserAuth";
-import { LSAPIInit } from "@utils/localStorageAPI";
+import { LSAPIGetSignedInUser, LSAPIInit } from "@utils/localStorageAPI";
 
 const UserContextProvirer: FC = ({ children }) => {
-  const currentUserIdLocal: string | null =
-    localStorage.getItem("currentUserId");
+  const currentUserIdLocal = LSAPIGetSignedInUser();
   const { currentUser, approveUser, dismissUser } =
     useUserAuth(currentUserIdLocal);
 

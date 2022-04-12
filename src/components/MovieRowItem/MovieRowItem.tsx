@@ -20,7 +20,7 @@ import MovieControl from "@components/MovieControl/MovieControl";
 import VoteAverage from "@components/VoteAverage/VoteAverage";
 import MovieHead from "@components/MovieHead/MovieHead";
 
-const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
+const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   const {
     id,
     title,
@@ -52,9 +52,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
           <ControlContainer>
             <MovieControl
               movieId={id!}
-              index={index}
-              title={title!}
-              setMovies={setMovies}
+              controls={controls}
             />
           </ControlContainer>
         </MovieBody>

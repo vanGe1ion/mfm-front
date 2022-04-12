@@ -15,8 +15,7 @@ import MovieHead from "@components/MovieHead/MovieHead";
 
 const MovieBlockItem: FC<IMovieListItemProps> = ({
   movie,
-  setMovies,
-  index,
+  controls,
 }) => {
   const {
     id,
@@ -34,10 +33,8 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
         <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
         <ControlContainer>
           <MovieControl
-            movieId={id!}
-            index={index}
-            title={title!}
-            setMovies={setMovies}
+            movieId={id}
+            controls={controls}
           />
         </ControlContainer>
       </MediaBlock>

@@ -1,56 +1,39 @@
 import React, { FC } from "react";
 import approveIco from "@media/approve.svg";
 import dismissIco from "@media/dismiss.svg";
+import addIco from "@media/add.svg";
 import { IMovieControlProps } from "./types";
 import IconedButton from "@components/IconedButton";
-import {
-  LSAPIRemoveFavouriteMovie,
-  LSAPIUpdateFavouriteMovie,
-} from "@utils/localStorageAPI";
 
-const MovieControl: FC<IMovieControlProps> = ({
-  movieId,
-  index,
-  title,
-  setMovies,
-}) => {
-  const removeMovieHandler = () => {
-    const removeConfirm = window.confirm(
-      `Are your sure, you want to remove "${title}" from your favorite movies?`
-    );
-    if (removeConfirm) {
-      LSAPIRemoveFavouriteMovie(movieId);
-      setMovies((prev) => {
-        const newMovies = [...prev];
-        newMovies.splice(index, 1);
-        return newMovies;
-      });
-    }
-  };
-
-  const toggleViewedMovieHandler = () => {
-    LSAPIUpdateFavouriteMovie(movieId!);
-    setMovies((prev) => {
-      const newMovies = [...prev];
-      newMovies[index].isViewed = !newMovies[index].isViewed;
-      return newMovies;
-    });
-  };
+const MovieControl: FC<IMovieControlProps> = ({ movieId, controls }) => {
+  const { toggleViewed, removeFromFavourite, addToFavourite } = controls;
 
   return (
     <>
-      <IconedButton
-        indents="3px"
-        colorInvert
-        src={approveIco}
-        onClick={toggleViewedMovieHandler}
-      />
-      <IconedButton
-        indents="3px"
-        colorInvert
-        src={dismissIco}
-        onClick={removeMovieHandler}
-      />
+      {toggleViewed && (
+        <IconedButton
+          indents="3px"
+          colorInvert
+          src={approveIco}
+          onClick={() => toggleViewed(movieId)}
+        />
+      )}
+      {removeFromFavourite && (
+        <IconedButton
+          indents="3px"
+          colorInvert
+          src={dismissIco}
+          onClick={() => removeFromFavourite(movieId)}
+        />
+      )}
+      {addToFavourite && (
+        <IconedButton
+          indents="3px"
+          colorInvert
+          src={addIco}
+          onClick={() => addToFavourite(movieId)}
+        />
+      )}
     </>
   );
 };
