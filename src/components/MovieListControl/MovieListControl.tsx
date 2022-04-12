@@ -4,35 +4,34 @@ import { IMovieListControlProps } from "./types";
 import rowIcon from "./row.svg";
 import blockIcon from "./block.svg";
 
-import Button from "@UI/Button";
 import IconedButton from "@components/IconedButton";
 
 const MovieListControl: FC<IMovieListControlProps> = ({
+  title,
   isBlockView,
-  setIsBlockView,
+  toggleView,
+  children,
 }) => {
-  const toggleViewHandler = () => {
-    setIsBlockView((prev) => !prev);
-  };
+
 
   return (
     <PanelHead>
-      <NameHeader>Favourite movies list</NameHeader>
+      <NameHeader>{title}</NameHeader>
       <ControlDiv>
-        <Button indents="3px">Add from catalog</Button>
+        {children}
         <IconedButton
           disabled={!isBlockView}
           indents="3px"
           colorInvert
           src={rowIcon}
-          onClick={toggleViewHandler}
+          onClick={toggleView}
         />
         <IconedButton
           disabled={isBlockView}
           indents="3px"
           colorInvert
           src={blockIcon}
-          onClick={toggleViewHandler}
+          onClick={toggleView}
         />
       </ControlDiv>
     </PanelHead>

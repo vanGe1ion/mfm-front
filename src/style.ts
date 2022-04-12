@@ -36,3 +36,7 @@ export const MovieTitle = styled.h1<IFontSize>`
   max-width: fit-content;
   ${fontSized}
 `;
+
+export const PageContainer = styled.div`
+  ${tw`flex flex-col h-screen bg-blue-200 `}
+`;

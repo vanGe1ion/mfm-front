@@ -1,4 +1,5 @@
 export interface IMovieListControlProps{
+  title: string;
   isBlockView: boolean;
-  setIsBlockView: (prev: React.SetStateAction<boolean>) => void;
+  toggleView: () => void;
 }
