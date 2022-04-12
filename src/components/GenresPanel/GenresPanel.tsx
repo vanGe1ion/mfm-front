@@ -1,24 +1,13 @@
 import React, { FC } from "react";
-import { IGenre } from "@globalTypes";
-import { LSAPISetFavouriteGenres } from "@utils/localStorageAPI";
 import Genre from "@UI/Genre";
 import { GenresContainer, GenresHeader, GenresMain } from "./style";
+import useGenres from "@hooks/useGenres";
 import { IGenresPanelProps } from "./types";
 
-const GenresPanel: FC<IGenresPanelProps> = ({ genres, setGenres }) => {
-  const toggleGenreHandler = (genreId: number): void => {
-    const newGenres = [...genres];
-    const foundGenre = genres.find((genre) => genre.id === genreId);
-    const { isFavourite } = foundGenre!;
-    const index = newGenres.indexOf(foundGenre!);
-    newGenres[index] = { ...foundGenre, isFavourite: !isFavourite } as IGenre;
-    setGenres(newGenres);
-
-    const favoritesIdx = newGenres
-      .filter((genre) => genre.isFavourite)
-      .map((genre) => genre.id);
-    LSAPISetFavouriteGenres(favoritesIdx);
-  };
+const GenresPanel: FC<IGenresPanelProps> = ({
+  isSaveMode,
+  }) => {
+  const { genres, toggleFavouriteGenre } = useGenres(isSaveMode);
 
   return (
     <GenresMain>
@@ -29,7 +18,7 @@ const GenresPanel: FC<IGenresPanelProps> = ({ genres, setGenres }) => {
             <Genre
               key={id}
               checked={isFavourite}
-              onClick={() => toggleGenreHandler(id)}
+              onClick={() => toggleFavouriteGenre(id)}
             >
               {name}
             </Genre>

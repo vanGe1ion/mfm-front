@@ -7,46 +7,20 @@ import HeaderPanel from "@components/HeaderPanel/HeaderPanel";
 import MovieListControl from "@components/MovieListControl/MovieListControl";
 import MoviesList from "@components/MoviesList/MoviesList";
 import { useUserContext } from "@context/userContext";
-import { IGenre, IMovie } from "@globalTypes";
-import {
-  LSAPIGetFavouriteGenres,
-  LSAPIGetFavouriteMovies,
-} from "@utils/localStorageAPI";
-import { tmdbGetGenres } from "@utils/tmdbAPI";
+import { IMovie } from "@globalTypes";
+import { LSAPIGetFavouriteMovies } from "@utils/localStorageAPI";
 import Button from "@components/UI/Button";
 import useToggleView from "@hooks/useToggleView";
 
 const MainPage: FC = () => {
-  const { currentUser } = useUserContext();
   const history = useHistory();
-  const { isBlockView, toggleView } = useToggleView();
-
-  const [genres, setGenres] = useState<IGenre[]>([]);
   const [movies, setMovies] = useState<IMovie[]>([]);
-
-  const identifyGenres = (movie: IMovie, genres: IGenre[]): void => {
-    movie.genres = genres
-      .filter((genre) => movie.genreIds?.includes(genre.id))
-      .map((genre) => genre.name);
-  };
-
+  const { currentUser } = useUserContext();
+  const { isBlockView, toggleView } = useToggleView();
+  
   useEffect(() => {
-    tmdbGetGenres()
-      .then((data) => {
-        const getedGenres = data.genres;
-        const favoriteIdx = LSAPIGetFavouriteGenres();
-        getedGenres.map(
-          (genre) => (genre.isFavourite = favoriteIdx.includes(genre.id))
-        );
-        setGenres(getedGenres);
-
-        const favouriteMovies = LSAPIGetFavouriteMovies();
-        favouriteMovies.forEach((movie) => identifyGenres(movie, getedGenres));
-        setMovies(favouriteMovies);
-      })
-      .catch((error: Error) =>
-        console.log("Genre list loading error: ", error)
-      );
+    const favouriteMovies = LSAPIGetFavouriteMovies();
+    setMovies(favouriteMovies);
   }, []);
 
   if (!currentUser) history.replace("/sign-in");
@@ -54,7 +28,7 @@ const MainPage: FC = () => {
   return (
     <PageContainer>
       <HeaderPanel />
-      <GenresPanel genres={genres} setGenres={setGenres} />
+      <GenresPanel isSaveMode={true}/>
       <MovieListControl
         title="Favourite movies list"
         isBlockView={isBlockView}

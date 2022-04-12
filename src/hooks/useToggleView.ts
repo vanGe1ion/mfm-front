@@ -1,9 +1,5 @@
 import { useState } from "react";
-
-interface IToggleView {
-  isBlockView: boolean;
-  toggleView: () => void;
-}
+import { IToggleView } from "./types";
 
 const useToggleView = (): IToggleView => {
   const [isBlockView, setIsBlockView] = useState<boolean>(false);

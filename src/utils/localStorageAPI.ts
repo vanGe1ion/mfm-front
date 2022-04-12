@@ -1,5 +1,5 @@
 import { IMovie } from "@globalTypes";
-import testData from "./testFavouriteMovies.json"
+import testData from "./testFavouriteMovies.json";
 
 export const LSAPIInit = (): void => {
   if (!localStorage.getItem("login")) localStorage.setItem("login", "user");
@@ -22,8 +22,12 @@ export const LSAPIVerifyUser = (login: string, password: string): boolean => {
   );
 };
 
-export const LSAPISetFavouriteGenres = (newGenres: number[]): void => {
-  localStorage.setItem("favouriteGenres", JSON.stringify(newGenres));
+export const LSAPIToggleFavouriteGenre = (genreId: number): void => {
+  const favoriteGenres = LSAPIGetFavouriteGenres();
+  const idx = favoriteGenres.indexOf(genreId);
+  if (idx < 0) favoriteGenres.push(genreId);
+  else favoriteGenres.splice(idx, 1);
+  localStorage.setItem("favouriteGenres", JSON.stringify(favoriteGenres));
 };
 
 export const LSAPIGetFavouriteGenres = (): number[] => {
@@ -41,15 +45,15 @@ export const LSAPIGetFavouriteMovies = (): IMovie[] => {
 };
 
 export const LSAPIRemoveFavouriteMovie = (movieId: number): void => {
-  const favoriteMovies:IMovie[] = LSAPIGetFavouriteMovies();
-  const idx = favoriteMovies.findIndex(movie => movie.id === movieId);
+  const favoriteMovies: IMovie[] = LSAPIGetFavouriteMovies();
+  const idx = favoriteMovies.findIndex((movie) => movie.id === movieId);
   favoriteMovies.splice(idx, 1);
   LSAPISetFavouriteMovies(favoriteMovies);
 };
 
 export const LSAPIUpdateFavouriteMovie = (movieId: number): void => {
-  const favoriteMovies:IMovie[] = LSAPIGetFavouriteMovies();
-  const idx = favoriteMovies.findIndex(movie => movie.id === movieId);
+  const favoriteMovies: IMovie[] = LSAPIGetFavouriteMovies();
+  const idx = favoriteMovies.findIndex((movie) => movie.id === movieId);
   favoriteMovies[idx].isViewed = !favoriteMovies[idx].isViewed;
   LSAPISetFavouriteMovies(favoriteMovies);
 };
