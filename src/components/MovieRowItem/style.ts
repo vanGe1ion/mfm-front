@@ -10,7 +10,8 @@ export const RowContainer = styled.div<IViewed>`
 `;
 
 export const IndexSpan = styled.span`
-  ${tw`pl-2 pr-4 my-auto mx-0 font-bold select-none font-sans`}
+  ${tw`pr-2 text-center my-auto mx-0 font-bold select-none font-sans`}
+  min-width: 2.5rem;
 `;
 
 export const MovieInfo = styled.div`

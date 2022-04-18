@@ -1,4 +1,4 @@
-import { IGenre, IMovie } from "@globalTypes";
+import { IGenre, IGetMoviesParams, IMovie } from "@globalTypes";
 
 export interface IUseGenres {
   genres: IGenre[];
@@ -16,4 +16,6 @@ export interface IUseMovies {
   addToFavourite: (movieId: number) => void;
   removeFromFavourite: (movieId: number) => void;
   toggleViewed: (movieId: number) => void;
+  searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
+
 }

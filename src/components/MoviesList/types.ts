@@ -1,10 +1,9 @@
-import React from "react";
-import { IMovie } from "@globalTypes";
+import { IGetMoviesParams } from "@globalTypes";
 
 export interface IMoviesListProps {
-  // movies: IMovie[];
-  // setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
   isBlockView: boolean;
+  isFavouriteMovies: boolean;
+  search?: IGetMoviesParams;
 }
 
 export interface IMoviePanelProps {

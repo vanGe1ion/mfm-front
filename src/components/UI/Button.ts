@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import { changeableIndents } from "./style";
 import { fontSized } from "@globalStyle";
 
-const disabledStyle = tw`border-blue-400 bg-blue-400`;
+const disabledStyle = tw`border-blue-300 bg-blue-300`;
 const hovering = tw`text-black bg-transparent`;
 
 const Button = styled.button<IButtonProps>`

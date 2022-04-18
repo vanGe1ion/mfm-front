@@ -25,6 +25,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
     id,
     title,
     isViewed,
+    isFavourite,
     posterPath,
     releaseYear,
     originalTitle,
@@ -52,6 +53,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
           <ControlContainer>
             <MovieControl
               movieId={id!}
+              isFavourite={isFavourite}
               controls={controls}
             />
           </ControlContainer>
@@ -63,9 +65,9 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
               <MovieGenre key={genre}>{genre}</MovieGenre>
             ))}
           </Genres>
-          {voteAverage && (
+          {voteCount! > 0 && (
             <VoteAverage
-              voteAverage={voteAverage}
+              voteAverage={voteAverage!}
               voteCount={voteCount!}
               voteAverageSize="xx-large"
               voteCountSize="large"

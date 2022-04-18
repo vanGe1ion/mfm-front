@@ -1,23 +1,26 @@
-import { IMovie } from "@globalTypes";
+import { TMDBSearchLimitPage } from "@config";
+import { IGetMoviesParams, IMovie } from "@globalTypes";
 import {
   LSAPIAddFavouriteMovie,
   LSAPIGetFavouriteMovies,
+  LSAPIGetFavouriteMoviesIds,
   LSAPIRemoveFavouriteMovie,
   LSAPIUpdateFavouriteMovie,
 } from "@utils/localStorageAPI";
+import { tmdbGetDiscover, tmdbGetGenres } from "@utils/tmdbAPI";
 import { useEffect, useState } from "react";
 import { IUseMovies } from "./types";
 
 const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const [movies, setMovies] = useState<IMovie[]>([]);
+  const favouriteMoviesIds = LSAPIGetFavouriteMoviesIds();
+  const genres = tmdbGetGenres();
+  const [async, setAsync] = useState<boolean>(false);
 
   useEffect(() => {
     if (isFavouriteMovies) {
       const favouriteMovies = LSAPIGetFavouriteMovies();
       setMovies(favouriteMovies);
-    }
-    else{
-      //todo search
     }
   }, []);
 
@@ -30,11 +33,8 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     );
     if (removeConfirm) {
       LSAPIRemoveFavouriteMovie(movieId);
-      setMovies((prev) => {
-        const newMovies = [...prev];
-        const movieIdx = newMovies.findIndex((movie) => movie.id === movieId);
-        newMovies.splice(movieIdx, 1);
-        return newMovies;
+      movieChangeState(movieId, (movie, idx) => {
+        movie.splice(idx, 1);
       });
     }
   };
@@ -42,19 +42,74 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const addToFavourite = (movieId: number): void => {
     const currentMovie = movies.find((movie) => movie.id === movieId);
     LSAPIAddFavouriteMovie(currentMovie!);
+    movieChangeState(movieId, (movie, idx) => {
+      movie[idx].isFavourite = true;
+    });
   };
 
   const toggleViewed = (movieId: number): void => {
     LSAPIUpdateFavouriteMovie(movieId);
+    movieChangeState(movieId, (movie, idx) => {
+      movie[idx].isViewed = !movie[idx].isViewed;
+    });
+  };
+
+  const movieChangeState = (
+    movieId: number,
+    callback: (movies: IMovie[], movieIdx: number) => void
+  ) => {
     setMovies((prev) => {
       const newMovies = [...prev];
       const movieIdx = newMovies.findIndex((movie) => movie.id === movieId);
-      newMovies[movieIdx].isViewed = !newMovies[movieIdx].isViewed;
+      callback(newMovies, movieIdx);
       return newMovies;
     });
   };
 
-  return { movies, addToFavourite, removeFromFavourite, toggleViewed };
+  const searchMovies = async (
+    searchParams: IGetMoviesParams
+  ): Promise<void> => {
+    // if (!async) {
+    //   setAsync(true);
+      const searchResult = await tmdbGetDiscover(searchParams);
+      const searchedMovies = identifyMovies([...searchResult.movies]);
+      let movieList: IMovie[] = [...searchedMovies];
+      const viewedPages =
+        searchResult.totalPages > TMDBSearchLimitPage
+          ? TMDBSearchLimitPage
+          : searchResult.totalPages;
+
+      for (let i = 2; i <= viewedPages; ++i) {
+        const nextSearchResult = await tmdbGetDiscover({
+          ...searchParams,
+          page: i,
+        });
+        const nextSearchedMovies = identifyMovies([...nextSearchResult.movies]);
+        movieList = [...movieList, ...nextSearchedMovies];
+      }
+
+      setMovies(() => movieList);
+    // }
+    // setAsync(false);
+  };
+
+  const identifyMovies = (movies: IMovie[]) => {
+    movies.map(async (movie) => {
+      movie.isFavourite = favouriteMoviesIds.includes(movie.id);
+      movie.genres = (await genres).genres
+        .filter((genre) => movie.genreIds.includes(genre.id))
+        .map((genre) => genre.name);
+    });
+    return movies;
+  };
+
+  return {
+    movies,
+    searchMovies,
+    addToFavourite,
+    removeFromFavourite,
+    toggleViewed,
+  };
 };
 
 export default useMovies;

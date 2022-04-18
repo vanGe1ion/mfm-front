@@ -9,6 +9,7 @@ import MoviesList from "@components/MoviesList/MoviesList";
 import { useUserContext } from "@context/userContext";
 import Button from "@components/UI/Button";
 import useToggleView from "@hooks/useToggleView";
+import { GenreContainer } from "./style";
 
 const MainPage: FC = () => {
   const history = useHistory();
@@ -20,7 +21,10 @@ const MainPage: FC = () => {
   return (
     <PageContainer>
       <HeaderPanel />
-      <GenresPanel isSaveMode={true} />
+      <GenreContainer>
+        <GenresPanel isSaveMode={true} />
+      </GenreContainer>
+
       <MovieListControl
         title="Favourite movies list"
         isBlockView={isBlockView}
@@ -30,7 +34,7 @@ const MainPage: FC = () => {
           Add from catalog
         </Button>
       </MovieListControl>
-      <MoviesList isBlockView={isBlockView} />
+      <MoviesList isBlockView={isBlockView} isFavouriteMovies={true} />
     </PageContainer>
   );
 };

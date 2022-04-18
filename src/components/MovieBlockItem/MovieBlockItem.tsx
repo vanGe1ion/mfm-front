@@ -20,6 +20,7 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
   const {
     id,
     title,
+    isFavourite,
     isViewed,
     posterPath,
     releaseYear,
@@ -34,6 +35,7 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
         <ControlContainer>
           <MovieControl
             movieId={id}
+            isFavourite={isFavourite}
             controls={controls}
           />
         </ControlContainer>
@@ -41,9 +43,9 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
       <TextInfo>
         <MovieHead title={title} releaseYear={releaseYear} yearSize="small" />
         <Footer>
-          {voteAverage && (
+          {voteCount! > 0 && (
             <VoteAverage
-              voteAverage={voteAverage}
+              voteAverage={voteAverage!}
               voteCount={voteCount!}
               voteAverageSize="large"
               voteCountSize="small"

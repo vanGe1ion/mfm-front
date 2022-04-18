@@ -64,7 +64,7 @@ export const LSAPIAddFavouriteMovie = (movie: IMovie): void => {
   LSAPISetFavouriteMovies(favoriteMovies);
 };
 
-export const LSAPIGetFavouriteMoviesIdx = (): number[] => {
+export const LSAPIGetFavouriteMoviesIds = (): number[] => {
   const favoriteMovies = LSAPIGetFavouriteMovies();
   return favoriteMovies.map((movie) => movie.id);
 };

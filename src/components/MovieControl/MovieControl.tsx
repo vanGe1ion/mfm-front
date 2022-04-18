@@ -5,7 +5,7 @@ import addIco from "@media/add.svg";
 import { IMovieControlProps } from "./types";
 import IconedButton from "@components/IconedButton";
 
-const MovieControl: FC<IMovieControlProps> = ({ movieId, controls }) => {
+const MovieControl: FC<IMovieControlProps> = ({ movieId, controls, isFavourite }) => {
   const { toggleViewed, removeFromFavourite, addToFavourite } = controls;
 
   return (
@@ -28,6 +28,7 @@ const MovieControl: FC<IMovieControlProps> = ({ movieId, controls }) => {
       )}
       {addToFavourite && (
         <IconedButton
+          disabled={isFavourite}
           indents="3px"
           colorInvert
           src={addIco}

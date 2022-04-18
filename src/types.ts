@@ -36,6 +36,7 @@ export interface IMovie {
 
   genres: string[];
   isViewed: boolean;
+  isFavourite?:boolean;
 }
 
 export interface IGenre {
