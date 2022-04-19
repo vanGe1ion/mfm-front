@@ -1,9 +1,8 @@
 import React, { FC } from "react";
 import { NameHeader, PanelHead, ControlDiv } from "./style";
 import { IMovieListControlProps } from "./types";
-import rowIcon from "./row.svg";
-import blockIcon from "./block.svg";
-
+import rowIcon from "@media/row.svg";
+import blockIcon from "@media/block.svg";
 import IconedButton from "@components/IconedButton";
 
 const MovieListControl: FC<IMovieListControlProps> = ({
@@ -12,8 +11,6 @@ const MovieListControl: FC<IMovieListControlProps> = ({
   toggleView,
   children,
 }) => {
-
-
   return (
     <PanelHead>
       <NameHeader>{title}</NameHeader>

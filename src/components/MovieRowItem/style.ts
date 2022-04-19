@@ -39,7 +39,7 @@ export const Footer = styled.div`
 `;
 
 export const Genres = styled.div`
-  ${tw`flex flex-row flex-grow items-end`}
+  ${tw`flex flex-row flex-grow items-end flex-wrap`}
 `;
 
 export const MovieGenre = styled.div`

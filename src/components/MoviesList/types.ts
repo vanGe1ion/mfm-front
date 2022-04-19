@@ -3,7 +3,7 @@ import { IGetMoviesParams } from "@globalTypes";
 export interface IMoviesListProps {
   isBlockView: boolean;
   isFavouriteMovies: boolean;
-  search?: IGetMoviesParams;
+  filters?: IGetMoviesParams;
 }
 
 export interface IMoviePanelProps {

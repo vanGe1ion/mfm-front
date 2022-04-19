@@ -19,6 +19,7 @@ import { IMovieListItemProps } from "@globalTypes";
 import MovieControl from "@components/MovieControl/MovieControl";
 import VoteAverage from "@components/VoteAverage/VoteAverage";
 import MovieHead from "@components/MovieHead/MovieHead";
+import noposter from "@media/noposter.png";
 
 const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   const {
@@ -38,7 +39,10 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   return (
     <RowContainer isViewed={isViewed}>
       <IndexSpan>{index + 1}</IndexSpan>
-      <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
+      <Poster
+        src={posterPath ? TMDBImageHost + posterPath : noposter}
+        alt="movie poster"
+      ></Poster>
       <MovieInfo>
         <MovieBody>
           <MovieText>

@@ -5,7 +5,8 @@ import { IViewed, IFontSize } from "@globalTypes";
 const viewedStyle = tw`opacity-40`;
 
 export const Poster = styled.img`
-  ${tw`rounded-xl`}
+  ${tw`rounded-xl my-auto`}
+  height: fit-content;
 `;
 
 export const isViewed = css<IViewed>`
@@ -38,5 +39,6 @@ export const MovieTitle = styled.h1<IFontSize>`
 `;
 
 export const PageContainer = styled.div`
-  ${tw`flex flex-col h-screen bg-blue-200 `}
+  ${tw`flex flex-col h-screen bg-blue-200 w-full`}
+  min-width: 50rem;
 `;

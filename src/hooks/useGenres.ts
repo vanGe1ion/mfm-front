@@ -8,13 +8,17 @@ import { useEffect, useState } from "react";
 import { IUseGenres } from "./types";
 
 const useGenres = (isSaveMode: boolean): IUseGenres => {
-  const [genres, setGenres] = useState<IGenre[]>([]);
+  const favoriteIdx = LSAPIGetFavouriteGenres();
+  const [genres, setGenres] = useState<IGenre[]>(
+    favoriteIdx.map((genreId) => {
+      return { id: genreId, isFavourite: true } as IGenre;
+    })
+  );
 
   useEffect(() => {
     tmdbGetGenres()
       .then((data) => {
         const getedGenres = data.genres;
-        const favoriteIdx = LSAPIGetFavouriteGenres();
         getedGenres.map(
           (genre) => (genre.isFavourite = favoriteIdx.includes(genre.id))
         );

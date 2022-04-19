@@ -12,11 +12,9 @@ import {
 import MovieControl from "@components/MovieControl/MovieControl";
 import VoteAverage from "@components/VoteAverage/VoteAverage";
 import MovieHead from "@components/MovieHead/MovieHead";
+import noposter from "@media/noposter.png";
 
-const MovieBlockItem: FC<IMovieListItemProps> = ({
-  movie,
-  controls,
-}) => {
+const MovieBlockItem: FC<IMovieListItemProps> = ({ movie, controls }) => {
   const {
     id,
     title,
@@ -31,7 +29,11 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
   return (
     <BlockContainer isViewed={isViewed}>
       <MediaBlock>
-        <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
+        <Poster
+          src={posterPath ? TMDBImageHost + posterPath : noposter}
+          alt="movie poster"
+        ></Poster>
+
         <ControlContainer>
           <MovieControl
             movieId={id}

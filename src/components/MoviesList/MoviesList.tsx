@@ -9,7 +9,7 @@ import { IMovieControls } from "@globalTypes";
 const MoviesList: FC<IMoviesListProps> = ({
   isBlockView,
   isFavouriteMovies,
-  search,
+  filters,
 }) => {
   const {
     movies,
@@ -20,16 +20,16 @@ const MoviesList: FC<IMoviesListProps> = ({
   } = useMovies(isFavouriteMovies);
   const ListItem = isBlockView ? MovieBlockItem : MovieRowItem;
 
-  let controls: IMovieControls = {};
-  if (isFavouriteMovies) controls = { removeFromFavourite, toggleViewed };
-  else controls = { addToFavourite };
+  let controls: IMovieControls = isFavouriteMovies
+    ? { removeFromFavourite, toggleViewed }
+    : { addToFavourite };
 
   useEffect(() => {
     if (!isFavouriteMovies)
-      searchMovies(search!).catch((error) =>
+      searchMovies(filters!).catch((error) =>
         console.log("Movie search list loading error: ", error)
       );
-  }, [search]);
+  }, [filters]);
 
   return (
     <MoviePanel isBlockView={isBlockView}>

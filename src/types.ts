@@ -11,7 +11,7 @@ export interface IGetMoviesParams {
   page?: number;
 }
 
-interface IRange {
+export interface IRange {
   gte?: number;
   lte?: number;
 }
@@ -36,7 +36,7 @@ export interface IMovie {
 
   genres: string[];
   isViewed: boolean;
-  isFavourite?:boolean;
+  isFavourite?: boolean;
 }
 
 export interface IGenre {
@@ -49,7 +49,7 @@ export interface IGetGenresResponse {
   genres: IGenre[];
 }
 
-export interface IMovieControls{
+export interface IMovieControls {
   toggleViewed?: (movieId: number) => void;
   addToFavourite?: (movieId: number) => void;
   removeFromFavourite?: (movieId: number) => void;
@@ -80,3 +80,8 @@ export type TFontSize =
   | "xx-large"
   | "xxx-large"
   | "larger";
+
+export interface IFilterChanged {
+  filters?: IGetMoviesParams;
+  onChange?: (filters: IGetMoviesParams) => void;
+}

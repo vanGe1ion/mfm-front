@@ -15,7 +15,6 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const [movies, setMovies] = useState<IMovie[]>([]);
   const favouriteMoviesIds = LSAPIGetFavouriteMoviesIds();
   const genres = tmdbGetGenres();
-  const [async, setAsync] = useState<boolean>(false);
 
   useEffect(() => {
     if (isFavouriteMovies) {
@@ -26,14 +25,14 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
 
   const removeFromFavourite = (movieId: number): void => {
     const currentMovie = movies.find((movie) => movie.id === movieId);
-    const removeConfirm = window.confirm(
+    const isConfirmed = window.confirm(
       `Are your sure, you want to remove "${
         currentMovie!.title
       }" from your favorite movies?`
     );
-    if (removeConfirm) {
+    if (isConfirmed) {
       LSAPIRemoveFavouriteMovie(movieId);
-      movieChangeState(movieId, (movie, idx) => {
+      mutateMovie(movieId, (movie, idx) => {
         movie.splice(idx, 1);
       });
     }
@@ -42,19 +41,19 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const addToFavourite = (movieId: number): void => {
     const currentMovie = movies.find((movie) => movie.id === movieId);
     LSAPIAddFavouriteMovie(currentMovie!);
-    movieChangeState(movieId, (movie, idx) => {
+    mutateMovie(movieId, (movie, idx) => {
       movie[idx].isFavourite = true;
     });
   };
 
   const toggleViewed = (movieId: number): void => {
     LSAPIUpdateFavouriteMovie(movieId);
-    movieChangeState(movieId, (movie, idx) => {
+    mutateMovie(movieId, (movie, idx) => {
       movie[idx].isViewed = !movie[idx].isViewed;
     });
   };
 
-  const movieChangeState = (
+  const mutateMovie = (
     movieId: number,
     callback: (movies: IMovie[], movieIdx: number) => void
   ) => {
@@ -67,33 +66,31 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   };
 
   const searchMovies = async (
-    searchParams: IGetMoviesParams
+    searchFilters: IGetMoviesParams
   ): Promise<void> => {
-    // if (!async) {
-    //   setAsync(true);
-      const searchResult = await tmdbGetDiscover(searchParams);
-      const searchedMovies = identifyMovies([...searchResult.movies]);
-      let movieList: IMovie[] = [...searchedMovies];
-      const viewedPages =
-        searchResult.totalPages > TMDBSearchLimitPage
-          ? TMDBSearchLimitPage
-          : searchResult.totalPages;
+    const searchResult = await tmdbGetDiscover(searchFilters);
+    const searchedMovies = await identifyMovies([...searchResult.movies]);
+    let movieList: IMovie[] = [...searchedMovies];
+    const viewedPages =
+      searchResult.totalPages > TMDBSearchLimitPage
+        ? TMDBSearchLimitPage
+        : searchResult.totalPages;
 
-      for (let i = 2; i <= viewedPages; ++i) {
-        const nextSearchResult = await tmdbGetDiscover({
-          ...searchParams,
-          page: i,
-        });
-        const nextSearchedMovies = identifyMovies([...nextSearchResult.movies]);
-        movieList = [...movieList, ...nextSearchedMovies];
-      }
+    for (let i = 2; i <= viewedPages; ++i) {
+      const nextSearchResult = await tmdbGetDiscover({
+        ...searchFilters,
+        page: i,
+      });
+      const nextSearchedMovies = await identifyMovies([
+        ...nextSearchResult.movies,
+      ]);
+      movieList = [...movieList, ...nextSearchedMovies];
+    }
 
-      setMovies(() => movieList);
-    // }
-    // setAsync(false);
+    setMovies(() => movieList);
   };
 
-  const identifyMovies = (movies: IMovie[]) => {
+  const identifyMovies = async (movies: IMovie[]) => {
     movies.map(async (movie) => {
       movie.isFavourite = favouriteMoviesIds.includes(movie.id);
       movie.genres = (await genres).genres

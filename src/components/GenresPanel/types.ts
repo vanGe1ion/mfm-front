@@ -1,4 +1,5 @@
-export interface IGenresPanelProps {
+import { IFilterChanged } from "@globalTypes";
+
+export interface IGenresPanelProps extends IFilterChanged {
   isSaveMode: boolean;
-  getCheckedGenres?: (checkedGenresId:number[]) => void;
 }

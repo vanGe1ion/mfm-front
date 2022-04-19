@@ -13,7 +13,11 @@ const FormInput: FC<FieldRenderProps<string, any>> = ({
 
   return (
     <>
-      {label && <Label htmlFor={id}>{label}</Label>}
+      {label && (
+        <Label withLeftPadding htmlFor={id}>
+          {label}
+        </Label>
+      )}
       <Input
         indents="4px"
         {...input}
@@ -21,7 +25,11 @@ const FormInput: FC<FieldRenderProps<string, any>> = ({
         isError={meta.touched && meta.error}
         placeholder={placeholder}
       />
-      {meta.touched && meta.error && <Label type="error">{meta.error}</Label>}
+      {meta.touched && meta.error && (
+        <Label withLeftPadding type="error">
+          {meta.error}
+        </Label>
+      )}
     </>
   );
 };
