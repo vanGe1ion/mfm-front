@@ -1,17 +1,13 @@
+import Label from "@components/UI/Label";
 import React, { FC } from "react";
-import { SegmentHeader, SegmentMain, SegmnetContainer } from "./style";
+import { SegmentMain, SegmnetContainer } from "./style";
 import { IBorderedSegmentProps } from "./types";
 
-const BorderedSegment: FC<IBorderedSegmentProps> = ({
-  marginLeft,
-  width,
-  title,
-  children,
-}) => {
+const BorderedSegment: FC<IBorderedSegmentProps> = ({ title, children }) => {
   return (
-    <SegmentMain width={width}>
-      <SegmentHeader>{title}</SegmentHeader>
-      <SegmnetContainer marginLeft={marginLeft}>{children}</SegmnetContainer>
+    <SegmentMain>
+      <Label withLeftPadding>{title}</Label>
+      <SegmnetContainer>{children}</SegmnetContainer>
     </SegmentMain>
   );
 };

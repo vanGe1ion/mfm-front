@@ -1,13 +1,3 @@
-export interface IBorderedSegmentProps
-  extends ISegmentContainerProps,
-    ISegmentMainProps {
+export interface IBorderedSegmentProps {
   title?: string;
-}
-
-export interface ISegmentContainerProps {
-  marginLeft?: string;
-}
-
-export interface ISegmentMainProps {
-  width?: string;
 }

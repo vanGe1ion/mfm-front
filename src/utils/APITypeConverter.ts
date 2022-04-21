@@ -40,14 +40,14 @@ export const toIGetMoviesResponse = (
         genres: [],
 
         posterPath: poster_path ?? "",
-        releaseYear: release_date ? new Date(release_date).getFullYear() : null,
+        releaseYear: release_date ? new Date(release_date).getFullYear() : 1000,
         genreIds: Array.from(genre_ids),
         originalTitle: original_title ?? "",
-        voteCount: vote_count ?? null,
-        voteAverage: vote_average ?? null,
+        voteCount: vote_count ?? 0,
+        voteAverage: vote_average ?? 0,
         id: id!,
         overview: overview ?? "",
-        title: title!,
+        title: title ?? "",
       };
     }
   );

@@ -33,7 +33,8 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
     const newGenres = [...genres];
     const foundGenre = genres.find((genre) => genre.id === genreId);
     const { isFavourite } = foundGenre!;
-    const index = newGenres.indexOf(foundGenre!);
+    if (foundGenre == null) return;
+    const index = newGenres.indexOf(foundGenre);
     newGenres[index] = { ...foundGenre, isFavourite: !isFavourite } as IGenre;
     setGenres(newGenres);
 
@@ -41,9 +42,7 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
   };
 
   const getFavoriteGenres = () => {
-    return genres
-      .filter((genre) => genre.isFavourite === true)
-      .map((genre) => genre.id);
+    return genres.filter((genre) => genre.isFavourite).map((genre) => genre.id);
   };
 
   return { genres, toggleFavouriteGenre, getFavoriteGenres };

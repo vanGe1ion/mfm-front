@@ -1,5 +1,5 @@
 import { TMDBSearchLimitPage } from "@config";
-import { IGetMoviesParams, IMovie } from "@globalTypes";
+import { IGenre, IGetMoviesParams, IMovie } from "@globalTypes";
 import {
   LSAPIAddFavouriteMovie,
   LSAPIGetFavouriteMovies,
@@ -8,23 +8,30 @@ import {
   LSAPIUpdateFavouriteMovie,
 } from "@utils/localStorageAPI";
 import { tmdbGetDiscover, tmdbGetGenres } from "@utils/tmdbAPI";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IUseMovies } from "./types";
 
 const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
-  const [movies, setMovies] = useState<IMovie[]>([]);
+  const [coreMovies, setCoreMovies] = useState<IMovie[]>([]);
   const favouriteMoviesIds = LSAPIGetFavouriteMoviesIds();
-  const genres = tmdbGetGenres();
+  const [genres, setGenres] = useState<IGenre[]>([]);
 
   useEffect(() => {
     if (isFavouriteMovies) {
       const favouriteMovies = LSAPIGetFavouriteMovies();
-      setMovies(favouriteMovies);
+      setCoreMovies(favouriteMovies);
     }
+    tmdbGetGenres()
+      .then((data) => {
+        setGenres(data.genres);
+      })
+      .catch((error: Error) =>
+        console.log("Genre list loading error: ", error)
+      );
   }, []);
 
   const removeFromFavourite = (movieId: number): void => {
-    const currentMovie = movies.find((movie) => movie.id === movieId);
+    const currentMovie = coreMovies.find((movie) => movie.id === movieId);
     const isConfirmed = window.confirm(
       `Are your sure, you want to remove "${
         currentMovie!.title
@@ -39,17 +46,19 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   };
 
   const addToFavourite = (movieId: number): void => {
-    const currentMovie = movies.find((movie) => movie.id === movieId);
+    const currentMovie = coreMovies.find((movie) => movie.id === movieId);
     LSAPIAddFavouriteMovie(currentMovie!);
     mutateMovie(movieId, (movie, idx) => {
-      movie[idx].isFavourite = true;
+      const { isFavourite, ...rest } = movie[idx];
+      movie[idx] = { ...rest, isFavourite: !isFavourite };
     });
   };
 
   const toggleViewed = (movieId: number): void => {
     LSAPIUpdateFavouriteMovie(movieId);
     mutateMovie(movieId, (movie, idx) => {
-      movie[idx].isViewed = !movie[idx].isViewed;
+      const { isViewed, ...rest } = movie[idx];
+      movie[idx] = { ...rest, isViewed: !isViewed };
     });
   };
 
@@ -57,7 +66,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     movieId: number,
     callback: (movies: IMovie[], movieIdx: number) => void
   ) => {
-    setMovies((prev) => {
+    setCoreMovies((prev) => {
       const newMovies = [...prev];
       const movieIdx = newMovies.findIndex((movie) => movie.id === movieId);
       callback(newMovies, movieIdx);
@@ -69,8 +78,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     searchFilters: IGetMoviesParams
   ): Promise<void> => {
     const searchResult = await tmdbGetDiscover(searchFilters);
-    const searchedMovies = await identifyMovies([...searchResult.movies]);
-    let movieList: IMovie[] = [...searchedMovies];
+    let movieList: IMovie[] = [...searchResult.movies];
     const viewedPages =
       searchResult.totalPages > TMDBSearchLimitPage
         ? TMDBSearchLimitPage
@@ -81,24 +89,26 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
         ...searchFilters,
         page: i,
       });
-      const nextSearchedMovies = await identifyMovies([
-        ...nextSearchResult.movies,
-      ]);
-      movieList = [...movieList, ...nextSearchedMovies];
+      movieList = [...movieList, ...nextSearchResult.movies];
     }
 
-    setMovies(() => movieList);
+    setCoreMovies(() => movieList);
   };
 
-  const identifyMovies = async (movies: IMovie[]) => {
-    movies.map(async (movie) => {
-      movie.isFavourite = favouriteMoviesIds.includes(movie.id);
-      movie.genres = (await genres).genres
-        .filter((genre) => movie.genreIds.includes(genre.id))
-        .map((genre) => genre.name);
-    });
-    return movies;
-  };
+  const movies = useMemo(() => {
+    const genreById = new Map(genres.map((genre) => [genre.id, genre]));
+
+    return coreMovies.map(
+      (movie) =>
+        ({
+          ...movie,
+          genres: movie.genreIds
+            .map((genreId) => genreById.get(genreId)?.name)
+            .filter(Boolean),
+          isFavourite: favouriteMoviesIds.includes(movie.id),
+        } as IMovie)
+    );
+  }, [coreMovies, genres, favouriteMoviesIds]);
 
   return {
     movies,

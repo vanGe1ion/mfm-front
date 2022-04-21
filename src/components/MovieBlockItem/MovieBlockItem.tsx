@@ -1,7 +1,5 @@
 import React, { FC } from "react";
 import { IMovieListItemProps } from "@globalTypes";
-import { Poster } from "@globalStyle";
-import { TMDBImageHost } from "@config";
 import {
   BlockContainer,
   ControlContainer,
@@ -12,7 +10,7 @@ import {
 import MovieControl from "@components/MovieControl/MovieControl";
 import VoteAverage from "@components/VoteAverage/VoteAverage";
 import MovieHead from "@components/MovieHead/MovieHead";
-import noposter from "@media/noposter.png";
+import Poster from "@components/Poster/Poster";
 
 const MovieBlockItem: FC<IMovieListItemProps> = ({ movie, controls }) => {
   const {
@@ -29,11 +27,7 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({ movie, controls }) => {
   return (
     <BlockContainer isViewed={isViewed}>
       <MediaBlock>
-        <Poster
-          src={posterPath ? TMDBImageHost + posterPath : noposter}
-          alt="movie poster"
-        ></Poster>
-
+        <Poster posterPath={posterPath}></Poster>
         <ControlContainer>
           <MovieControl
             movieId={id}
@@ -45,10 +39,10 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({ movie, controls }) => {
       <TextInfo>
         <MovieHead title={title} releaseYear={releaseYear} yearSize="small" />
         <Footer>
-          {voteCount! > 0 && (
+          {voteCount > 0 && (
             <VoteAverage
-              voteAverage={voteAverage!}
-              voteCount={voteCount!}
+              voteAverage={voteAverage}
+              voteCount={voteCount}
               voteAverageSize="large"
               voteCountSize="small"
             />

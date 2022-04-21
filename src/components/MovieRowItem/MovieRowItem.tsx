@@ -12,14 +12,11 @@ import {
   Overview,
   MovieBody,
 } from "./style";
-import { Poster } from "@globalStyle";
-
-import { TMDBImageHost } from "@config";
 import { IMovieListItemProps } from "@globalTypes";
 import MovieControl from "@components/MovieControl/MovieControl";
 import VoteAverage from "@components/VoteAverage/VoteAverage";
 import MovieHead from "@components/MovieHead/MovieHead";
-import noposter from "@media/noposter.png";
+import Poster from "@components/Poster/Poster";
 
 const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   const {
@@ -39,10 +36,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   return (
     <RowContainer isViewed={isViewed}>
       <IndexSpan>{index + 1}</IndexSpan>
-      <Poster
-        src={posterPath ? TMDBImageHost + posterPath : noposter}
-        alt="movie poster"
-      ></Poster>
+      <Poster posterPath={posterPath}></Poster>
       <MovieInfo>
         <MovieBody>
           <MovieText>
@@ -56,7 +50,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
           </MovieText>
           <ControlContainer>
             <MovieControl
-              movieId={id!}
+              movieId={id}
               isFavourite={isFavourite}
               controls={controls}
             />
@@ -69,10 +63,10 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
               <MovieGenre key={genre}>{genre}</MovieGenre>
             ))}
           </Genres>
-          {voteCount! > 0 && (
+          {voteCount > 0 && (
             <VoteAverage
-              voteAverage={voteAverage!}
-              voteCount={voteCount!}
+              voteAverage={voteAverage}
+              voteCount={voteCount}
               voteAverageSize="xx-large"
               voteCountSize="large"
             />

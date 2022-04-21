@@ -4,11 +4,6 @@ import { IViewed, IFontSize } from "@globalTypes";
 
 const viewedStyle = tw`opacity-40`;
 
-export const Poster = styled.img`
-  ${tw`rounded-xl my-auto`}
-  height: fit-content;
-`;
-
 export const isViewed = css<IViewed>`
   ${({ isViewed }) => isViewed && viewedStyle}
 `;

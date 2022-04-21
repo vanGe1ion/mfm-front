@@ -10,26 +10,19 @@ const GenresPanel: FC<IGenresPanelProps> = ({
   onChange,
   isSaveMode,
 }) => {
-  const { genres, toggleFavouriteGenre } = useGenres(isSaveMode);
+  const { genres, toggleFavouriteGenre, getFavoriteGenres } =
+    useGenres(isSaveMode);
 
   useEffect(() => {
     onChange &&
       onChange({
         ...filters,
-        withGenres: getCheckedGenresIds(),
+        withGenres: getFavoriteGenres(),
       } as IGetMoviesParams);
   }, [genres]);
 
-  const getCheckedGenresIds = () => {
-    return genres.filter((genre) => genre.isFavourite).map((genre) => genre.id);
-  };
-
   return (
-    <BorderedSegment
-      title="Your favourite genres"
-      marginLeft="-12rem"
-      width="auto"
-    >
+    <BorderedSegment title="Your favourite genres">
       {genres.map(({ id, isFavourite, name }) => {
         return (
           <Genre
