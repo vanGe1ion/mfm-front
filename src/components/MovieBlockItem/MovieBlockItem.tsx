@@ -27,7 +27,7 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({ movie, controls }) => {
   return (
     <BlockContainer isViewed={isViewed}>
       <MediaBlock>
-        <Poster posterPath={posterPath}></Poster>
+        <Poster posterPath={posterPath} />
         <ControlContainer>
           <MovieControl
             movieId={id}

@@ -5,15 +5,15 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { IVoteRangeProps } from "./types";
 import {
-  rangeActiveDotStyle,
-  rangeDotStyle,
-  rangeHandleStyle,
-  rangeRailStyle,
-  rangeTrackStyle,
-  rangeMarks,
-  rangeMax,
-  rangeMin,
-  rangeStep,
+  ACTIVE_DOT_STYLE,
+  DOT_STYLE,
+  HANDLE_STYLE,
+  RAIL_STYLE,
+  TRACK_STYLE,
+  MARKS,
+  MAX,
+  MIN,
+  STEP,
 } from "./config";
 
 const VoteRange: FC<IVoteRangeProps> = ({ voteAverage, onAfterChange }) => {
@@ -29,15 +29,15 @@ const VoteRange: FC<IVoteRangeProps> = ({ voteAverage, onAfterChange }) => {
         draggableTrack={true}
         allowCross={false}
         defaultValue={[gte!, lte!]}
-        min={rangeMin}
-        max={rangeMax}
-        step={rangeStep}
-        marks={rangeMarks}
-        trackStyle={rangeTrackStyle}
-        railStyle={rangeRailStyle}
-        dotStyle={rangeDotStyle}
-        activeDotStyle={rangeActiveDotStyle}
-        handleStyle={rangeHandleStyle}
+        min={MIN}
+        max={MAX}
+        step={STEP}
+        marks={MARKS}
+        trackStyle={TRACK_STYLE}
+        railStyle={RAIL_STYLE}
+        dotStyle={DOT_STYLE}
+        activeDotStyle={ACTIVE_DOT_STYLE}
+        handleStyle={HANDLE_STYLE}
         onAfterChange={onAfterChange}
       />
     </RangeContainer>

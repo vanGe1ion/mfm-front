@@ -32,8 +32,8 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
   const toggleFavouriteGenre = (genreId: number): void => {
     const newGenres = [...genres];
     const foundGenre = genres.find((genre) => genre.id === genreId);
-    const { isFavourite } = foundGenre!;
-    if (foundGenre == null) return;
+    if (!foundGenre) return;
+    const { isFavourite } = foundGenre;
     const index = newGenres.indexOf(foundGenre);
     newGenres[index] = { ...foundGenre, isFavourite: !isFavourite } as IGenre;
     setGenres(newGenres);

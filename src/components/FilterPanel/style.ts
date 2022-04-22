@@ -1,4 +1,3 @@
-import BorderedSegment from "@components/BorderedSegment/BorderedSegment";
 import styled from "styled-components";
 import tw from "twin.macro";
 

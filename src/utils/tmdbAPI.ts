@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TMDBAPIKey } from "@config";
+import { TMDB_API_KEY } from "@config";
 import {
   IGetGenresResponse,
   IGetMoviesParams,
@@ -13,7 +13,7 @@ import {
 const movieDBClient = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
   params: {
-    api_key: TMDBAPIKey,
+    api_key: TMDB_API_KEY,
     language: "en-EN",
   },
 });

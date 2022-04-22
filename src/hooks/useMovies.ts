@@ -1,4 +1,4 @@
-import { TMDBSearchLimitPage } from "@config";
+import { TMDB_SEARCH_LIMIT_PAGE } from "@config";
 import { IGenre, IGetMoviesParams, IMovie } from "@globalTypes";
 import {
   LSAPIAddFavouriteMovie,
@@ -80,8 +80,8 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     const searchResult = await tmdbGetDiscover(searchFilters);
     let movieList: IMovie[] = [...searchResult.movies];
     const viewedPages =
-      searchResult.totalPages > TMDBSearchLimitPage
-        ? TMDBSearchLimitPage
+      searchResult.totalPages > TMDB_SEARCH_LIMIT_PAGE
+        ? TMDB_SEARCH_LIMIT_PAGE
         : searchResult.totalPages;
 
     for (let i = 2; i <= viewedPages; ++i) {

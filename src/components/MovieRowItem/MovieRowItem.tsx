@@ -36,7 +36,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   return (
     <RowContainer isViewed={isViewed}>
       <IndexSpan>{index + 1}</IndexSpan>
-      <Poster posterPath={posterPath}></Poster>
+      <Poster posterPath={posterPath} />
       <MovieInfo>
         <MovieBody>
           <MovieText>

@@ -4,7 +4,7 @@ import HeaderPanel from "@components/HeaderPanel/HeaderPanel";
 import MovieListControl from "@components/MovieListControl/MovieListControl";
 import MoviesList from "@components/MoviesList/MoviesList";
 import Button from "@components/UI/Button";
-import { defaultFilters } from "@config";
+import { DEFAULT_FILTERS } from "@config";
 import { useUserContext } from "@context/userContext";
 import { PageContainer } from "@globalStyle";
 import { IGetMoviesParams } from "@globalTypes";
@@ -17,7 +17,7 @@ const SearchPage: FC = () => {
   const { currentUser } = useUserContext();
   const history = useHistory();
   const { isBlockView, toggleView } = useToggleView();
-  const [filters, setFilters] = useState<IGetMoviesParams>(defaultFilters);
+  const [filters, setFilters] = useState<IGetMoviesParams>(DEFAULT_FILTERS);
 
   if (!currentUser) history.replace("/sign-in");
   return (
