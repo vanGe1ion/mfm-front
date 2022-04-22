@@ -1,6 +1,5 @@
-import { IGenre } from "@globalTypes";
+import { IFilterChanged } from "@globalTypes";
 
-export interface IGenresPanelProps {
-  genres: IGenre[];
-  setGenres: (prev: React.SetStateAction<IGenre[]>) => void;
+export interface IGenresPanelProps extends IFilterChanged {
+  isSaveMode: boolean;
 }

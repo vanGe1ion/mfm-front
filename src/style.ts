@@ -4,10 +4,6 @@ import { IViewed, IFontSize } from "@globalTypes";
 
 const viewedStyle = tw`opacity-40`;
 
-export const Poster = styled.img`
-  ${tw`rounded-xl`}
-`;
-
 export const isViewed = css<IViewed>`
   ${({ isViewed }) => isViewed && viewedStyle}
 `;
@@ -35,4 +31,9 @@ export const MovieTitle = styled.h1<IFontSize>`
   ${tw`font-bold italic text-blue-900`}
   max-width: fit-content;
   ${fontSized}
+`;
+
+export const PageContainer = styled.div`
+  ${tw`flex flex-col h-screen bg-blue-200 w-full`}
+  min-width: 50rem;
 `;

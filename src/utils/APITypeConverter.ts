@@ -10,7 +10,7 @@ export const toMoviesAPIRequestParams = (
 ): moviesAPIRequestParams => {
   const { withGenres, primaryReleaseYear, voteAverage, page } = appParams;
   return {
-    with_genres: withGenres?.join(", "),
+    with_genres: withGenres?.join("|"),
     primary_release_year: primaryReleaseYear,
     "vote_average.gte": voteAverage?.gte,
     "vote_average.lte": voteAverage?.lte,
@@ -39,15 +39,15 @@ export const toIGetMoviesResponse = (
         isViewed: false,
         genres: [],
 
-        posterPath: poster_path ?? '',
-        releaseYear: release_date ? new Date(release_date).getFullYear() : null,
+        posterPath: poster_path ?? "",
+        releaseYear: release_date ? new Date(release_date).getFullYear() : 1000,
         genreIds: Array.from(genre_ids),
-        originalTitle: original_title ?? '',
-        voteCount: vote_count ?? null,
-        voteAverage: vote_average ?? null,
+        originalTitle: original_title ?? "",
+        voteCount: vote_count ?? 0,
+        voteAverage: vote_average ?? 0,
         id: id!,
-        overview: overview ?? '',
-        title: title!,
+        overview: overview ?? "",
+        title: title ?? "",
       };
     }
   );

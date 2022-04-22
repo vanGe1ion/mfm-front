@@ -1,8 +1,7 @@
-import { IMovie } from "@globalTypes";
+import { IMovie, IMovieControls } from "@globalTypes";
 
 export interface IMovieControlProps {
   movieId: number;
-  index: number;
-  title: string;
-  setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
+  isFavourite?: boolean;
+  controls: IMovieControls;
 }

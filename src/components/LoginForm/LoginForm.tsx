@@ -53,7 +53,9 @@ const LoginForm: FC = () => {
 
           {submitError && !modifiedSinceLastSubmit && (
             <FlexColGroup>
-              <Label type="error">{submitError}</Label>
+              <Label withLeftPadding type="error">
+                {submitError}
+              </Label>
             </FlexColGroup>
           )}
 

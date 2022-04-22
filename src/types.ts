@@ -11,7 +11,7 @@ export interface IGetMoviesParams {
   page?: number;
 }
 
-interface IRange {
+export interface IRange {
   gte?: number;
   lte?: number;
 }
@@ -26,16 +26,17 @@ export interface IGetMoviesResponse {
 export interface IMovie {
   posterPath: string;
   overview: string;
-  releaseYear: number | null;
+  releaseYear: number;
   genreIds: number[];
   id: number;
   originalTitle: string;
   title: string;
-  voteCount: number | null;
-  voteAverage: number | null;
+  voteCount: number;
+  voteAverage: number;
 
   genres: string[];
   isViewed: boolean;
+  isFavourite?: boolean;
 }
 
 export interface IGenre {
@@ -48,9 +49,15 @@ export interface IGetGenresResponse {
   genres: IGenre[];
 }
 
+export interface IMovieControls {
+  toggleViewed?: (movieId: number) => void;
+  addToFavourite?: (movieId: number) => void;
+  removeFromFavourite?: (movieId: number) => void;
+}
+
 export interface IMovieListItemProps {
   movie: IMovie;
-  setMovies: (prev: React.SetStateAction<IMovie[]>) => void;
+  controls: IMovieControls;
   index: number;
 }
 
@@ -73,3 +80,8 @@ export type TFontSize =
   | "xx-large"
   | "xxx-large"
   | "larger";
+
+export interface IFilterChanged {
+  filters?: IGetMoviesParams;
+  onChange?: (filters: IGetMoviesParams) => void;
+}

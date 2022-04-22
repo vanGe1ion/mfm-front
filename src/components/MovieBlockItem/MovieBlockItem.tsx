@@ -1,7 +1,5 @@
 import React, { FC } from "react";
 import { IMovieListItemProps } from "@globalTypes";
-import { Poster } from "@globalStyle";
-import { TMDBImageHost } from "@config";
 import {
   BlockContainer,
   ControlContainer,
@@ -12,15 +10,13 @@ import {
 import MovieControl from "@components/MovieControl/MovieControl";
 import VoteAverage from "@components/VoteAverage/VoteAverage";
 import MovieHead from "@components/MovieHead/MovieHead";
+import Poster from "@components/Poster/Poster";
 
-const MovieBlockItem: FC<IMovieListItemProps> = ({
-  movie,
-  setMovies,
-  index,
-}) => {
+const MovieBlockItem: FC<IMovieListItemProps> = ({ movie, controls }) => {
   const {
     id,
     title,
+    isFavourite,
     isViewed,
     posterPath,
     releaseYear,
@@ -31,23 +27,22 @@ const MovieBlockItem: FC<IMovieListItemProps> = ({
   return (
     <BlockContainer isViewed={isViewed}>
       <MediaBlock>
-        <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
+        <Poster posterPath={posterPath} />
         <ControlContainer>
           <MovieControl
-            movieId={id!}
-            index={index}
-            title={title!}
-            setMovies={setMovies}
+            movieId={id}
+            isFavourite={isFavourite}
+            controls={controls}
           />
         </ControlContainer>
       </MediaBlock>
       <TextInfo>
         <MovieHead title={title} releaseYear={releaseYear} yearSize="small" />
         <Footer>
-          {voteAverage && (
+          {voteCount > 0 && (
             <VoteAverage
               voteAverage={voteAverage}
-              voteCount={voteCount!}
+              voteCount={voteCount}
               voteAverageSize="large"
               voteCountSize="small"
             />

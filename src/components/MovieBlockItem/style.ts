@@ -5,7 +5,7 @@ import { isViewed } from "@globalStyle";
 
 export const BlockContainer = styled.div<IViewed>`
   ${tw`flex flex-col border-4 border-blue-500 rounded-lg p-2 mr-2 mb-2`}
-
+  min-width: 238px;
   ${isViewed}
 `;
 

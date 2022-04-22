@@ -10,7 +10,8 @@ export const RowContainer = styled.div<IViewed>`
 `;
 
 export const IndexSpan = styled.span`
-  ${tw`pl-2 pr-4 my-auto mx-0 font-bold select-none font-sans`}
+  ${tw`pr-2 text-center my-auto mx-0 font-bold select-none font-sans`}
+  min-width: 2.5rem;
 `;
 
 export const MovieInfo = styled.div`
@@ -38,7 +39,7 @@ export const Footer = styled.div`
 `;
 
 export const Genres = styled.div`
-  ${tw`flex flex-row flex-grow items-end`}
+  ${tw`flex flex-row flex-grow items-end flex-wrap`}
 `;
 
 export const MovieGenre = styled.div`

@@ -10,6 +10,7 @@ export interface IInputProps extends IChangeableIndents {
 
 export interface ILabelProps {
   type?: string;
+  withLeftPadding?: boolean;
 }
 
 export interface IChangeableIndents {
@@ -21,7 +22,7 @@ export interface IGenreProps {
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export interface IIconProps{
+export interface IIconProps {
   colorInvert?: boolean;
   disabled?: boolean;
 }

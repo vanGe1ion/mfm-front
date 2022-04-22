@@ -12,19 +12,18 @@ import {
   Overview,
   MovieBody,
 } from "./style";
-import { Poster } from "@globalStyle";
-
-import { TMDBImageHost } from "@config";
 import { IMovieListItemProps } from "@globalTypes";
 import MovieControl from "@components/MovieControl/MovieControl";
 import VoteAverage from "@components/VoteAverage/VoteAverage";
 import MovieHead from "@components/MovieHead/MovieHead";
+import Poster from "@components/Poster/Poster";
 
-const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
+const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   const {
     id,
     title,
     isViewed,
+    isFavourite,
     posterPath,
     releaseYear,
     originalTitle,
@@ -37,7 +36,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
   return (
     <RowContainer isViewed={isViewed}>
       <IndexSpan>{index + 1}</IndexSpan>
-      <Poster src={TMDBImageHost + posterPath} alt="movie poster"></Poster>
+      <Poster posterPath={posterPath} />
       <MovieInfo>
         <MovieBody>
           <MovieText>
@@ -51,10 +50,9 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
           </MovieText>
           <ControlContainer>
             <MovieControl
-              movieId={id!}
-              index={index}
-              title={title!}
-              setMovies={setMovies}
+              movieId={id}
+              isFavourite={isFavourite}
+              controls={controls}
             />
           </ControlContainer>
         </MovieBody>
@@ -65,10 +63,10 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, setMovies, index }) => {
               <MovieGenre key={genre}>{genre}</MovieGenre>
             ))}
           </Genres>
-          {voteAverage && (
+          {voteCount > 0 && (
             <VoteAverage
               voteAverage={voteAverage}
-              voteCount={voteCount!}
+              voteCount={voteCount}
               voteAverageSize="xx-large"
               voteCountSize="large"
             />
