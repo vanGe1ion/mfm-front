@@ -4,9 +4,9 @@ import useUserAuth from "@hooks/useUserAuth";
 import { LSAPIGetSignedInUser, LSAPIInit } from "@utils/localStorageAPI";
 
 const UserContextProvirer: FC = ({ children }) => {
-  const currentUserIdLocal = LSAPIGetSignedInUser();
+  const currentUserLocal = LSAPIGetSignedInUser();
   const { currentUser, approveUser, dismissUser } =
-    useUserAuth(currentUserIdLocal);
+    useUserAuth(currentUserLocal);
 
   useEffect(() => {
     LSAPIInit();

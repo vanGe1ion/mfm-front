@@ -17,5 +17,41 @@ export interface IUseMovies {
   removeFromFavourite: (movieId: number) => void;
   toggleViewed: (movieId: number) => void;
   searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
+}
 
+export interface IUserGenresResp {
+  getUserById: {
+    genres: {
+      genreId: number;
+    }[];
+  };
+}
+
+export interface IUserGenresVars {
+  id: number;
+}
+
+export interface IGetGenresResp {
+  getGenres: IGenre[];
+}
+
+export interface IUserGenre {
+  userId: number;
+  genreId: number;
+}
+
+export interface IAddGenreVars {
+  addGenreDto: IUserGenre;
+}
+
+export interface IAddGenreResp {
+  addGenre: IUserGenre;
+}
+
+export interface IRemoveGenreVars {
+  removeGenreDto: IUserGenre;
+}
+
+export interface IRemoveGenreResp {
+  removeGenre: number;
 }

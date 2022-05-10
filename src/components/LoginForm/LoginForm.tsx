@@ -10,20 +10,26 @@ import { signInValidateHandler } from "./validator";
 import Button from "@UI/Button";
 import Label from "@UI/Label";
 import FormInput from "@components/FormInput";
-import { LSAPIVerifyUser } from "@utils/localStorageAPI";
 import { SignInError } from "@consts/errConsts";
 import { useUserContext } from "@context/userContext";
+import { useLazyQuery } from "@apollo/client";
+import { SIGN_IN_USER } from "@queries/user";
 
 const LoginForm: FC = () => {
   const { approveUser } = useUserContext();
   const history = useHistory();
+  const [signInUser, { loading }] = useLazyQuery(SIGN_IN_USER);
 
-  const signInSubmitHandler = (values: IFormValues) => {
-    const { login, password } = values;
-    if (LSAPIVerifyUser(login, password)) {
-      approveUser(login);
+  const signInSubmitHandler = async (values: IFormValues) => {
+    try {
+      const signingIn = await signInUser({
+        variables: { signInUserDto: values },
+      });
+      approveUser(signingIn.data.signInUser);
       history.replace("/");
-    } else return { [FORM_ERROR]: SignInError.WRONG_LOGOPASS_ERR };
+    } catch (e) {
+      return { [FORM_ERROR]: SignInError.WRONG_LOGOPASS_ERR };
+    }
   };
 
   return (
@@ -60,7 +66,7 @@ const LoginForm: FC = () => {
           )}
 
           <FlexColGroup>
-            <Button indents="4px" fontSize="x-large">
+            <Button disabled={loading} indents="4px" fontSize="x-large">
               Sign-in
             </Button>
           </FlexColGroup>

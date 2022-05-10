@@ -13,6 +13,8 @@ module.exports = {
       "@consts": path.resolve(__dirname, "src/consts/"),
       "@config": path.resolve(__dirname, "src/config"),
       "@media": path.resolve(__dirname, "src/media/"),
+      "@queries": path.resolve(__dirname, "src/graphql/queries/"),
+      "@mutations": path.resolve(__dirname, "src/graphql/mutations/"),
     },
   },
 };

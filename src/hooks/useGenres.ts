@@ -1,33 +1,81 @@
+import { useMutation, useQuery } from "@apollo/client";
+import { useUserContext } from "@context/userContext";
 import { IGenre } from "@globalTypes";
+import { GET_GENRES } from "@queries/api";
+import { USER_GENRES } from "@queries/user";
+import { useEffect, useMemo, useState } from "react";
+import { ADD_GENRE, REMOVE_GENRE } from "@mutations/genre";
 import {
-  LSAPIGetFavouriteGenres,
-  LSAPIToggleFavouriteGenre,
-} from "@utils/localStorageAPI";
-import { tmdbGetGenres } from "@utils/tmdbAPI";
-import { useEffect, useState } from "react";
-import { IUseGenres } from "./types";
+  IUseGenres,
+  IGetGenresResp,
+  IUserGenresResp,
+  IUserGenresVars,
+  IAddGenreResp,
+  IAddGenreVars,
+  IRemoveGenreResp,
+  IRemoveGenreVars,
+  IUserGenre,
+} from "./types";
 
 const useGenres = (isSaveMode: boolean): IUseGenres => {
-  const favoriteIdx = LSAPIGetFavouriteGenres();
-  const [genres, setGenres] = useState<IGenre[]>(
-    favoriteIdx.map((genreId) => {
-      return { id: genreId, isFavourite: true } as IGenre;
-    })
-  );
+  const { currentUser } = useUserContext();
+  const currentUserId = Number(currentUser!.id);
+
+  const [genres, setGenres] = useState<IGenre[]>([]);
+
+  const {
+    data: userGenresData,
+    error: userGenresError,
+    refetch: refetchUserGenres,
+  } = useQuery<IUserGenresResp, IUserGenresVars>(USER_GENRES, {
+    variables: {
+      id: currentUserId,
+    },
+  });
+
+  const favouriteGenres: number[] = useMemo(() => {
+    if (userGenresData)
+      return userGenresData.getUserById.genres.map((genre) => genre.genreId);
+    return [];
+  }, [userGenresData]);
+
+  const { data: genresData, error: genresError } =
+    useQuery<IGetGenresResp>(GET_GENRES);
 
   useEffect(() => {
-    tmdbGetGenres()
-      .then((data) => {
-        const getedGenres = data.genres;
-        getedGenres.map(
-          (genre) => (genre.isFavourite = favoriteIdx.includes(genre.id))
-        );
-        setGenres(getedGenres);
-      })
-      .catch((error: Error) =>
-        console.log("Genre list loading error: ", error)
-      );
+    refetchUserGenres();
   }, []);
+
+  useEffect(() => {
+    if (genresData) {
+      const getedGenres = genresData.getGenres.map(({ id, name }) => {
+        return { id, name, isFavourite: favouriteGenres.includes(id) };
+      });
+      setGenres(getedGenres);
+    }
+  }, [favouriteGenres, genresData]);
+
+  useEffect(() => {
+    if (userGenresError || genresError)
+      console.log(
+        `GraphQL error: ${(userGenresError ?? genresError)!.message}`
+      );
+  }, [userGenresError, genresError]);
+
+  const [addGenre, { error: addError }] = useMutation<
+    IAddGenreResp,
+    IAddGenreVars
+  >(ADD_GENRE);
+  const [removeGenre, { error: remError }] = useMutation<
+    IRemoveGenreResp,
+    IRemoveGenreVars
+  >(REMOVE_GENRE);
+
+  useEffect(() => {
+    if (addError || remError) {
+      console.log(`GraphQL error: ${(addError ?? remError)!.message}`);
+    }
+  }, [addError, remError]);
 
   const toggleFavouriteGenre = (genreId: number): void => {
     const newGenres = [...genres];
@@ -38,7 +86,24 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
     newGenres[index] = { ...foundGenre, isFavourite: !isFavourite } as IGenre;
     setGenres(newGenres);
 
-    if (isSaveMode) LSAPIToggleFavouriteGenre(genreId);
+    if (isSaveMode) {
+      const queryData: IUserGenre = {
+        userId: currentUserId,
+        genreId,
+      };
+      if (isFavourite)
+        removeGenre({
+          variables: {
+            removeGenreDto: queryData,
+          },
+        });
+      else
+        addGenre({
+          variables: {
+            addGenreDto: queryData,
+          },
+        });
+    }
   };
 
   const getFavoriteGenres = () => {

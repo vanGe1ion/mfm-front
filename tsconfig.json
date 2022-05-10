@@ -28,7 +28,9 @@
       "@hooks/*": ["./src/hooks/*"],
       "@consts/*": ["./src/consts/*"],
       "@config": ["./src/config"],
-      "@media/*": ["./src/media/*"]
+      "@media/*": ["./src/media/*"],
+      "@queries/*": ["./src/graphql/queries/*"],
+      "@mutations/*": ["./src/graphql/mutations/*"]
     }
   },
   "include": ["src"]

@@ -1,6 +1,11 @@
+export interface IUser {
+  id: number;
+  login: string;
+}
+
 export interface IUserContext {
-  currentUser: string | null;
-  approveUser: (newUser: string) => void;
+  currentUser: IUser | null;
+  approveUser: (newUser: IUser) => void;
   dismissUser: () => void;
 }
 

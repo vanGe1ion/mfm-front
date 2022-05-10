@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { IUserContext } from "@globalTypes";
+import { IUser } from "@globalTypes";
 
-const useUserAuth = (initial: string | null): IUserContext => {
-  const [currentUser, setCurrentUser] = useState<string | null>(initial);
+const useUserAuth = (initial: IUser | null): IUserContext => {
+  const [currentUser, setCurrentUser] = useState<IUser | null>(initial);
 
-  const approveUser = (newUser: string): void => {
+  const approveUser = (newUser: IUser): void => {
     setCurrentUser(newUser);
-    localStorage.setItem("currentUserId", newUser);
+    localStorage.setItem("currentUser", JSON.stringify(newUser));
   };
 
   const dismissUser = (): void => {
     setCurrentUser(null);
-    localStorage.removeItem("currentUserId");
+    localStorage.removeItem("currentUser");
   };
 
   return { currentUser, approveUser, dismissUser };

@@ -1,5 +1,6 @@
 import { IGetMoviesParams } from "@globalTypes";
 
+export const SERVER_ADDR = "http://localhost:5000";
 export const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 export const TMDB_IMAGE_HOST = "https://image.tmdb.org/t/p/w154";
 export const TMDB_SEARCH_LIMIT_PAGE = 5;

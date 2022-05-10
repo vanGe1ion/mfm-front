@@ -24,7 +24,7 @@ const HeaderPanel: FC = () => {
       <MainHeader>My Favorite Movies</MainHeader>
       <UserPanel>
         <UserContainer>
-          Hello, <UserSpan>{currentUser}</UserSpan>!
+          Hello, <UserSpan>{currentUser!.login}</UserSpan>!
         </UserContainer>
         <Button indents="6px" onClick={signOutButtonHandler}>
           Sign out
