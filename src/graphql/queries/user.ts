@@ -12,8 +12,40 @@ export const SIGN_IN_USER = gql`
 export const USER_GENRES = gql`
   query userGenres($id: Int!) {
     getUserById(id: $id) {
+      id
       genres {
         genreId
+      }
+    }
+  }
+`;
+
+export const USER_MOVIES = gql`
+  query userMovies($id: Int!) {
+    getUserById(id: $id) {
+      id
+      movies {
+        movieId
+        title
+        originalTitle
+        releaseYear
+        overview
+        genreIds
+        posterPath
+        voteCount
+        voteAverage
+        isViewed
+      }
+    }
+  }
+`;
+
+export const USER_MOVIES_IDS = gql`
+  query userMovies($id: Int!) {
+    getUserById(id: $id) {
+      id
+      movies {
+        movieId
       }
     }
   }

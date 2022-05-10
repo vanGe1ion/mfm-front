@@ -8,3 +8,24 @@ export const GET_GENRES = gql`
     }
   }
 `;
+
+export const FIND_MOVIES = gql`
+  query findMovies($findMoviesInputDto: FindMoviesInputDto!) {
+    findMovies(findMoviesInputDto: $findMoviesInputDto) {
+      page
+      totalPages
+      totalResults
+      movies {
+        movieId
+        title
+        originalTitle
+        releaseYear
+        overview
+        posterPath
+        genreIds
+        voteCount
+        voteAverage
+      }
+    }
+  }
+`;

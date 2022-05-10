@@ -1,4 +1,9 @@
-import { IGenre, IGetMoviesParams, IMovie } from "@globalTypes";
+import {
+  IGenre,
+  IGetMoviesParams,
+  IGetMoviesResponse,
+  IMovie,
+} from "@globalTypes";
 
 export interface IUseGenres {
   genres: IGenre[];
@@ -19,6 +24,10 @@ export interface IUseMovies {
   searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
 }
 
+export interface IUserGenresVars {
+  id: number;
+}
+
 export interface IUserGenresResp {
   getUserById: {
     genres: {
@@ -27,12 +36,36 @@ export interface IUserGenresResp {
   };
 }
 
-export interface IUserGenresVars {
+export interface IUserMoviesVars {
   id: number;
+}
+
+export interface IUserMoviesResp {
+  getUserById: { movies: IMovie[] };
+}
+
+export interface IUserMoviesIdsVars {
+  id: number;
+}
+
+export interface IUserMoviesIdsResp {
+  getUserById: {
+    movies: {
+      movieId: number;
+    }[];
+  };
 }
 
 export interface IGetGenresResp {
   getGenres: IGenre[];
+}
+
+export interface IFindMoviesVars {
+  findMoviesInputDto: IGetMoviesParams;
+}
+
+export interface IFindMoviesResp {
+  findMovies: IGetMoviesResponse;
 }
 
 export interface IUserGenre {
@@ -54,4 +87,33 @@ export interface IRemoveGenreVars {
 
 export interface IRemoveGenreResp {
   removeGenre: number;
+}
+
+export interface IUserMovie {
+  movieId: number;
+  userId: number;
+}
+
+export interface IAddMovieVars {
+  addMovieDto: IMovie;
+}
+
+export interface IAddMovieResp {
+  addMovie: IUserMovie;
+}
+
+export interface IRemoveMovieVars {
+  removeMovieDto: IUserMovie;
+}
+
+export interface IRemoveMovieResp {
+  id: number;
+}
+
+export interface IUpdateMovieVars {
+  updateMovieDto: IUserMovie & { isViewed: boolean };
+}
+
+export interface IUpdateMovieResp {
+  updateMovie: IUserMovie;
 }

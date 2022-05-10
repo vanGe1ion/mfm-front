@@ -1,101 +1,118 @@
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { TMDB_SEARCH_LIMIT_PAGE } from "@config";
+import { useUserContext } from "@context/userContext";
 import { IGenre, IGetMoviesParams, IMovie } from "@globalTypes";
-import {
-  LSAPIAddFavouriteMovie,
-  LSAPIGetFavouriteMovies,
-  LSAPIGetFavouriteMoviesIds,
-  LSAPIRemoveFavouriteMovie,
-  LSAPIUpdateFavouriteMovie,
-} from "@utils/localStorageAPI";
-import { tmdbGetDiscover, tmdbGetGenres } from "@utils/tmdbAPI";
+import { ADD_MOVIE, REMOVE_MOVIE, UPDATE_MOVIE } from "@mutations/movie";
+import { FIND_MOVIES, GET_GENRES } from "@queries/api";
+import { USER_MOVIES, USER_MOVIES_IDS } from "@queries/user";
 import { useEffect, useMemo, useState } from "react";
-import { IUseMovies } from "./types";
+import {
+  IAddMovieResp,
+  IAddMovieVars,
+  IFindMoviesResp,
+  IFindMoviesVars,
+  IGetGenresResp,
+  IRemoveMovieResp,
+  IRemoveMovieVars,
+  IUpdateMovieResp,
+  IUpdateMovieVars,
+  IUseMovies,
+  IUserMoviesIdsResp,
+  IUserMoviesIdsVars,
+  IUserMoviesResp,
+  IUserMoviesVars,
+} from "./types";
 
 const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
+  const { currentUser } = useUserContext();
+  const currentUserId = Number(currentUser!.id);
   const [coreMovies, setCoreMovies] = useState<IMovie[]>([]);
-  const favouriteMoviesIds = LSAPIGetFavouriteMoviesIds();
-  const [genres, setGenres] = useState<IGenre[]>([]);
+
+  //favourite movies ids (for search page)
+  const [
+    userMoviesIds,
+    { data: userMoviesIdsData, refetch: refetchUserMoviesIds },
+  ] = useLazyQuery<IUserMoviesIdsResp, IUserMoviesIdsVars>(USER_MOVIES_IDS, {
+    variables: { id: currentUserId },
+  });
+  const favouriteMoviesIds = useMemo<number[]>(() => {
+    if (userMoviesIdsData)
+      return userMoviesIdsData.getUserById.movies.map(({ movieId }) => movieId);
+    return [];
+  }, [userMoviesIdsData]);
+
+  //favourite films
+  const [userMovies, { data: userMoviesdata, refetch: refetchUserMovies }] =
+    useLazyQuery<IUserMoviesResp, IUserMoviesVars>(USER_MOVIES, {
+      variables: { id: currentUserId },
+    });
 
   useEffect(() => {
     if (isFavouriteMovies) {
-      const favouriteMovies = LSAPIGetFavouriteMovies();
-      setCoreMovies(favouriteMovies);
-    }
-    tmdbGetGenres()
-      .then((data) => {
-        setGenres(data.genres);
-      })
-      .catch((error: Error) =>
-        console.log("Genre list loading error: ", error)
-      );
-  }, []);
+      userMovies()
+        .then((res) => {
+          setCoreMovies(res.data!.getUserById.movies);
+        })
+        .catch((error) => {
+          setCoreMovies([]);
+          console.log(`Favourite movies list loading error: ${error.message}`);
+        });
+    } else userMoviesIds();
+  }, [userMoviesdata]);
 
-  const removeFromFavourite = (movieId: number): void => {
-    const currentMovie = coreMovies.find((movie) => movie.id === movieId);
-    const isConfirmed = window.confirm(
-      `Are your sure, you want to remove "${
-        currentMovie!.title
-      }" from your favorite movies?`
-    );
-    if (isConfirmed) {
-      LSAPIRemoveFavouriteMovie(movieId);
-      mutateMovie(movieId, (movie, idx) => {
-        movie.splice(idx, 1);
+  //genres
+  const { data: genreData } = useQuery<IGetGenresResp>(GET_GENRES);
+
+  const genres = useMemo<IGenre[]>(() => {
+    if (genreData)
+      return genreData.getGenres.map(({ id, name }) => {
+        return { id, name } as IGenre;
       });
-    }
-  };
+    return [];
+  }, [genreData]);
 
-  const addToFavourite = (movieId: number): void => {
-    const currentMovie = coreMovies.find((movie) => movie.id === movieId);
-    LSAPIAddFavouriteMovie(currentMovie!);
-    mutateMovie(movieId, (movie, idx) => {
-      const { isFavourite, ...rest } = movie[idx];
-      movie[idx] = { ...rest, isFavourite: !isFavourite };
-    });
-  };
-
-  const toggleViewed = (movieId: number): void => {
-    LSAPIUpdateFavouriteMovie(movieId);
-    mutateMovie(movieId, (movie, idx) => {
-      const { isViewed, ...rest } = movie[idx];
-      movie[idx] = { ...rest, isViewed: !isViewed };
-    });
-  };
-
-  const mutateMovie = (
-    movieId: number,
-    callback: (movies: IMovie[], movieIdx: number) => void
-  ) => {
-    setCoreMovies((prev) => {
-      const newMovies = [...prev];
-      const movieIdx = newMovies.findIndex((movie) => movie.id === movieId);
-      callback(newMovies, movieIdx);
-      return newMovies;
-    });
-  };
+  //searching movies
+  const [findMovies] = useLazyQuery<IFindMoviesResp, IFindMoviesVars>(
+    FIND_MOVIES
+  );
 
   const searchMovies = async (
     searchFilters: IGetMoviesParams
   ): Promise<void> => {
-    const searchResult = await tmdbGetDiscover(searchFilters);
-    let movieList: IMovie[] = [...searchResult.movies];
-    const viewedPages =
-      searchResult.totalPages > TMDB_SEARCH_LIMIT_PAGE
-        ? TMDB_SEARCH_LIMIT_PAGE
-        : searchResult.totalPages;
+    const { withGenres } = searchFilters;
+    let movieList: IMovie[] = [];
 
-    for (let i = 2; i <= viewedPages; ++i) {
-      const nextSearchResult = await tmdbGetDiscover({
-        ...searchFilters,
-        page: i,
+    if (withGenres!.length > 0) {
+      const searchResult = await findMovies({
+        variables: { findMoviesInputDto: searchFilters },
       });
-      movieList = [...movieList, ...nextSearchResult.movies];
+
+      if (searchResult.data) {
+        const { movies, totalPages } = searchResult.data.findMovies;
+        movieList = [...movies];
+        const viewedPages =
+          totalPages > TMDB_SEARCH_LIMIT_PAGE
+            ? TMDB_SEARCH_LIMIT_PAGE
+            : totalPages;
+
+        for (let i = 2; i <= viewedPages; ++i) {
+          const nextSearchResult = await findMovies({
+            variables: { findMoviesInputDto: { ...searchFilters, page: i } },
+          });
+          if (nextSearchResult.data)
+            movieList = [
+              ...movieList,
+              ...nextSearchResult.data.findMovies.movies,
+            ];
+        }
+      }
     }
 
-    setCoreMovies(() => movieList);
+    setCoreMovies(movieList);
   };
 
-  const movies = useMemo(() => {
+  //movies output
+  const movies = useMemo<IMovie[]>(() => {
     const genreById = new Map(genres.map((genre) => [genre.id, genre]));
 
     return coreMovies.map(
@@ -105,10 +122,75 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
           genres: movie.genreIds
             .map((genreId) => genreById.get(genreId)?.name)
             .filter(Boolean),
-          isFavourite: favouriteMoviesIds.includes(movie.id),
+          isFavourite: isFavouriteMovies
+            ? true
+            : favouriteMoviesIds.includes(movie.movieId),
         } as IMovie)
     );
   }, [coreMovies, genres, favouriteMoviesIds]);
+
+  //add movie
+  const [addMovie] = useMutation<IAddMovieResp, IAddMovieVars>(ADD_MOVIE);
+
+  const addToFavourite = (addMovieId: number): void => {
+    const currentMovie = coreMovies.find(
+      (movie) => movie.movieId === addMovieId
+    );
+    if (!currentMovie) return;
+    const { __typename, ...rest } = currentMovie as IMovie & {
+      __typename: string;
+    };
+    addMovie({
+      variables: { addMovieDto: { ...rest, userId: currentUserId } },
+    })
+      .then(() => refetchUserMoviesIds())
+      .catch((error) => console.log(`Add movie error: ${error.message}`));
+  };
+
+  //remove movie
+  const [removeMovie] = useMutation<IRemoveMovieResp, IRemoveMovieVars>(
+    REMOVE_MOVIE
+  );
+
+  const removeFromFavourite = (removeMovieId: number): void => {
+    const currentMovie = coreMovies.find(
+      (movie) => movie.movieId === removeMovieId
+    );
+    if (!currentMovie) return;
+    const isConfirmed = window.confirm(
+      `Are your sure, you want to remove "${currentMovie.title}" from your favorite movies?`
+    );
+    if (isConfirmed) {
+      const { movieId } = currentMovie;
+      removeMovie({
+        variables: { removeMovieDto: { movieId, userId: currentUserId } },
+      })
+        .then(() => refetchUserMovies())
+        .catch((error) =>
+          console.error(`Remove movie error: ${error.message}`)
+        );
+    }
+  };
+
+  //update movie
+  const [updateMovie] = useMutation<IUpdateMovieResp, IUpdateMovieVars>(
+    UPDATE_MOVIE
+  );
+
+  const toggleViewed = (updateMovieId: number): void => {
+    const currentMovie = coreMovies.find(
+      (movie) => movie.movieId === updateMovieId
+    );
+    if (!currentMovie) return;
+    const { movieId, isViewed } = currentMovie;
+    updateMovie({
+      variables: {
+        updateMovieDto: { movieId, userId: currentUserId, isViewed: !isViewed },
+      },
+    })
+      .then(() => refetchUserMovies())
+      .catch((error) => console.error(`Update movie error: ${error.message}`));
+  };
 
   return {
     movies,

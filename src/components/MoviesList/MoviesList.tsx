@@ -18,8 +18,8 @@ const MoviesList: FC<IMoviesListProps> = ({
     addToFavourite,
     searchMovies,
   } = useMovies(isFavouriteMovies);
-  const ListItem = isBlockView ? MovieBlockItem : MovieRowItem;
 
+  const ListItem = isBlockView ? MovieBlockItem : MovieRowItem;
   let controls: IMovieControls = isFavouriteMovies
     ? { removeFromFavourite, toggleViewed }
     : { addToFavourite };
@@ -36,7 +36,7 @@ const MoviesList: FC<IMoviesListProps> = ({
       {movies.map((movie, idx) => {
         return (
           <ListItem
-            key={movie.id}
+            key={movie.movieId}
             movie={movie}
             controls={controls}
             index={idx}

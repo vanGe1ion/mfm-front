@@ -20,9 +20,9 @@ import {
 const useGenres = (isSaveMode: boolean): IUseGenres => {
   const { currentUser } = useUserContext();
   const currentUserId = Number(currentUser!.id);
-
   const [genres, setGenres] = useState<IGenre[]>([]);
 
+  //favourite genres
   const {
     data: userGenresData,
     error: userGenresError,
@@ -33,18 +33,15 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
     },
   });
 
-  const favouriteGenres: number[] = useMemo(() => {
+  const favouriteGenres = useMemo<number[]>(() => {
     if (userGenresData)
       return userGenresData.getUserById.genres.map((genre) => genre.genreId);
     return [];
   }, [userGenresData]);
 
+  //genres
   const { data: genresData, error: genresError } =
     useQuery<IGetGenresResp>(GET_GENRES);
-
-  useEffect(() => {
-    refetchUserGenres();
-  }, []);
 
   useEffect(() => {
     if (genresData) {
@@ -56,16 +53,24 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
   }, [favouriteGenres, genresData]);
 
   useEffect(() => {
+    refetchUserGenres();
+  }, []);
+
+  useEffect(() => {
     if (userGenresError || genresError)
       console.log(
-        `GraphQL error: ${(userGenresError ?? genresError)!.message}`
+        `Genres loading GraphQL error: ${
+          (userGenresError ?? genresError)!.message
+        }`
       );
   }, [userGenresError, genresError]);
 
+  //toggle genre (with/without mutations)
   const [addGenre, { error: addError }] = useMutation<
     IAddGenreResp,
     IAddGenreVars
   >(ADD_GENRE);
+
   const [removeGenre, { error: remError }] = useMutation<
     IRemoveGenreResp,
     IRemoveGenreVars
@@ -73,7 +78,9 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
 
   useEffect(() => {
     if (addError || remError) {
-      console.log(`GraphQL error: ${(addError ?? remError)!.message}`);
+      console.log(
+        `Genres mutation GraphQL error: ${(addError ?? remError)!.message}`
+      );
     }
   }, [addError, remError]);
 
@@ -106,6 +113,7 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
     }
   };
 
+  //stating favourite genres
   const getFavoriteGenres = () => {
     return genres.filter((genre) => genre.isFavourite).map((genre) => genre.id);
   };

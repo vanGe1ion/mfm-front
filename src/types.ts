@@ -33,7 +33,7 @@ export interface IMovie {
   overview: string;
   releaseYear: number;
   genreIds: number[];
-  id: number;
+  movieId: number;
   originalTitle: string;
   title: string;
   voteCount: number;
@@ -42,6 +42,7 @@ export interface IMovie {
   genres: string[];
   isViewed: boolean;
   isFavourite?: boolean;
+  userId?: number;
 }
 
 export interface IGenre {

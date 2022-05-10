@@ -20,7 +20,7 @@ import Poster from "@components/Poster/Poster";
 
 const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
   const {
-    id,
+    movieId,
     title,
     isViewed,
     isFavourite,
@@ -50,7 +50,7 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
           </MovieText>
           <ControlContainer>
             <MovieControl
-              movieId={id}
+              movieId={movieId}
               isFavourite={isFavourite}
               controls={controls}
             />
