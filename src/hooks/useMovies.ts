@@ -25,10 +25,9 @@ import {
 
 const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const { currentUser } = useUserContext();
-  const currentUserId = Number(currentUser!.id);
+  const currentUserId = currentUser!.id;
   const [coreMovies, setCoreMovies] = useState<IMovie[]>([]);
 
-  //favourite movies ids (for search page)
   const [
     userMoviesIds,
     { data: userMoviesIdsData, refetch: refetchUserMoviesIds },
@@ -41,7 +40,6 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     return [];
   }, [userMoviesIdsData]);
 
-  //favourite films
   const [userMovies, { data: userMoviesdata, refetch: refetchUserMovies }] =
     useLazyQuery<IUserMoviesResp, IUserMoviesVars>(USER_MOVIES, {
       variables: { id: currentUserId },
@@ -60,18 +58,12 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     } else userMoviesIds();
   }, [userMoviesdata]);
 
-  //genres
   const { data: genreData } = useQuery<IGetGenresResp>(GET_GENRES);
 
   const genres = useMemo<IGenre[]>(() => {
-    if (genreData)
-      return genreData.getGenres.map(({ id, name }) => {
-        return { id, name } as IGenre;
-      });
-    return [];
+    return genreData ? genreData.getGenres : [];
   }, [genreData]);
 
-  //searching movies
   const [findMovies] = useLazyQuery<IFindMoviesResp, IFindMoviesVars>(
     FIND_MOVIES
   );
@@ -111,7 +103,6 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     setCoreMovies(movieList);
   };
 
-  //movies output
   const movies = useMemo<IMovie[]>(() => {
     const genreById = new Map(genres.map((genre) => [genre.id, genre]));
 
@@ -129,12 +120,11 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     );
   }, [coreMovies, genres, favouriteMoviesIds]);
 
-  //add movie
   const [addMovie] = useMutation<IAddMovieResp, IAddMovieVars>(ADD_MOVIE);
 
   const addToFavourite = (addMovieId: number): void => {
     const currentMovie = coreMovies.find(
-      (movie) => movie.movieId === addMovieId
+      ({ movieId }) => movieId === addMovieId
     );
     if (!currentMovie) return;
     const { __typename, ...rest } = currentMovie as IMovie & {
@@ -147,23 +137,23 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
       .catch((error) => console.log(`Add movie error: ${error.message}`));
   };
 
-  //remove movie
   const [removeMovie] = useMutation<IRemoveMovieResp, IRemoveMovieVars>(
     REMOVE_MOVIE
   );
 
   const removeFromFavourite = (removeMovieId: number): void => {
     const currentMovie = coreMovies.find(
-      (movie) => movie.movieId === removeMovieId
+      ({ movieId }) => movieId === removeMovieId
     );
     if (!currentMovie) return;
     const isConfirmed = window.confirm(
       `Are your sure, you want to remove "${currentMovie.title}" from your favorite movies?`
     );
     if (isConfirmed) {
-      const { movieId } = currentMovie;
       removeMovie({
-        variables: { removeMovieDto: { movieId, userId: currentUserId } },
+        variables: {
+          removeMovieDto: { movieId: removeMovieId, userId: currentUserId },
+        },
       })
         .then(() => refetchUserMovies())
         .catch((error) =>
@@ -172,20 +162,23 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     }
   };
 
-  //update movie
   const [updateMovie] = useMutation<IUpdateMovieResp, IUpdateMovieVars>(
     UPDATE_MOVIE
   );
 
   const toggleViewed = (updateMovieId: number): void => {
     const currentMovie = coreMovies.find(
-      (movie) => movie.movieId === updateMovieId
+      ({ movieId }) => movieId === updateMovieId
     );
     if (!currentMovie) return;
-    const { movieId, isViewed } = currentMovie;
+    const { isViewed } = currentMovie;
     updateMovie({
       variables: {
-        updateMovieDto: { movieId, userId: currentUserId, isViewed: !isViewed },
+        updateMovieDto: {
+          movieId: updateMovieId,
+          userId: currentUserId,
+          isViewed: !isViewed,
+        },
       },
     })
       .then(() => refetchUserMovies())

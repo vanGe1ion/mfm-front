@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { MOVIE_FIELDS_FRAGMENT } from "../fragments";
 
 export const SIGN_IN_USER = gql`
   query signIn($signInUserDto: SignInUserDto!) {
@@ -25,15 +26,7 @@ export const USER_MOVIES = gql`
     getUserById(id: $id) {
       id
       movies {
-        movieId
-        title
-        originalTitle
-        releaseYear
-        overview
-        genreIds
-        posterPath
-        voteCount
-        voteAverage
+        ${MOVIE_FIELDS_FRAGMENT}
         isViewed
       }
     }

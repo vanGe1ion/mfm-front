@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { MOVIE_FIELDS_FRAGMENT } from "../fragments";
 
 export const GET_GENRES = gql`
   query getGenres {
@@ -16,15 +17,7 @@ export const FIND_MOVIES = gql`
       totalPages
       totalResults
       movies {
-        movieId
-        title
-        originalTitle
-        releaseYear
-        overview
-        posterPath
-        genreIds
-        voteCount
-        voteAverage
+        ${MOVIE_FIELDS_FRAGMENT}
       }
     }
   }

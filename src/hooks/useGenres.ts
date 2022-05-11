@@ -19,10 +19,9 @@ import {
 
 const useGenres = (isSaveMode: boolean): IUseGenres => {
   const { currentUser } = useUserContext();
-  const currentUserId = Number(currentUser!.id);
+  const currentUserId = currentUser!.id;
   const [genres, setGenres] = useState<IGenre[]>([]);
 
-  //favourite genres
   const {
     data: userGenresData,
     error: userGenresError,
@@ -39,7 +38,6 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
     return [];
   }, [userGenresData]);
 
-  //genres
   const { data: genresData, error: genresError } =
     useQuery<IGetGenresResp>(GET_GENRES);
 
@@ -65,7 +63,6 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
       );
   }, [userGenresError, genresError]);
 
-  //toggle genre (with/without mutations)
   const [addGenre, { error: addError }] = useMutation<
     IAddGenreResp,
     IAddGenreVars
@@ -113,7 +110,6 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
     }
   };
 
-  //stating favourite genres
   const getFavoriteGenres = () => {
     return genres.filter((genre) => genre.isFavourite).map((genre) => genre.id);
   };
