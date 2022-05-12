@@ -15,8 +15,10 @@ const MainPage: FC = () => {
   const history = useHistory();
   const { currentUser } = useUserContext();
   const { isBlockView, toggleView } = useToggleView();
-
-  if (!currentUser) history.replace("/sign-in");
+  if (!currentUser) {
+    history.replace("/sign-in");
+    return <></>;
+  }
 
   return (
     <PageContainer>

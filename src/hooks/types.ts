@@ -19,7 +19,7 @@ export interface IToggleView {
 export interface IUseMovies {
   movies: IMovie[];
   addToFavourite: (movieId: number) => void;
-  removeFromFavourite: (movieId: number) => void;
+  removeFromFavourite: (movieId: number, title: string) => void;
   toggleViewed: (movieId: number) => void;
   searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
 }

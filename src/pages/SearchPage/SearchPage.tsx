@@ -19,7 +19,11 @@ const SearchPage: FC = () => {
   const { isBlockView, toggleView } = useToggleView();
   const [filters, setFilters] = useState<IGetMoviesParams>(DEFAULT_FILTERS);
 
-  if (!currentUser) history.replace("/sign-in");
+  if (!currentUser) {
+    history.replace("/sign-in");
+    return <></>;
+  }
+
   return (
     <PageContainer>
       <HeaderPanel />

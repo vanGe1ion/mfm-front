@@ -141,13 +141,9 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     REMOVE_MOVIE
   );
 
-  const removeFromFavourite = (removeMovieId: number): void => {
-    const currentMovie = coreMovies.find(
-      ({ movieId }) => movieId === removeMovieId
-    );
-    if (!currentMovie) return;
+  const removeFromFavourite = (removeMovieId: number, title: string): void => {
     const isConfirmed = window.confirm(
-      `Are your sure, you want to remove "${currentMovie.title}" from your favorite movies?`
+      `Are your sure, you want to remove "${title}" from your favorite movies?`
     );
     if (isConfirmed) {
       removeMovie({

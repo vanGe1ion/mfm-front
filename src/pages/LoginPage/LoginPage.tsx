@@ -10,7 +10,10 @@ const LoginPage: FC = () => {
   const history = useHistory();
   const { currentUser } = useUserContext();
 
-  if (currentUser) history.replace("/");
+  if (currentUser) {
+    history.replace("/");
+    return <></>;
+  }
 
   return (
     <MainContainer>
