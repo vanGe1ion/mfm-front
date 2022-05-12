@@ -30,6 +30,7 @@ const SearchPage: FC = () => {
       <FiltersDiv>
         <FilterPanel filters={filters} onChange={setFilters} />
         <GenresPanel
+          title="Selected genres"
           filters={filters}
           onChange={setFilters}
           isSaveMode={false}

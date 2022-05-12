@@ -6,7 +6,7 @@ import { changeableIndents } from "./style";
 import { IChangeableIndents } from "./types";
 
 const Select = styled.select<IChangeableIndents & IFontSize>`
-  ${tw`border-2 border-blue-500 rounded-lg w-full`}
+  ${tw`border-2 border-blue-500 bg-white rounded-lg w-full`}
 
   ${({ indents }) => indents && changeableIndents}
   ${fontSized};

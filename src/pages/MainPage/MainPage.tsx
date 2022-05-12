@@ -24,7 +24,7 @@ const MainPage: FC = () => {
     <PageContainer>
       <HeaderPanel />
       <GenreContainer>
-        <GenresPanel isSaveMode={true} />
+        <GenresPanel title="Your favourite genres" isSaveMode={true} />
       </GenreContainer>
 
       <MovieListControl

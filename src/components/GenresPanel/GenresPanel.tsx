@@ -6,6 +6,7 @@ import BorderedSegment from "@components/BorderedSegment/BorderedSegment";
 import { IGetMoviesParams } from "@globalTypes";
 
 const GenresPanel: FC<IGenresPanelProps> = ({
+  title,
   filters,
   onChange,
   isSaveMode,
@@ -22,7 +23,7 @@ const GenresPanel: FC<IGenresPanelProps> = ({
   }, [genres]);
 
   return (
-    <BorderedSegment title="Your favourite genres">
+    <BorderedSegment title={title}>
       {genres.map(({ id, isFavourite, name }) => {
         return (
           <Genre
