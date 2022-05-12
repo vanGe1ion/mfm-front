@@ -24,16 +24,12 @@ export interface IUseMovies {
   searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
 }
 
-export interface IUserGenresVars {
-  id: number;
+export interface IGenresWithFavVars {
+  userId: number;
 }
 
-export interface IUserGenresResp {
-  getUserById: {
-    genres: {
-      genreId: number;
-    }[];
-  };
+export interface IGenresWithFavResp {
+  getGenresWithFavourites: IGenre[];
 }
 
 export interface IUserMoviesVars {

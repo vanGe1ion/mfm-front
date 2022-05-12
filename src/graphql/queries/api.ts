@@ -9,6 +9,16 @@ export const GET_GENRES = gql`
   }
 `;
 
+export const GET_GENRES_WITH_FAVOURITES = gql`
+  query getGenresWithFavourites($userId: Int!) {
+    getGenresWithFavourites(userId: $userId) {
+      id
+      name
+      isFavourite
+    }
+  }
+`;
+
 export const FIND_MOVIES = gql`
   query findMovies($findMoviesInputDto: FindMoviesInputDto!) {
     findMovies(findMoviesInputDto: $findMoviesInputDto) {

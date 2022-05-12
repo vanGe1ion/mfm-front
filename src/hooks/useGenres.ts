@@ -1,20 +1,18 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useUserContext } from "@context/userContext";
 import { IGenre } from "@globalTypes";
-import { GET_GENRES } from "@queries/api";
-import { USER_GENRES } from "@queries/user";
-import { useEffect, useMemo, useState } from "react";
+import { GET_GENRES_WITH_FAVOURITES } from "@queries/api";
+import { useEffect, useState } from "react";
 import { ADD_GENRE, REMOVE_GENRE } from "@mutations/genre";
 import {
   IUseGenres,
-  IGetGenresResp,
-  IUserGenresResp,
-  IUserGenresVars,
   IAddGenreResp,
   IAddGenreVars,
   IRemoveGenreResp,
   IRemoveGenreVars,
   IUserGenre,
+  IGenresWithFavResp,
+  IGenresWithFavVars,
 } from "./types";
 
 const useGenres = (isSaveMode: boolean): IUseGenres => {
@@ -22,46 +20,26 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
   const currentUserId = currentUser!.id;
   const [genres, setGenres] = useState<IGenre[]>([]);
 
-  const {
-    data: userGenresData,
-    error: userGenresError,
-    refetch: refetchUserGenres,
-  } = useQuery<IUserGenresResp, IUserGenresVars>(USER_GENRES, {
+  const { data, error, refetch } = useQuery<
+    IGenresWithFavResp,
+    IGenresWithFavVars
+  >(GET_GENRES_WITH_FAVOURITES, {
     variables: {
-      id: currentUserId,
+      userId: currentUserId,
     },
   });
 
-  const favouriteGenres = useMemo<number[]>(() => {
-    if (userGenresData)
-      return userGenresData.getUserById.genres.map((genre) => genre.genreId);
-    return [];
-  }, [userGenresData]);
-
-  const { data: genresData, error: genresError } =
-    useQuery<IGetGenresResp>(GET_GENRES);
-
   useEffect(() => {
-    if (genresData) {
-      const getedGenres = genresData.getGenres.map(({ id, name }) => {
-        return { id, name, isFavourite: favouriteGenres.includes(id) };
-      });
-      setGenres(getedGenres);
-    }
-  }, [favouriteGenres, genresData]);
-
-  useEffect(() => {
-    refetchUserGenres();
+    refetch();
   }, []);
 
   useEffect(() => {
-    if (userGenresError || genresError)
-      console.log(
-        `Genres loading GraphQL error: ${
-          (userGenresError ?? genresError)!.message
-        }`
-      );
-  }, [userGenresError, genresError]);
+    if (data) setGenres(data.getGenresWithFavourites);
+  }, [data]);
+
+  useEffect(() => {
+    if (error) console.log(`Genres loading GraphQL error: ${error.message}`);
+  }, [error]);
 
   const [addGenre, { error: addError }] = useMutation<
     IAddGenreResp,
