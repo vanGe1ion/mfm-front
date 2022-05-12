@@ -1,14 +1,5 @@
 import { gql } from "@apollo/client";
 
-export const GET_GENRES = gql`
-  query getGenres {
-    getGenres {
-      id
-      name
-    }
-  }
-`;
-
 export const GET_GENRES_WITH_FAVOURITES = gql`
   query getGenresWithFavourites($userId: Int!) {
     getGenresWithFavourites(userId: $userId) {
@@ -19,9 +10,15 @@ export const GET_GENRES_WITH_FAVOURITES = gql`
   }
 `;
 
-export const FIND_MOVIES = gql`
-  query findMovies($findMoviesInputDto: FindMoviesInputDto!) {
-    findMovies(findMoviesInputDto: $findMoviesInputDto) {
+export const FIND_MOVIES_WITH_FAVOURITES = gql`
+  query findMoviesWithFavourites(
+    $userId: Int!
+    $findMoviesInputDto: FindMoviesInputDto!
+  ) {
+    findMoviesWithFavourites(
+      userId: $userId
+      findMoviesInputDto: $findMoviesInputDto
+    ) {
       page
       totalPages
       totalResults
@@ -32,9 +29,11 @@ export const FIND_MOVIES = gql`
         releaseYear
         overview
         posterPath
-        genreIds
         voteCount
         voteAverage
+
+        genres
+        isFavourite
       }
     }
   }

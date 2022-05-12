@@ -24,49 +24,17 @@ export interface IUseMovies {
   searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
 }
 
+export interface IUserGenre {
+  userId: number;
+  genreId: number;
+}
+
 export interface IGenresWithFavVars {
   userId: number;
 }
 
 export interface IGenresWithFavResp {
   getGenresWithFavourites: IGenre[];
-}
-
-export interface IUserMoviesVars {
-  id: number;
-}
-
-export interface IUserMoviesResp {
-  getUserById: { movies: IMovie[] };
-}
-
-export interface IUserMoviesIdsVars {
-  id: number;
-}
-
-export interface IUserMoviesIdsResp {
-  getUserById: {
-    movies: {
-      movieId: number;
-    }[];
-  };
-}
-
-export interface IGetGenresResp {
-  getGenres: IGenre[];
-}
-
-export interface IFindMoviesVars {
-  findMoviesInputDto: IGetMoviesParams;
-}
-
-export interface IFindMoviesResp {
-  findMovies: IGetMoviesResponse;
-}
-
-export interface IUserGenre {
-  userId: number;
-  genreId: number;
 }
 
 export interface IAddGenreVars {
@@ -88,6 +56,23 @@ export interface IRemoveGenreResp {
 export interface IUserMovie {
   movieId: number;
   userId: number;
+}
+
+export interface IUserMoviesVars {
+  id: number;
+}
+
+export interface IUserMoviesResp {
+  getUserById: { movies: IMovie[] };
+}
+
+export interface IFindMoviesVars {
+  userId: number;
+  findMoviesInputDto: IGetMoviesParams;
+}
+
+export interface IFindMoviesResp {
+  findMoviesWithFavourites: IGetMoviesResponse;
 }
 
 export interface IAddMovieVars {

@@ -31,21 +31,10 @@ export const USER_MOVIES = gql`
         releaseYear
         overview
         posterPath
-        genreIds
         voteCount
         voteAverage
+        genres
         isViewed
-      }
-    }
-  }
-`;
-
-export const USER_MOVIES_IDS = gql`
-  query userMovies($id: Int!) {
-    getUserById(id: $id) {
-      id
-      movies {
-        movieId
       }
     }
   }

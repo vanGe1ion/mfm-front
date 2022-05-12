@@ -29,13 +29,12 @@ export interface IGetMoviesResponse {
 }
 
 export interface IMovie {
-  posterPath: string;
-  overview: string;
-  releaseYear: number;
-  genreIds: number[];
   movieId: number;
-  originalTitle: string;
   title: string;
+  originalTitle: string;
+  releaseYear: number;
+  overview: string;
+  posterPath: string;
   voteCount: number;
   voteAverage: number;
 
