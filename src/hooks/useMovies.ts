@@ -1,6 +1,5 @@
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { TMDB_SEARCH_LIMIT_PAGE } from "@config";
-import { useUserContext } from "@context/userContext";
 import { IGetMoviesParams, IMovie } from "@globalTypes";
 import { ADD_MOVIE, REMOVE_MOVIE, UPDATE_MOVIE } from "@mutations/movie";
 import { FIND_MOVIES_WITH_FAVOURITES } from "@queries/api";
@@ -8,7 +7,6 @@ import { USER_MOVIES } from "@queries/user";
 import { useEffect, useState } from "react";
 import {
   IUserMoviesResp,
-  IUserMoviesVars,
   IFindMoviesResp,
   IFindMoviesVars,
   IAddMovieResp,
@@ -21,14 +19,9 @@ import {
 } from "./types";
 
 const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
-  const { currentUser } = useUserContext();
-  const currentUserId = currentUser!.id;
   const [movies, setMovies] = useState<IMovie[]>([]);
-
   const [userMovies, { data: userMoviesdata, refetch: refetchUserMovies }] =
-    useLazyQuery<IUserMoviesResp, IUserMoviesVars>(USER_MOVIES, {
-      variables: { id: currentUserId },
-    });
+    useLazyQuery<IUserMoviesResp>(USER_MOVIES);
 
   useEffect(() => {
     refetchUserMovies();
@@ -59,7 +52,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
 
     if (withGenres!.length > 0) {
       const searchResult = await findMovies({
-        variables: { userId: currentUserId, findMoviesInputDto: searchFilters },
+        variables: { findMoviesInputDto: searchFilters },
       });
 
       if (searchResult.data) {
@@ -74,7 +67,6 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
         for (let i = 2; i <= viewedPages; ++i) {
           const nextSearchResult = await findMovies({
             variables: {
-              userId: currentUserId,
               findMoviesInputDto: { ...searchFilters, page: i },
             },
           });
@@ -95,11 +87,11 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const addToFavourite = (addMovieId: number): void => {
     const movieIdx = movies.findIndex((movie) => movie.movieId === addMovieId);
     const currentMovie = movies[movieIdx];
-    const { __typename, isFavourite, ...rest } = currentMovie as IMovie & {
+    const { __typename, isFavourite, ...movie } = currentMovie as IMovie & {
       __typename: string;
     };
     addMovie({
-      variables: { addMovieDto: { ...rest, userId: currentUserId } },
+      variables: { addMovieDto: movie },
     })
       .then(() => {
         const newMovies = [...movies];
@@ -121,7 +113,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     if (isConfirmed) {
       removeMovie({
         variables: {
-          removeMovieDto: { movieId: removeMovieId, userId: currentUserId },
+          movieId: removeMovieId,
         },
       })
         .then(() => refetchUserMovies())
@@ -145,7 +137,6 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
       variables: {
         updateMovieDto: {
           movieId: updateMovieId,
-          userId: currentUserId,
           isViewed: !isViewed,
         },
       },

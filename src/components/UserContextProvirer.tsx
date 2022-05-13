@@ -1,12 +1,9 @@
 import React, { FC } from "react";
 import UserContext from "@context/userContext";
 import useUserAuth from "@hooks/useUserAuth";
-import { LSAPIGetSignedInUser } from "@utils/localStorageAPI";
 
-const UserContextProvirer: FC = ({ children }) => {
-  const currentUserLocal = LSAPIGetSignedInUser();
-  const { currentUser, approveUser, dismissUser } =
-    useUserAuth(currentUserLocal);
+const UserContextProvider: FC = ({ children }) => {
+  const { currentUser, approveUser, dismissUser } = useUserAuth();
 
   return (
     <UserContext.Provider value={{ currentUser, approveUser, dismissUser }}>
@@ -15,4 +12,4 @@ const UserContextProvirer: FC = ({ children }) => {
   );
 };
 
-export default UserContextProvirer;
+export default UserContextProvider;

@@ -3,12 +3,12 @@ import Button from "@UI/Button";
 import { useHistory } from "react-router-dom";
 import { useUserContext } from "@context/userContext";
 import {
-    HeaderContainer,
-    MainHeader,
-    UserContainer,
-    UserPanel,
-    UserSpan,
-  } from "./style";
+  HeaderContainer,
+  MainHeader,
+  UserContainer,
+  UserPanel,
+  UserSpan,
+} from "./style";
 
 const HeaderPanel: FC = () => {
   const { currentUser, dismissUser } = useUserContext();
@@ -24,7 +24,7 @@ const HeaderPanel: FC = () => {
       <MainHeader>My Favorite Movies</MainHeader>
       <UserPanel>
         <UserContainer>
-          Hello, <UserSpan>{currentUser!.login}</UserSpan>!
+          Hello, <UserSpan>{currentUser?.login}</UserSpan>!
         </UserContainer>
         <Button indents="6px" onClick={signOutButtonHandler}>
           Sign out

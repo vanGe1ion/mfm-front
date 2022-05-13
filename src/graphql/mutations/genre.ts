@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const ADD_GENRE = gql`
-  mutation addGenre($addGenreDto: AddGenreDto!) {
-    addGenre(addGenreDto: $addGenreDto) {
+  mutation addGenre($genreId: Int!) {
+    addGenre(genreId: $genreId) {
       genreId
       userId
     }
@@ -10,7 +10,7 @@ export const ADD_GENRE = gql`
 `;
 
 export const REMOVE_GENRE = gql`
-  mutation removeGenre($removeGenreDto: RemoveGenreDto!) {
-    removeGenre(removeGenreDto: $removeGenreDto)
+  mutation removeGenre($genreId: Int!) {
+    removeGenre(genreId: $genreId)
   }
 `;

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const ADD_MOVIE = gql`
-  mutation addMovie($addMovieDto: AddMovieDto!) {
-    addMovie(addMovieDto: $addMovieDto) {
+  mutation addMovie($movieId: Int!) {
+    addMovie(movieId: $movieId) {
       movieId
       userId
     }
@@ -10,8 +10,8 @@ export const ADD_MOVIE = gql`
 `;
 
 export const REMOVE_MOVIE = gql`
-  mutation removeMovie($removeMovieDto: RemoveMovieDto!) {
-    removeMovie(removeMovieDto: $removeMovieDto)
+  mutation removeMovie($movieId: Int!) {
+    removeMovie(movieId: $movieId)
   }
 `;
 

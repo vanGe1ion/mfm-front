@@ -1,10 +1,12 @@
-import { IUser } from "@globalTypes";
+export const LSAPIGetUserToken = (): string | null => {
+  const currentUserToken = localStorage.getItem("userAccessToken");
+  return currentUserToken ?? null;
+};
 
-export const LSAPIGetSignedInUser = (): IUser | null => {
-  const currentUser = localStorage.getItem("currentUser");
-  if(currentUser){
-    const {id, login} = JSON.parse(currentUser);
-    return {id: +id, login} as IUser;
-  }
-  return null;
+export const LSAPISetUserToken = (token: string): void => {
+  localStorage.setItem("userAccessToken", token);
+};
+
+export const LSAPIRemoveUserToken = (): void => {
+  localStorage.removeItem("userAccessToken");
 };

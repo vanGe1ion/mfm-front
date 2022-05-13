@@ -3,8 +3,8 @@ import { IUserContext } from "@globalTypes";
 
 const contextDefault: IUserContext = {
   currentUser: null,
-  approveUser: () => {},
-  dismissUser: () => {},
+  approveUser: async () => {},
+  dismissUser: async () => {},
 };
 
 const UserContext = createContext<IUserContext>(contextDefault);

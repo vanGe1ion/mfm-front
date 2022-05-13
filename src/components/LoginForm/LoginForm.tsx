@@ -3,32 +3,31 @@ import { useHistory } from "react-router-dom";
 import { Field, Form } from "react-final-form";
 import { FORM_ERROR } from "final-form";
 
-import { IFormValues } from "./types";
+import { IFormValues, ISignInResp, ISignInVars } from "./types";
 import { FlexColGroup, StyledForm } from "./style";
 import { signInValidateHandler } from "./validator";
 
 import Button from "@UI/Button";
 import Label from "@UI/Label";
 import FormInput from "@components/FormInput";
-import { SignInError } from "@consts/errConsts";
 import { useUserContext } from "@context/userContext";
 import { useLazyQuery } from "@apollo/client";
-import { SIGN_IN_USER } from "@queries/user";
+import { SIGN_IN } from "@queries/auth";
 
 const LoginForm: FC = () => {
   const { approveUser } = useUserContext();
   const history = useHistory();
-  const [signInUser, { loading }] = useLazyQuery(SIGN_IN_USER);
+  const [signIn, { loading }] = useLazyQuery<ISignInResp, ISignInVars>(SIGN_IN);
 
   const signInSubmitHandler = async (values: IFormValues) => {
     try {
-      const signingIn = await signInUser({
-        variables: { signInUserDto: values },
+      const signingIn = await signIn({
+        variables: { signInDto: values },
       });
-      approveUser(signingIn.data.signInUser);
+      await approveUser(signingIn.data!.signIn.access_token);
       history.replace("/");
-    } catch (e) {
-      return { [FORM_ERROR]: SignInError.WRONG_LOGOPASS_ERR };
+    } catch (error: any) {
+      return { [FORM_ERROR]: error.message };
     }
   };
 

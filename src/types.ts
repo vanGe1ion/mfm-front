@@ -5,8 +5,8 @@ export interface IUser {
 
 export interface IUserContext {
   currentUser: IUser | null;
-  approveUser: (newUser: IUser) => void;
-  dismissUser: () => void;
+  approveUser: (accessToken: string) => Promise<void>;
+  dismissUser: () => Promise<void>;
 }
 
 export interface IGetMoviesParams {

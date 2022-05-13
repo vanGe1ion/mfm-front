@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { PageContainer } from "@globalStyle";
 
@@ -6,19 +6,13 @@ import GenresPanel from "@components/GenresPanel/GenresPanel";
 import HeaderPanel from "@components/HeaderPanel/HeaderPanel";
 import MovieListControl from "@components/MovieListControl/MovieListControl";
 import MoviesList from "@components/MoviesList/MoviesList";
-import { useUserContext } from "@context/userContext";
 import Button from "@components/UI/Button";
 import useToggleView from "@hooks/useToggleView";
 import { GenreContainer } from "./style";
 
 const MainPage: FC = () => {
   const history = useHistory();
-  const { currentUser } = useUserContext();
   const { isBlockView, toggleView } = useToggleView();
-  if (!currentUser) {
-    history.replace("/sign-in");
-    return <></>;
-  }
 
   return (
     <PageContainer>

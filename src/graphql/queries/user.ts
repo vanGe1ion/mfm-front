@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const SIGN_IN_USER = gql`
-  query signIn($signInUserDto: SignInUserDto!) {
-    signInUser(signInUserDto: $signInUserDto) {
+export const GET_USER = gql`
+  query userGenres {
+    getUserById {
       id
       login
     }
@@ -10,8 +10,8 @@ export const SIGN_IN_USER = gql`
 `;
 
 export const USER_GENRES = gql`
-  query userGenres($id: Int!) {
-    getUserById(id: $id) {
+  query userGenres {
+    getUserById {
       id
       genres {
         genreId
@@ -21,8 +21,8 @@ export const USER_GENRES = gql`
 `;
 
 export const USER_MOVIES = gql`
-  query userMovies($id: Int!) {
-    getUserById(id: $id) {
+  query userMovies {
+    getUserById {
       id
       movies {
         movieId
