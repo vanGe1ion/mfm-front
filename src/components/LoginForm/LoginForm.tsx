@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Field, Form } from "react-final-form";
 import { FORM_ERROR } from "final-form";
@@ -10,22 +10,27 @@ import { signInValidateHandler } from "./validator";
 import Button from "@UI/Button";
 import Label from "@UI/Label";
 import FormInput from "@components/FormInput";
-import { useUserContext } from "@context/userContext";
-import { useLazyQuery } from "@apollo/client";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
 import { SIGN_IN } from "@queries/auth";
+import LocalStorageToken from "@utils/localStorageToken";
 
 const LoginForm: FC = () => {
-  const { approveUser } = useUserContext();
   const history = useHistory();
   const [signIn, { loading }] = useLazyQuery<ISignInResp, ISignInVars>(SIGN_IN);
+  const apolloClient = useApolloClient();
+
+  useEffect(() => {
+    if (LocalStorageToken.get()) history.push("/");
+  }, []);
 
   const signInSubmitHandler = async (values: IFormValues) => {
     try {
       const signingIn = await signIn({
         variables: { signInDto: values },
       });
-      await approveUser(signingIn.data!.signIn.access_token);
-      history.replace("/");
+      LocalStorageToken.set(signingIn.data!.signIn.access_token);
+      await apolloClient.resetStore();
+      history.push("/");
     } catch (error: any) {
       return { [FORM_ERROR]: error.message };
     }

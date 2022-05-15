@@ -10,3 +10,7 @@ export const MoviePanel = styled.div<IMoviePanelProps>`
 
   ${({ isBlockView }) => isBlockView && flexBlock}
 `;
+
+export const Loading = styled.div`
+  ${tw`text-center text-3xl py-8`}
+`;

@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import MovieBlockItem from "@components/MovieBlockItem/MovieBlockItem";
 import MovieRowItem from "@components/MovieRowItem/MovieRowItem";
-import { MoviePanel } from "./style";
+import { Loading, MoviePanel } from "./style";
 import { IMoviesListProps } from "./types";
 import useMovies from "@hooks/useMovies";
 import { IMovieControls } from "@globalTypes";
@@ -13,6 +13,7 @@ const MoviesList: FC<IMoviesListProps> = ({
 }) => {
   const {
     movies,
+    isLoading,
     removeFromFavourite,
     toggleViewed,
     addToFavourite,
@@ -31,7 +32,9 @@ const MoviesList: FC<IMoviesListProps> = ({
       );
   }, [filters]);
 
-  return (
+  return isLoading ? (
+    <Loading>Loading...</Loading>
+  ) : (
     <MoviePanel isBlockView={isBlockView}>
       {movies.map((movie, idx) => {
         return (

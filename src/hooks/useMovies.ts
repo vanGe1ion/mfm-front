@@ -20,8 +20,15 @@ import {
 
 const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const [movies, setMovies] = useState<IMovie[]>([]);
-  const [userMovies, { data: userMoviesdata, refetch: refetchUserMovies }] =
-    useLazyQuery<IUserMoviesResp>(USER_MOVIES);
+
+  const [
+    userMovies,
+    {
+      data: userMoviesdata,
+      loading: userMoviesLoading,
+      refetch: refetchUserMovies,
+    },
+  ] = useLazyQuery<IUserMoviesResp>(USER_MOVIES);
 
   useEffect(() => {
     refetchUserMovies();
@@ -40,9 +47,10 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     }
   }, [userMoviesdata]);
 
-  const [findMovies] = useLazyQuery<IFindMoviesResp, IFindMoviesVars>(
-    FIND_MOVIES_WITH_FAVOURITES
-  );
+  const [findMovies, { loading: findMoviesLoading }] = useLazyQuery<
+    IFindMoviesResp,
+    IFindMoviesVars
+  >(FIND_MOVIES_WITH_FAVOURITES);
 
   const searchMovies = async (
     searchFilters: IGetMoviesParams
@@ -147,6 +155,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
 
   return {
     movies,
+    isLoading: userMoviesLoading || findMoviesLoading,
     searchMovies,
     addToFavourite,
     removeFromFavourite,

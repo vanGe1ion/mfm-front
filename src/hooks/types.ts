@@ -3,7 +3,6 @@ import {
   IGetMoviesParams,
   IGetMoviesResponse,
   IMovie,
-  IUser,
 } from "@globalTypes";
 
 export interface IUseGenres {
@@ -19,6 +18,7 @@ export interface IToggleView {
 
 export interface IUseMovies {
   movies: IMovie[];
+  isLoading: boolean;
   addToFavourite: (movieId: number) => void;
   removeFromFavourite: (movieId: number, title: string) => void;
   toggleViewed: (movieId: number) => void;
@@ -91,8 +91,4 @@ export interface IUpdateMovieResp {
     movieId: number;
     userId: number;
   };
-}
-
-export interface IGetUserResp {
-  getUserById: IUser;
 }
