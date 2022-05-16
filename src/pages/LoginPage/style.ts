@@ -15,5 +15,5 @@ export const LogoHeader = styled.h1`
 
 export const FormHolder = styled.div`
   ${tw`bg-white h-80 w-1/4 border-4 border-blue-600 rounded-lg shadow-2xl`}
-  min-width: 20rem;
+  min-width: 23rem;
 `;
