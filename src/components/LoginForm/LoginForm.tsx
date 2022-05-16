@@ -13,11 +13,13 @@ import FormInput from "@components/FormInput";
 import { useApolloClient, useLazyQuery } from "@apollo/client";
 import { SIGN_IN } from "@queries/auth";
 import LocalStorageToken from "@utils/localStorageToken";
+import { useTranslation } from "react-i18next";
 
 const LoginForm: FC = () => {
   const history = useHistory();
   const [signIn, { loading }] = useLazyQuery<ISignInResp, ISignInVars>(SIGN_IN);
   const apolloClient = useApolloClient();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (LocalStorageToken.get()) history.push("/");
@@ -32,7 +34,8 @@ const LoginForm: FC = () => {
       await apolloClient.resetStore();
       history.push("/");
     } catch (error: any) {
-      return { [FORM_ERROR]: error.message };
+      const errorType = error.graphQLErrors[0].extensions.code;
+      return { [FORM_ERROR]: errorType };
     }
   };
 
@@ -45,8 +48,8 @@ const LoginForm: FC = () => {
               name="login"
               component={FormInput}
               id="login"
-              placeholder="Enter login"
-              label="Login"
+              placeholder={t("loginForm.loginPlaceholder")}
+              label={t("loginForm.loginLabel")}
             />
           </FlexColGroup>
 
@@ -56,22 +59,22 @@ const LoginForm: FC = () => {
               component={FormInput}
               type="password"
               id="password"
-              placeholder="Enter password"
-              label="Password"
+              placeholder={t("loginForm.passwordLabel")}
+              label={t("loginForm.passwordLabel")}
             />
           </FlexColGroup>
 
           {submitError && !modifiedSinceLastSubmit && (
             <FlexColGroup>
               <Label withLeftPadding type="error">
-                {submitError}
+                {t(`loginForm.errors.submit.${submitError}`)}
               </Label>
             </FlexColGroup>
           )}
 
           <FlexColGroup>
             <Button disabled={loading} indents="4px" fontSize="x-large">
-              Sign-in
+              {t("loginForm.submitBtn")}
             </Button>
           </FlexColGroup>
         </StyledForm>

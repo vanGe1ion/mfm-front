@@ -9,25 +9,27 @@ import MoviesList from "@components/MoviesList/MoviesList";
 import Button from "@components/UI/Button";
 import useToggleView from "@hooks/useToggleView";
 import { GenreContainer } from "./style";
+import { useTranslation } from "react-i18next";
 
 const MainPage: FC = () => {
   const history = useHistory();
   const { isBlockView, toggleView } = useToggleView();
+  const { t } = useTranslation();
 
   return (
     <PageContainer>
       <HeaderPanel />
       <GenreContainer>
-        <GenresPanel title="Your favourite genres" isSaveMode={true} />
+        <GenresPanel title={t("mainPage.genreTitle")} isSaveMode={true} />
       </GenreContainer>
 
       <MovieListControl
-        title="Favourite movies list"
+        title={t("mainPage.movieListTitle")}
         isBlockView={isBlockView}
         toggleView={toggleView}
       >
         <Button indents="3px" onClick={() => history.push("/search")}>
-          Add from catalog
+          {t("mainPage.navigateBtn")}
         </Button>
       </MovieListControl>
       <MoviesList isBlockView={isBlockView} isFavouriteMovies={true} />

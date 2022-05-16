@@ -15,14 +15,16 @@ import {
   MIN,
   STEP,
 } from "./config";
+import { useTranslation } from "react-i18next";
 
 const VoteRange: FC<IVoteRangeProps> = ({ voteAverage, onAfterChange }) => {
   const { gte, lte } = voteAverage;
+  const { t } = useTranslation();
 
   return (
     <RangeContainer>
       <Label>
-        Vote average: {gte} - {lte}
+        {t("voteAverage")}: {gte} - {lte}
       </Label>
       <Slider
         range

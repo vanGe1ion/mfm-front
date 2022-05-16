@@ -3,6 +3,7 @@ import { FieldRenderProps } from "react-final-form";
 
 import Input from "@UI/Input";
 import Label from "@UI/Label";
+import { useTranslation } from "react-i18next";
 
 const FormInput: FC<FieldRenderProps<string, any>> = ({
   input,
@@ -10,6 +11,7 @@ const FormInput: FC<FieldRenderProps<string, any>> = ({
   ...rest
 }) => {
   const { id, label, placeholder } = rest;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -27,7 +29,7 @@ const FormInput: FC<FieldRenderProps<string, any>> = ({
       />
       {meta.touched && meta.error && (
         <Label withLeftPadding type="error">
-          {meta.error}
+          {t(meta.error)}
         </Label>
       )}
     </>

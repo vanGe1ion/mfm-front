@@ -80,3 +80,5 @@ export interface IFilterChanged {
   filters?: IGetMoviesParams;
   onChange?: (filters: IGetMoviesParams) => void;
 }
+
+export type Languge = "ru" | "en";

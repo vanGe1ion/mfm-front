@@ -9,6 +9,7 @@ import { PageContainer } from "@globalStyle";
 import { IGetMoviesParams } from "@globalTypes";
 import useToggleView from "@hooks/useToggleView";
 import React, { FC, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { FiltersDiv } from "./style";
 
@@ -16,6 +17,7 @@ const SearchPage: FC = () => {
   const history = useHistory();
   const { isBlockView, toggleView } = useToggleView();
   const [filters, setFilters] = useState<IGetMoviesParams>(DEFAULT_FILTERS);
+  const { t } = useTranslation();
 
   return (
     <PageContainer>
@@ -23,19 +25,19 @@ const SearchPage: FC = () => {
       <FiltersDiv>
         <FilterPanel filters={filters} onChange={setFilters} />
         <GenresPanel
-          title="Selected genres"
+          title={t("searchPage.genreTitle")}
           filters={filters}
           onChange={setFilters}
           isSaveMode={false}
         />
       </FiltersDiv>
       <MovieListControl
-        title="Search movies list"
+        title={t("searchPage.movieListTitle")}
         isBlockView={isBlockView}
         toggleView={toggleView}
       >
         <Button indents="3px" onClick={() => history.push("/")}>
-          To favourite list
+          {t("searchPage.navigateBtn")}
         </Button>
       </MovieListControl>
       <MoviesList

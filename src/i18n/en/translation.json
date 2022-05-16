@@ -1,0 +1,38 @@
+{
+  "loginForm": {
+    "loginLabel": "Login",
+    "loginPlaceholder": "Enter login",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter password",
+    "submitBtn": "Sign-in",
+    "errors": {
+      "validation": {
+        "require": "Field must be filled in!"
+      },
+      "submit": {
+        "404": "User with such login was not found",
+        "UNAUTHENTICATED": "Invalid password"
+      }
+    }
+  },
+  "headerPanel": {
+    "hello": "Hello, ",
+    "signOutBtn": "Sign out"
+  },
+  "mainPage": {
+    "genreTitle": "Your favourite genres",
+    "movieListTitle": "Your favourite movies",
+    "navigateBtn": "Add from catalog"
+  },
+  "moviesList": {
+    "loading": "Loading..."
+  },
+  "searchPage": {
+    "genreTitle": "Selected genres",
+    "movieListTitle": "Search movies list",
+    "navigateBtn": "To favourite list"
+  },
+  "filterPanel": "Filters",
+  "voteAverage": "Vote average",
+  "releaseYear": "Release year"
+}

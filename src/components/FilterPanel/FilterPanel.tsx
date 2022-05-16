@@ -4,9 +4,11 @@ import { BaseContainer } from "./style";
 import { IFilterChanged, IGetMoviesParams } from "@globalTypes";
 import VoteRange from "@components/VoteRange/VoteRange";
 import YearSelect from "@components/YearSelect/YearSelect";
+import { useTranslation } from "react-i18next";
 
 const FilterPanel: FC<IFilterChanged> = ({ filters, onChange }) => {
   const { voteAverage } = filters!;
+  const { t } = useTranslation();
 
   const rangeChangeHandler = (rangeValue: number | number[]): void => {
     if (Array.isArray(rangeValue))
@@ -26,7 +28,7 @@ const FilterPanel: FC<IFilterChanged> = ({ filters, onChange }) => {
   };
 
   return (
-    <BorderedSegment title="Filters">
+    <BorderedSegment title={t("filterPanel")}>
       <BaseContainer>
         <VoteRange
           voteAverage={voteAverage!}
