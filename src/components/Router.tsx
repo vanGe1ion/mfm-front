@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import LoginPage from "@pages/LoginPage/LoginPage";
 import MainPage from "@pages/MainPage/MainPage";
 import SearchPage from "@pages/SearchPage/SearchPage";
@@ -17,6 +17,7 @@ const Router: FC = () => {
         <Route path="/" exact>
           <MainPage />
         </Route>
+        <Route render={() => <Redirect to={{ pathname: "/" }} />} />
       </Switch>
     </BrowserRouter>
   );

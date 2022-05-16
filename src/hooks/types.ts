@@ -18,19 +18,11 @@ export interface IToggleView {
 
 export interface IUseMovies {
   movies: IMovie[];
+  isLoading: boolean;
   addToFavourite: (movieId: number) => void;
   removeFromFavourite: (movieId: number, title: string) => void;
   toggleViewed: (movieId: number) => void;
   searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
-}
-
-export interface IUserGenre {
-  userId: number;
-  genreId: number;
-}
-
-export interface IGenresWithFavVars {
-  userId: number;
 }
 
 export interface IGenresWithFavResp {
@@ -38,28 +30,22 @@ export interface IGenresWithFavResp {
 }
 
 export interface IAddGenreVars {
-  addGenreDto: IUserGenre;
+  genreId: number;
 }
 
 export interface IAddGenreResp {
-  addGenre: IUserGenre;
+  removeGenre: {
+    genreId: number;
+    userId: number;
+  };
 }
 
 export interface IRemoveGenreVars {
-  removeGenreDto: IUserGenre;
+  genreId: number;
 }
 
 export interface IRemoveGenreResp {
   removeGenre: number;
-}
-
-export interface IUserMovie {
-  movieId: number;
-  userId: number;
-}
-
-export interface IUserMoviesVars {
-  id: number;
 }
 
 export interface IUserMoviesResp {
@@ -67,7 +53,6 @@ export interface IUserMoviesResp {
 }
 
 export interface IFindMoviesVars {
-  userId: number;
   findMoviesInputDto: IGetMoviesParams;
 }
 
@@ -80,11 +65,14 @@ export interface IAddMovieVars {
 }
 
 export interface IAddMovieResp {
-  addMovie: IUserMovie;
+  addMovie: {
+    movieId: number;
+    userId: number;
+  };
 }
 
 export interface IRemoveMovieVars {
-  removeMovieDto: IUserMovie;
+  movieId: number;
 }
 
 export interface IRemoveMovieResp {
@@ -92,9 +80,15 @@ export interface IRemoveMovieResp {
 }
 
 export interface IUpdateMovieVars {
-  updateMovieDto: IUserMovie & { isViewed: boolean };
+  updateMovieDto: {
+    movieId: number;
+    isViewed: boolean;
+  };
 }
 
 export interface IUpdateMovieResp {
-  updateMovie: IUserMovie;
+  updateMovie: {
+    movieId: number;
+    userId: number;
+  };
 }

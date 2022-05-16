@@ -3,12 +3,6 @@ export interface IUser {
   login: string;
 }
 
-export interface IUserContext {
-  currentUser: IUser | null;
-  approveUser: (newUser: IUser) => void;
-  dismissUser: () => void;
-}
-
 export interface IGetMoviesParams {
   withGenres?: number[];
   primaryReleaseYear?: number;
@@ -48,10 +42,6 @@ export interface IGenre {
   id: number;
   name: string;
   isFavourite?: boolean;
-}
-
-export interface IGetGenresResponse {
-  genres: IGenre[];
 }
 
 export interface IMovieControls {

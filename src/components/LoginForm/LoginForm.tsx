@@ -1,34 +1,38 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Field, Form } from "react-final-form";
 import { FORM_ERROR } from "final-form";
 
-import { IFormValues } from "./types";
+import { IFormValues, ISignInResp, ISignInVars } from "./types";
 import { FlexColGroup, StyledForm } from "./style";
 import { signInValidateHandler } from "./validator";
 
 import Button from "@UI/Button";
 import Label from "@UI/Label";
 import FormInput from "@components/FormInput";
-import { SignInError } from "@consts/errConsts";
-import { useUserContext } from "@context/userContext";
-import { useLazyQuery } from "@apollo/client";
-import { SIGN_IN_USER } from "@queries/user";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
+import { SIGN_IN } from "@queries/auth";
+import LocalStorageToken from "@utils/localStorageToken";
 
 const LoginForm: FC = () => {
-  const { approveUser } = useUserContext();
   const history = useHistory();
-  const [signInUser, { loading }] = useLazyQuery(SIGN_IN_USER);
+  const [signIn, { loading }] = useLazyQuery<ISignInResp, ISignInVars>(SIGN_IN);
+  const apolloClient = useApolloClient();
+
+  useEffect(() => {
+    if (LocalStorageToken.get()) history.push("/");
+  }, []);
 
   const signInSubmitHandler = async (values: IFormValues) => {
     try {
-      const signingIn = await signInUser({
-        variables: { signInUserDto: values },
+      const signingIn = await signIn({
+        variables: { signInDto: values },
       });
-      approveUser(signingIn.data.signInUser);
-      history.replace("/");
-    } catch (e) {
-      return { [FORM_ERROR]: SignInError.WRONG_LOGOPASS_ERR };
+      LocalStorageToken.set(signingIn.data!.signIn.accessToken);
+      await apolloClient.resetStore();
+      history.push("/");
+    } catch (error: any) {
+      return { [FORM_ERROR]: error.message };
     }
   };
 

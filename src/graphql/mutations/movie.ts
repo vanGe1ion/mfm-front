@@ -10,8 +10,8 @@ export const ADD_MOVIE = gql`
 `;
 
 export const REMOVE_MOVIE = gql`
-  mutation removeMovie($removeMovieDto: RemoveMovieDto!) {
-    removeMovie(removeMovieDto: $removeMovieDto)
+  mutation removeMovie($movieId: Int!) {
+    removeMovie(movieId: $movieId)
   }
 `;
 

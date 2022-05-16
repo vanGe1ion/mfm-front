@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useUserContext } from "@context/userContext";
 import { IGenre } from "@globalTypes";
 import { GET_GENRES_WITH_FAVOURITES } from "@queries/api";
 import { useEffect, useState } from "react";
@@ -10,24 +9,15 @@ import {
   IAddGenreVars,
   IRemoveGenreResp,
   IRemoveGenreVars,
-  IUserGenre,
   IGenresWithFavResp,
-  IGenresWithFavVars,
 } from "./types";
 
 const useGenres = (isSaveMode: boolean): IUseGenres => {
-  const { currentUser } = useUserContext();
-  const currentUserId = currentUser!.id;
   const [genres, setGenres] = useState<IGenre[]>([]);
 
-  const { data, error, refetch } = useQuery<
-    IGenresWithFavResp,
-    IGenresWithFavVars
-  >(GET_GENRES_WITH_FAVOURITES, {
-    variables: {
-      userId: currentUserId,
-    },
-  });
+  const { data, error, refetch } = useQuery<IGenresWithFavResp>(
+    GET_GENRES_WITH_FAVOURITES
+  );
 
   useEffect(() => {
     refetch();
@@ -69,20 +59,16 @@ const useGenres = (isSaveMode: boolean): IUseGenres => {
     setGenres(newGenres);
 
     if (isSaveMode) {
-      const queryData: IUserGenre = {
-        userId: currentUserId,
-        genreId,
-      };
       if (isFavourite)
         removeGenre({
           variables: {
-            removeGenreDto: queryData,
+            genreId,
           },
         });
       else
         addGenre({
           variables: {
-            addGenreDto: queryData,
+            genreId,
           },
         });
     }
