@@ -5,6 +5,7 @@ import { Loading, MoviePanel } from "./style";
 import { IMoviesListProps } from "./types";
 import useMovies from "@hooks/useMovies";
 import { IMovieControls } from "@globalTypes";
+import { useTranslation } from "react-i18next";
 
 const MoviesList: FC<IMoviesListProps> = ({
   isBlockView,
@@ -20,6 +21,7 @@ const MoviesList: FC<IMoviesListProps> = ({
     searchMovies,
   } = useMovies(isFavouriteMovies);
 
+  const { t } = useTranslation();
   const ListItem = isBlockView ? MovieBlockItem : MovieRowItem;
   let controls: IMovieControls = isFavouriteMovies
     ? { removeFromFavourite, toggleViewed }
@@ -33,7 +35,7 @@ const MoviesList: FC<IMoviesListProps> = ({
   }, [filters]);
 
   return isLoading ? (
-    <Loading>Loading...</Loading>
+    <Loading>{t("moviesList.loading")}</Loading>
   ) : (
     <MoviePanel isBlockView={isBlockView}>
       {movies.map((movie, idx) => {

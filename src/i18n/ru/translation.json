@@ -1,0 +1,38 @@
+{
+  "loginForm": {
+    "loginLabel": "Логин",
+    "loginPlaceholder": "Введите логин",
+    "passwordLabel": "Пароль",
+    "passwordPlaceholder": "Введите пароль",
+    "submitBtn": "Войти",
+    "errors": {
+      "validation": {
+        "require": "Поле должно быть заполнено!"
+      },
+      "submit": {
+        "404": "Нет польователя с таким логином",
+        "UNAUTHENTICATED": "Неверный пароль"
+      }
+    }
+  },
+  "headerPanel": {
+    "hello": "Здравствуйте, ",
+    "signOutBtn": "Выход"
+  },
+  "mainPage": {
+    "genreTitle": "Ваши любимы жанры",
+    "movieListTitle": "Ваши любимые фильмы",
+    "navigateBtn": "Добавить из списка"
+  },
+  "moviesList": {
+    "loading": "Загрузка..."
+  },
+  "searchPage": {
+    "genreTitle": "Выбранные жанры",
+    "movieListTitle": "Найденные фильмы",
+    "navigateBtn": "К избранному"
+  },
+  "filterPanel": "Фильтры",
+  "voteAverage": "Средний балл",
+  "releaseYear": "Год выхода"
+}
