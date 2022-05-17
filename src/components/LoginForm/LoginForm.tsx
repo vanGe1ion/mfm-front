@@ -10,7 +10,7 @@ import { signInValidateHandler } from "./validator";
 import Button from "@UI/Button";
 import Label from "@UI/Label";
 import FormInput from "@components/FormInput";
-import { useApolloClient, useLazyQuery } from "@apollo/client";
+import { ApolloError, useApolloClient, useLazyQuery } from "@apollo/client";
 import { SIGN_IN } from "@queries/auth";
 import LocalStorageToken from "@utils/localStorageToken";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,7 @@ const LoginForm: FC = () => {
       await apolloClient.resetStore();
       history.push("/");
     } catch (error: any) {
-      const errorType = error.graphQLErrors[0].extensions.code;
+      const errorType = error.message;
       return { [FORM_ERROR]: errorType };
     }
   };
