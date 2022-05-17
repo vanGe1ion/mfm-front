@@ -30,6 +30,7 @@ const LoginForm: FC = () => {
       const signingIn = await signIn({
         variables: { signInDto: values },
       });
+      console.log(signingIn);
       LocalStorageToken.set(signingIn.data!.login.accessToken);
       await apolloClient.resetStore();
       history.push("/");
