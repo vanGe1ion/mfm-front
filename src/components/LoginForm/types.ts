@@ -4,7 +4,7 @@ export interface IFormValues {
 }
 
 export interface ISignInResp {
-  signIn: { accessToken: string };
+  login: { accessToken: string };
 }
 
 export interface ISignInVars {

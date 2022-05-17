@@ -10,14 +10,17 @@ import { signInValidateHandler } from "./validator";
 import Button from "@UI/Button";
 import Label from "@UI/Label";
 import FormInput from "@components/FormInput";
-import { ApolloError, useApolloClient, useLazyQuery } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 import { SIGN_IN } from "@queries/auth";
 import LocalStorageToken from "@utils/localStorageToken";
 import { useTranslation } from "react-i18next";
 
 const LoginForm: FC = () => {
   const history = useHistory();
-  const [signIn, { loading }] = useLazyQuery<ISignInResp, ISignInVars>(SIGN_IN);
+  const { loading, refetch: signIn } = useQuery<ISignInResp, ISignInVars>(
+    SIGN_IN,
+    { skip: true }
+  );
   const apolloClient = useApolloClient();
   const { t } = useTranslation();
 
@@ -28,13 +31,13 @@ const LoginForm: FC = () => {
   const signInSubmitHandler = async (values: IFormValues) => {
     try {
       const signingIn = await signIn({
-        variables: { signInDto: values },
+        signInDto: values,
       });
-      LocalStorageToken.set(signingIn.data!.signIn.accessToken);
+      LocalStorageToken.set(signingIn.data!.login.accessToken);
       await apolloClient.resetStore();
       history.push("/");
     } catch (error: any) {
-      const errorType = error.message;
+      const errorType = error.graphQLErrors[0].extensions.code;
       return { [FORM_ERROR]: errorType };
     }
   };

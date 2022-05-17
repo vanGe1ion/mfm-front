@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const SIGN_IN = gql`
-  query signIn($signInDto: SignInDto!) {
-    signIn(signInDto: $signInDto) {
+  query login($signInDto: SignInDto!) {
+    login(signInDto: $signInDto) {
       accessToken
     }
   }
