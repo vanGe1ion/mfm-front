@@ -10,8 +10,8 @@
         "require": "Field must be filled in!"
       },
       "submit": {
-        "404": "User with such login was not found",
-        "UNAUTHENTICATED": "Invalid password"
+        "User with such login was not found": "User with such login was not found",
+        "Invalid password": "Invalid password"
       }
     }
   },
