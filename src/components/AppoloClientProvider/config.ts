@@ -4,11 +4,11 @@ import {
   createHttpLink,
   ApolloLink,
 } from "@apollo/client";
-import { SERVER_ADDR } from "@config";
+import { BACKEND_URL } from "@config";
 import LocalStorageToken from "@utils/localStorageToken";
 
 const httpLink = createHttpLink({
-  uri: `${SERVER_ADDR}/graphql`,
+  uri: `${BACKEND_URL}/graphql`,
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
