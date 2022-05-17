@@ -10,8 +10,8 @@
         "require": "Поле должно быть заполнено!"
       },
       "submit": {
-        "User with such login was not found": "Нет польователя с таким логином",
-        "Invalid password": "Неверный пароль"
+        "404": "Нет польователя с таким логином",
+        "UNAUTHENTICATED": "Неверный пароль"
       }
     }
   },
