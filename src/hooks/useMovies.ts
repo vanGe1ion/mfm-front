@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { TMDB_SEARCH_LIMIT_PAGE } from "@config";
 import { IGetMoviesParams, IMovie } from "@globalTypes";
 import { ADD_MOVIE, REMOVE_MOVIE, UPDATE_MOVIE } from "@mutations/movie";
@@ -21,17 +21,14 @@ import {
 const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
   const [movies, setMovies] = useState<IMovie[]>([]);
 
-  const [
-    userMovies,
-    {
-      data: userMoviesdata,
-      loading: userMoviesLoading,
-      refetch: refetchUserMovies,
-    },
-  ] = useLazyQuery<IUserMoviesResp>(USER_MOVIES);
+  const {
+    data: userMoviesdata,
+    loading: userMoviesLoading,
+    refetch: userMovies,
+  } = useQuery<IUserMoviesResp>(USER_MOVIES, { skip: true });
 
   useEffect(() => {
-    refetchUserMovies();
+    userMovies();
   }, []);
 
   useEffect(() => {
@@ -47,10 +44,10 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
     }
   }, [userMoviesdata]);
 
-  const [findMovies, { loading: findMoviesLoading }] = useLazyQuery<
+  const { loading: findMoviesLoading, refetch: findMovies } = useQuery<
     IFindMoviesResp,
     IFindMoviesVars
-  >(FIND_MOVIES_WITH_FAVOURITES);
+  >(FIND_MOVIES_WITH_FAVOURITES, { skip: true });
 
   const searchMovies = async (
     searchFilters: IGetMoviesParams
@@ -60,7 +57,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
 
     if (withGenres!.length > 0) {
       const searchResult = await findMovies({
-        variables: { findMoviesInputDto: searchFilters },
+        findMoviesInputDto: searchFilters,
       });
 
       if (searchResult.data) {
@@ -74,9 +71,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
 
         for (let i = 2; i <= viewedPages; ++i) {
           const nextSearchResult = await findMovies({
-            variables: {
-              findMoviesInputDto: { ...searchFilters, page: i },
-            },
+            findMoviesInputDto: { ...searchFilters, page: i },
           });
           if (nextSearchResult.data)
             movieList = [
@@ -124,7 +119,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
           movieId: removeMovieId,
         },
       })
-        .then(() => refetchUserMovies())
+        .then(() => userMovies())
         .catch((error) =>
           console.error(`Remove movie error: ${error.message}`)
         );
@@ -149,7 +144,7 @@ const useMovies = (isFavouriteMovies: boolean): IUseMovies => {
         },
       },
     })
-      .then(() => refetchUserMovies())
+      .then(() => userMovies())
       .catch((error) => console.error(`Update movie error: ${error.message}`));
   };
 
