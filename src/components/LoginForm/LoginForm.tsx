@@ -10,7 +10,7 @@ import { signInValidateHandler } from "./validator";
 import Button from "@UI/Button";
 import Label from "@UI/Label";
 import FormInput from "@components/FormInput";
-import { ApolloError, useApolloClient, useQuery } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 import { SIGN_IN } from "@queries/auth";
 import LocalStorageToken from "@utils/localStorageToken";
 import { useTranslation } from "react-i18next";
@@ -33,7 +33,6 @@ const LoginForm: FC = () => {
       const signingIn = await signIn({
         signInDto: values,
       });
-      console.log(signingIn);
       LocalStorageToken.set(signingIn.data!.login.accessToken);
       await apolloClient.resetStore();
       history.push("/");
