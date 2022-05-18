@@ -7,7 +7,6 @@ import IconedButton from "@components/IconedButton";
 
 const MovieControl: FC<IMovieControlProps> = ({
   movieId,
-  title,
   controls,
   isFavourite,
 }) => {
@@ -28,7 +27,7 @@ const MovieControl: FC<IMovieControlProps> = ({
           indents="3px"
           colorInvert
           src={dismissIco}
-          onClick={() => removeFromFavourite(movieId, title)}
+          onClick={() => removeFromFavourite(movieId)}
         />
       )}
       {addToFavourite && (

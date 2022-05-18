@@ -20,7 +20,7 @@ export interface IUseMovies {
   movies: IMovie[];
   isLoading: boolean;
   addToFavourite: (movieId: number) => void;
-  removeFromFavourite: (movieId: number, title: string) => void;
+  removeFromFavourite: (movieId: number) => void;
   toggleViewed: (movieId: number) => void;
   searchMovies: (searchParams: IGetMoviesParams) => Promise<void>;
 }
