@@ -47,7 +47,7 @@ export interface IGenre {
 export interface IMovieControls {
   toggleViewed?: (movieId: number) => void;
   addToFavourite?: (movieId: number) => void;
-  removeFromFavourite?: (movieId: number, title: string) => void;
+  removeFromFavourite?: (movieId: number) => void;
 }
 
 export interface IMovieListItemProps {

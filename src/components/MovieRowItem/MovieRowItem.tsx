@@ -51,7 +51,6 @@ const MovieRowItem: FC<IMovieListItemProps> = ({ movie, controls, index }) => {
           <ControlContainer>
             <MovieControl
               movieId={movieId}
-              title={title}
               isFavourite={isFavourite}
               controls={controls}
             />
